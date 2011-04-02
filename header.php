@@ -55,39 +55,114 @@
 		#wrap {display:table;height:100%}
 	</style>
 <![endif]-->
-<link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
 
-</head>
+	<?php if (is_single() ) { ?>
+	
+<link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
+ <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/jquery.mousewheel.min.js" ></script>
+     <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/iViewer.js" ></script>
+        <script type="text/javascript">
+            var $ = jQuery;
+            $(document).ready(function(){
+				
+                  $("#viewer").iviewer(
+                       {
+                       src: "<?php echo catch_that_image() ?>",    
+                       zoom: 70,
+                       initCallback: function ()
+                       {
+                           var object = this;
+                           $("#in").click(function(){ object.zoom_by(1);}); 
+                           $("#out").click(function(){ object.zoom_by(-1);}); 
+						   
+						
+     //  $("#fit").click(function(){ object.fit();}); 
+         //$("#orig").click(function(){  object.set_zoom(100); }); 
+		 // console.log(this.img_object.display_width); //works*
+				// console.log(object.img_object.display_width); //getting undefined.*
+                       },
+					     onFinishLoad: function()
+                    {
+	$("#viewer img").fadeIn(400);
+                    }
+        //      onFinishLoad: function()
+                  //      {
+			//	$("#viewer").data('viewer').setCoords(-500,-500);
+                  //        this.setCoords(-0, -500);
+                  //      }
+//onMouseMove: function(object, coords) { },
+//onStartDrag: function(object, coords) { return false; }, //this image will not be dragged
+//onDrag: function(object, coords) { }
+                  });
+            });
+        </script>
+		
+	<?php } ?>
 
 <body <?php body_class(); ?>>
+<script type="text/javascript">
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+var x = readCookie('colors')
+if (x == 'middleGrey') {
+	document.body.className +=" "+'c2f2'
+}
+if (x == 'white') {
+	document.body.className +=" "+'cfff'
+}
+if (x == 'black') {
+	document.body.className +=" "+'c000'
+}
 
+
+</script>
+
+		<?php if (is_home() || is_page('tags') ) { ?>
+		
 
 	<div id="header">
 		<div id="masthead">
-		<?php if (is_home() ) { ?>
 				<h1 id="site-title">
 					<span>
 						<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 					</span>
 				 </h1>
+		</div><!-- #masthead -->		 
+	</div><!-- #header -->	
+	
+		
+			
+		
+				
 		<?php } elseif (is_single() ) { ?>
+	<div id="header">
+		<div id="masthead">
 				<h1 id="site-title">
 					<span>
 						<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 					</span>
 				 </h1>
-		
-		
+			</div><!-- #masthead -->	
+		</div><!-- #header -->
+
 		<?php } elseif (is_archive() ) { ?>
+	<div id="header">
+		<div id="masthead">
 			<h1 id="site-title">
 					<span>
 						<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 					</span>
 				 </h1>
-		 <div class="entry-utility">
-						<?php loupe_posted_in(); ?>
-						<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="edit-link">', '</span>' ); ?>
-					</div><!-- .entry-utility -->
+			</div><!-- #masthead -->	
+		</div><!-- #header -->
 					
 		<?php } else { ?> 
 			<h1 id="site-title">
@@ -97,30 +172,32 @@
 				 </h1>
 				
 		<?php }?>
-			
-		</div><!-- #masthead -->
-		
+		<div id="topNav">
+	<ul><li><a href="#">about</a></li>
+	<li><a href="<?php echo home_url( '/' ); ?>tags">tags</a></li>
+	<li><a href="#">favorites</a></li>
+	</ul>
+	</div>	
 		<?php 
 	if (is_single()){ ?>
 	<div class="imageTitle">
-
 <span class="blinky">_</span><div class="caption"></div>
+<input class="hidden" type="text" id="userCaption"  value="<?php the_title(); ?>" /></div>
+			
+<?php drop_tags(); ?>
 
-<input class="hidden" type="text" id="userCaption"  value="<?php the_title(); ?>" /></div><div class=""></div>
-	<span style="position: absolute; width: 200px; top: 0px; right: 100px;">
-	<a id="in" href="#">+</a>
-    <a id="out" href="#">-</a>
-    <a id="fit" href="#">100%</a>
- <!--  <a id="orig" href="#">orig</a> -->
-	</span>
+					
+<ul id="controls">
+	<li><a id="in" href="#">+</a></li>
+    <li><a id="out" href="#">-</a></li>
+  <!--    <a id="fit" href="#">100%</a>
+ <a id="orig" href="#">orig</a> -->
+	</ul>
     <?php } ?>
 	
-	</div><!-- #header -->
+
 	
 	
-<div id="outer">
-  <div id="middle">
-    <div id="inner">
-<div id="wrap">
-	<div id="main">
+	
+
 	

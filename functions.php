@@ -382,12 +382,18 @@ function twentyten_posted_on() {
 endif;
 
 if ( ! function_exists( 'loupe_posted_in' ) ) :
+/**
+ * Prints HTML with meta information for the current post (category, tags and permalink).
+ *
+ * @since Twenty Ten 1.0
+ */
 function loupe_posted_in() {
 	// Retrieves tag list of current post, separated by commas.
-	$tag_list = get_the_tag_list( '', ' | ' );
-	if ( $tag_list ) {
-		$posted_in = __( 'This entry was posted in %1$s and tagged %2$s. ', 'loupe' );
-	} elseif ( is_object_in_taxonomy( get_post_type(), 'category' ) ) {
+	// $tag_list = get_the_tag_list( '', ' | ' );
+	//if ( $tag_list ) {
+		//$posted_in = __( 'This entry was posted in %1$s and tagged %2$s. ', 'loupe' );
+	// } 
+/*	 if ( is_object_in_taxonomy( get_post_type(), 'category' ) ) {
 		$posted_in = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
 	} else {
 		$posted_in = __( 'Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
@@ -400,22 +406,31 @@ function loupe_posted_in() {
 		get_permalink(),
 		the_title_attribute( 'echo=0' )
 	);
+	*/
 }
-endif;
 
+
+endif;
 //load jQuery and scripts
 function my_init() {
 	if (!is_admin()) {
-
 		//wp_deregister_script('jquery');
 		//wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js', false, '1.3.2');
 		wp_enqueue_script('jquery');
-		wp_register_script('galleria', '/wp-content/themes/theLoupe/scripts/galleria.js', array('jquery'), '2.0',false);
-		wp_enqueue_script('galleria');
-		wp_register_script('cycle', '/wp-content/themes/theLoupe/scripts/cycle.js', array('jquery'), '1.0',false);
-		wp_enqueue_script('cycle');
-		wp_register_script('cookie', '/wp-content/themes/theLoupe/scripts/cookie.js', array('jquery'), '1.0',false);
+		wp_register_script('cookie', '/wp-content/themes/theLoupe2/scripts/cookie.js', array('jquery'), '1.0',false);
 		wp_enqueue_script('cookie');
+		wp_register_script('cycle', '/wp-content/themes/theLoupe2/scripts/cycle.js', array('jquery'), '1.0',false);
+		wp_enqueue_script('cycle');
+		wp_register_script('loupe', '/wp-content/themes/theLoupe2/scripts/loupe.js', array('jquery'), '1.0',false);
+		wp_enqueue_script('loupe');
+		if (is_single('gallery')) {
+		wp_register_script('galleria', '/wp-content/themes/theLoupe2/scripts/galleria.js', array('jquery'), '2.0',false);
+		wp_enqueue_script('galleria');
+		}
+		if (is_page('home')) {
+		
+		}
+
 	}
 }
 add_action('init', 'my_init');
@@ -427,6 +442,18 @@ remove_shortcode('gallery', 'gallery_shortcode');
 //activate own function
 add_shortcode('gallery', 'z_gallery_shortcode');
 
+function drop_tags()
+{
+    echo "<div id=\"dropTags\"><select>";
+    echo "<option>Tags</option>\n";
+    foreach (get_the_tags() as $tag)
+    {
+		
+        echo "<option class=\"".$tag->slug."\">".$tag->name."</option>\n";
+	
+    }
+    echo "</select></div>";
+}
 
 
 
@@ -561,6 +588,7 @@ function getImage($num) {
 */
 // Get URL of first image in a post
 //http://wordpress.org/support/topic/is-this-an-exploit-in-post-thumb-revisited
+
 function catch_that_image() {
 global $post, $posts;
 $first_img = '';
@@ -575,6 +603,33 @@ $first_img = "";
 }
 return $first_img;
 }
+
+
+function bm_extract_string($start, $end, $original) {
+$original = stristr($original, $start);
+$trimmed = stristr($original, $end);
+return substr($original, strlen($start), -strlen($trimmed));
+}
+function getFirstImage() {
+$content = get_the_content();
+$pic_string = bm_extract_string('src="','" ',$content);
+list($width, $height, $type, $attr) = getimagesize($pic_string);
+$link = get_permalink();
+$title = get_the_title($post->post_title);
+echo '<a href="'.$link.'" style="background:url('.$pic_string.'); display:block; width:'.$width.'px; height:'.$height.'px;" title="'.$title.'"></a>';
+ $p = get_post($post_id);
+			$template = get_bloginfo('template_url');
+            echo "<li>";
+			echo $p->post_content;
+            echo "<a href='".get_permalink($post_id)."' title='". $p->post_title ."'>" . $p->post_title . "</a> ";
+			echo "<a href='".get_permalink($post_id)."' title='". $p->post_title ."'> <img src='".$template."/scripts/timthumb.php?src=";
+			echo favorite_image();
+			echo "&w=140&h=120&zc=1&q=80' /></a>";
+            wpfp_remove_favorite_link($post_id);
+            echo "</li>";
+			
+			}
+
 
 /* Define the custom box */
 
@@ -640,5 +695,273 @@ function myplugin_save_postdata( $post_id ) {
   // a custom table (see Further Reading section below)
 
    return $mydata;
+}
+
+// wordpress 3.1 remove admin bar
+add_filter( 'show_admin_bar', '__return_false' );
+
+// custom fields - http://www.deluxeblogtips.com/2010/04/how-to-create-meta-box-wordpress-post.html
+
+$meta_boxes = array(
+    array(
+        'id' => 'my-meta-box-1',
+        'title' => 'Custom meta box 1',
+        'pages' => array('post', 'page', 'link'), // multiple post types
+        'context' => 'normal',
+        'priority' => 'high',
+        'fields' => array(
+            array(
+                'name' => 'Text box',
+                'desc' => 'Enter something here',
+                'id' => $prefix . 'text',
+                'type' => 'text',
+                'std' => 'Default value 1'
+            )
+        )
+    ),
+    array(
+        'id' => 'my-meta-box-2',
+        'title' => 'Custom meta box 2',
+        'pages' => array('post', 'link'), // custom post type
+        'context' => 'normal',
+        'priority' => 'high',
+        'fields' => array(
+            array(
+                'name' => 'Select box',
+                'id' => $prefix . 'select',
+                'type' => 'select',
+                'options' => array('Option 1', 'Option 2', 'Option 3')
+            )
+        )
+    )
+);
+foreach ($meta_boxes as $meta_box) {
+    $my_box = new My_meta_box($meta_box);
+}
+
+
+class My_meta_box {
+
+    protected $_meta_box;
+
+    // create meta box based on given data
+    function __construct($meta_box) {
+        $this->_meta_box = $meta_box;
+        add_action('admin_menu', array(&$this, 'add'));
+
+        add_action('save_post', array(&$this, 'save'));
+    }
+
+    /// Add meta box for multiple post types
+    function add() {
+        foreach ($this->_meta_box['pages'] as $page) {
+            add_meta_box($this->_meta_box['id'], $this->_meta_box['title'], array(&$this, 'show'), $page, $this->_meta_box['context'], $this->_meta_box['priority']);
+        }
+    }
+
+    // Callback function to show fields in meta box
+    function show() {
+        global $post;
+
+        // Use nonce for verification
+        echo '<input type="hidden" name="mytheme_meta_box_nonce" value="', wp_create_nonce(basename(__FILE__)), '" />';
+    
+        echo '<table class="form-table">';
+
+        foreach ($this->_meta_box['fields'] as $field) {
+            // get current post meta data
+            $meta = get_post_meta($post->ID, $field['id'], true);
+        
+            echo '<tr>',
+                    '<th style="width:20%"><label for="', $field['id'], '">', $field['name'], '</label></th>',
+                    '<td>';
+            switch ($field['type']) {
+                case 'text':
+                    echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $field['std'], '" size="30" style="width:97%" />',
+                        '<br />', $field['desc'];
+                    break;
+                case 'textarea':
+                    echo '<textarea name="', $field['id'], '" id="', $field['id'], '" cols="60" rows="4" style="width:97%">', $meta ? $meta : $field['std'], '</textarea>',
+                        '<br />', $field['desc'];
+                    break;
+                case 'select':
+                    echo '<select name="', $field['id'], '" id="', $field['id'], '">';
+                    foreach ($field['options'] as $option) {
+                        echo '<option', $meta == $option ? ' selected="selected"' : '', '>', $option, '</option>';
+                    }
+                    echo '</select>';
+                    break;
+                case 'radio':
+                    foreach ($field['options'] as $option) {
+                        echo '<input type="radio" name="', $field['id'], '" value="', $option['value'], '"', $meta == $option['value'] ? ' checked="checked"' : '', ' />', $option['name'];
+                    }
+                    break;
+                case 'checkbox':
+                    echo '<input type="checkbox" name="', $field['id'], '" id="', $field['id'], '"', $meta ? ' checked="checked"' : '', ' />';
+                    break;
+            }
+            echo     '<td>',
+                '</tr>';
+        }
+    
+        echo '</table>';
+    }
+
+    // Save data from meta box
+    function save($post_id) {
+        // verify nonce
+        if (!wp_verify_nonce($_POST['mytheme_meta_box_nonce'], basename(__FILE__))) {
+            return $post_id;
+        }
+
+        // check autosave
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return $post_id;
+        }
+
+        // check permissions
+        if ('page' == $_POST['post_type']) {
+            if (!current_user_can('edit_page', $post_id)) {
+                return $post_id;
+            }
+        } elseif (!current_user_can('edit_post', $post_id)) {
+            return $post_id;
+        }
+
+        foreach ($this->_meta_box['fields'] as $field) {
+            $old = get_post_meta($post_id, $field['id'], true);
+            $new = $_POST[$field['id']];
+    
+            if ($new && $new != $old) {
+                update_post_meta($post_id, $field['id'], $new);
+            } elseif ('' == $new && $old) {
+                delete_post_meta($post_id, $field['id'], $old);
+            }
+        }
+    }
+}
+
+
+// http://thinkvitamin.com/code/create-your-first-wordpress-custom-post-type/
+
+add_action('init', 'portfolio_register');
+ 
+function portfolio_register() {
+ 
+	$labels = array(
+		'name' => _x('Photos', 'post type general name'),
+		'singular_name' => _x('Portfolio Item', 'post type singular name'),
+		'add_new' => _x('Add New', 'portfolio item'),
+		'add_new_item' => __('Add New Portfolio Item'),
+		'edit_item' => __('Edit Portfolio Item'),
+		'new_item' => __('New Portfolio Item'),
+		'view_item' => __('View Portfolio Item'),
+		'search_items' => __('Search Portfolio'),
+		'not_found' =>  __('Nothing found'),
+		'not_found_in_trash' => __('Nothing found in Trash'),
+		'parent_item_colon' => ''
+	);
+ 
+	$args = array(
+		'labels' => $labels,
+		'public' => true,
+		'publicly_queryable' => true,
+		'show_ui' => true,
+		'query_var' => true,
+		//'menu_icon' => get_stylesheet_directory_uri() . '/article16.png',
+		'rewrite' => true,
+		'capability_type' => 'post',
+		'hierarchical' => false,
+		'menu_position' => null,
+		'taxonomies' => array('post_tag','category'),
+		'supports' => array('title','thumbnail', 'excerpt', 'tags')
+	  ); 
+ 
+	register_post_type( 'portfolio' , $args );
+}
+
+
+register_taxonomy("Skills", array("portfolio"), array("hierarchical" => true, "label" => "Skills", "singular_label" => "Skill", "rewrite" => true));
+
+add_action("admin_init", "admin_init");
+ 
+function admin_init(){
+  add_meta_box("year_completed-meta", "Year Completed", "year_completed", "portfolio", "side", "low");
+  add_meta_box("credits_meta", "Design & Build Credits", "credits_meta", "portfolio", "normal", "low");
+}
+ 
+function year_completed(){
+  global $post;
+  $custom = get_post_custom($post->ID);
+  $year_completed = $custom["year_completed"][0];
+  ?>
+  <label>Year:</label>
+  <input name="year_completed" value="<?php echo $year_completed; ?>" />
+  <?php
+}
+ 
+function credits_meta() {
+  global $post;
+  $custom = get_post_custom($post->ID);
+  $designers = $custom["designers"][0];
+  $developers = $custom["developers"][0];
+  $producers = $custom["producers"][0];
+  ?>
+  <p><label>Designed By:</label><br />
+  <textarea  rows="5" name="designers"><?php echo $designers; ?></textarea></p>
+  <p><label>Built By:</label><br />
+  <textarea cols="50" rows="5" name="developers"><?php echo $developers; ?></textarea></p>
+  <p><label>Produced By:</label><br />
+  <textarea cols="50" rows="5" name="producers"><?php echo $producers; ?></textarea></p>
+  <?php
+}
+
+ // add_meta_box( $id, $title, $callback, $page, $context, $priority ); 
+
+global $post;
+	
+
+$custom = get_post_custom($post->ID);
+
+add_action('save_post', 'save_details');
+
+function save_details(){
+  global $post;
+ 
+  update_post_meta($post->ID, "year_completed", $_POST["year_completed"]);
+  update_post_meta($post->ID, "designers", $_POST["designers"]);
+  update_post_meta($post->ID, "developers", $_POST["developers"]);
+  update_post_meta($post->ID, "producers", $_POST["producers"]);
+}
+
+add_action("manage_posts_custom_column",  "portfolio_custom_columns");
+add_filter("manage_edit-portfolio_columns", "portfolio_edit_columns");
+ 
+function portfolio_edit_columns($columns){
+  $columns = array(
+    "cb" => "<input type=\"checkbox\" />",
+    "title" => "Images",
+    "description" => "Description",
+    "year" => "Year Completed",
+    "skills" => "Skills",
+  );
+ 
+  return $columns;
+}
+function portfolio_custom_columns($column){
+  global $post;
+ 
+  switch ($column) {
+    case "description":
+      the_excerpt();
+      break;
+    case "year":
+      $custom = get_post_custom();
+      echo $custom["year_completed"][0];
+      break;
+    case "skills":
+      echo get_the_term_list($post->ID, 'Skills', '', ', ','');
+      break;
+  }
 }
 

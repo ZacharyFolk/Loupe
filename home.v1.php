@@ -1,11 +1,9 @@
 <?php
-/**
- * Template Name: Home
- */
 get_header(); ?>
 
-	<div class="lightTable">
-			<div class="floater">
+	<div id="container">
+	
+			<div class="lightTable">
 				<div id="leftBlock">
 					<div id="featured" class="pics"> 
 						<?php $the_query = new WP_Query('category_name=featured&showposts=20');
@@ -20,8 +18,9 @@ get_header(); ?>
 						<?php endwhile; ?>
 					</div> <!-- featured -->
 				</div>
-			
+				
 				<div id="rightBlock">
+				
 					<h2 class="buttPad postTrigger">Recent Posts</h2>
 					<ul id="recentPosts" class="clearfix">
 					<?php $myposts = get_posts('numberposts=10');
@@ -50,8 +49,13 @@ get_header(); ?>
 						?>
 						</ul>
 					</div>
-				</div> 
 
+				</div> <!-- / rightBlock -->
+			</div><!-- /lightTable -->
+
+	</div><!-- #container -->
+</div><!--- /main -->
+</div><!-- /wrap -->
 <script type="text/javascript">
 jQuery(document).ready(function($){
 $('#featured').cycle({fx: 'fade', speed: 2500});

@@ -73,11 +73,16 @@ a img {
 -------------------------------------------------------------- */
 
 body {font-family: Baskerville, "Times New Roman", Times,serif;
-background-color: #000;
+background-color: #fff;
 }
 body.black {background-color: #000}
 
 
+/* home full size */
+
+html, body {margin:0; padding:0; width:100%; height:100%; overflow:hidden; text-align:left;}
+
+#background{position:absolute; z-index:1; width:100%; height:100%;}
 
 /* fix for cycle */
 #feat {
@@ -149,15 +154,14 @@ body.black a:link,body.black  a:visited {color: #9F9F9F}
 body.black  a:hover{color: #CFCFCF; text-decoration: underline}
 
 
-.lightTable {width:1000px; margin: 0px auto 0 auto}
+.lightTable {width:1000px; margin: 30px auto 0 auto}
 
-.floater {float: left; margin-top: 80px}
 .hidden {display: none}
 
 /** HEADER **/
 
 
-#header {position: fixed; top: 0; left: 0; width: 100%; height: 30px; margin-bottom: 30px; border-bottom: 1px solid #2F2F2F; background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; z-index: 1003; /*filter:alpha(opacity=60); opacity:0.6;*/}
+#header {position: fixed; top: 0; left: 0; width: 100%; height: 30px; margin-bottom: 30px; border-bottom: 1px solid #2F2F2F; background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; z-index: 1002; filter:alpha(opacity=60); opacity:0.6;}
 
 h1#site-title {font-size: 16px; text-transform: uppercase;  margin:6px 0 0 10px; letter-spacing: .1em; }
 h1#site-title a:link, h1#site-title a:visited {color: #000!important}
@@ -166,30 +170,8 @@ h1#site-title a:link, h1#site-title a:visited {color: #000!important}
 .caption {float: left; margin: 2px 0 0 21px}
 .blinky {}
 
-#dropTags {position: absolute; top: 4px; right: 90px; z-index: 1002; position: relative}
+#dropTags {position: absolute; top: 4px; right: 90px; z-index: 1002;}
 
-#topNav {width: 100%; height: 30px; margin-top: 32px; z-index: 1021; position: fixed; 	margin-left: 8px;}
-#topNav ul {display: inline}
-#topNav ul li  { 
-    float: left;
-    margin-right: 4px;
-
-
-    }
-
-	#topNav ul li a:link, #topNav ul li a:visited {
-    padding: 1px 10px 4px; background: url("images/raster.png") repeat scroll 0 0 #EFEFEF;  border-color: #000;
-    border-right: 1px solid;
-    border-style: none solid solid;
-    border-width: 0 1px 1px; 	border-top: none;}
-	
-	#topNav ul li a:hover {
-    padding: 1px 10px 4px; background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; color: #000; border-color: #000;
-    border-right: 1px solid;
-    border-style: none solid solid;
-    border-width: 0 1px 1px;
-	border-top: none
-	}	
 /***  RIGHT SIDE ***/
 
 #rightBlock{float: left; width: 420px; font-family: 'Trebuchet MS', Tahoma, Arial, sans-serif;
@@ -256,33 +238,9 @@ border-radius: 15px;-moz-box-shadow: 2px 3px 6px #BFBFBF;
 .thumbnail img {max-width: 150px}
 a {text-decoration: none}
 
-
-/*** FOTOMOTO ***/
-
-.FotomotoToolbarClass {
-    clear: both;
-    position: relative;
-    text-transform: uppercase;
-    top: -15px;
-    width: 484px !important;
-    z-index: 1010;
-}
-/************** TAGS ********************/
-#tagTableOuter{width: 100%; position: absolute; top: 54px;}
-#tagList { background: #fff; position: absolute; top: 20px; right: 70px; width: 500px; z-index: 1020; padding: 20px;}
-
-
 .tag-links {position: absolute; right: 92px; top: 5px;  z-index: 1002; }
 .singleTags {}
 .singleTags a {}
-
-
-
-ul.post_tags {}
-ul.post_tags li {float: left; margin: 0 0 0 10px;}
-ul.post_tags li a {}
-ul.post_tags li.count-1 {font-size: 12px}
-ul.post_tags li.count-2 {font-size: 22px}
 
 /******************************* FONTS ********************/
 #slide
@@ -292,8 +250,9 @@ ul.post_tags li.count-2 {font-size: 22px}
   text-shadow: 1px 2px 4px #aaa;
 }
 
-/*********************************FAVORITES*****************/
-.wpfp-link {float: left; margin: 0 0 0 10px;}
+/*********************************FAVOIRTES*****************/
+
+.wpfp-span img {width: 300px; height: 300px}
 /******************************* VIEWER ********************/
 
  .viewer
@@ -330,14 +289,14 @@ a#in { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size
 a#out { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus.png') no-repeat 98% bottom transparent; cursor: pointer; height: 20px; width: 20px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}
 
 ul#controls {
-position: absolute; width: 60px; top: 4px; right: 20px; z-index: 1005;
+position: absolute; width: 60px; top: 4px; right: 20px; z-index: 1002;
 }
 ul#controls li {margin: 0 0 0 6px; float: left}
 /******************************* GALLERIA ********************/
 
 /*** FOOTER **/
 
-.thumbBox {background: url("images/raster.png") repeat scroll 0 0 transparent; z-index: 1000; height: 81px; padding: 10px 0; width: 100%; position: fixed; bottom: 30px; border: 1px solid #000; }
+.thumbBox {background: url("images/raster.png") repeat scroll 0 0 transparent; z-index: 1000; height: 81px; padding: 10px 0; width: 100%; position: fixed; bottom: 30px; border: 1px solid #000;}
 .thumbBox img {margin: 0 0 0 10px; border-top: 1px solid #000}
 
 #footer {width: 100%; height: 30px; border-top: 1px solid #2F2F2F; background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; position: fixed; bottom: 0px; left: 0px; z-index: 1000; filter:alpha(opacity=90); opacity:0.9; }
@@ -359,7 +318,3 @@ a.box_fff:link, a.box_fff:visited {width: 10px; height: 10px; display: block; ba
 a.box_fff:hover {width: 10px; height: 10px; display: block; background: #0F0F0F; margin-top: 3px; border: 1px solid #999}
 
 .fb {width: 310px; float: right; margin: 3px 10px 0 0 }
-
-
-
-#viewer img {display:none}

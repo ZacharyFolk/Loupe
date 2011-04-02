@@ -4,7 +4,7 @@
     {
         return this.each(function()
                         {
-                            $(this).data('viewer', new $iv(this,o));
+						   $(this).data('viewer', new $iv(this,o));
                         });
     }
     
@@ -13,7 +13,7 @@
         * start zoom value for image, not used now
         * may be equal to "fit" to fit image into container or scale in % 
         **/
-        zoom: "fit",
+        zoom: "100",
         /**
         * base value to scale image
         **/
@@ -34,7 +34,7 @@
         /**
         * if true plugin doesn't add its own controls
         **/
-        ui_disabled: false,
+        ui_disabled: true,
         /**
         * if false, plugin doesn't bind resize event on window and this must 
         * be handled manually
@@ -182,7 +182,7 @@
                 removeAttr("src").
                 removeAttr("width").
                 removeAttr("height").
-                css({ top: 0, left: 0 }).
+				css({ top: 0, left: 0 }).
                 load(function(){
                     me.image_loaded = true;
                     me.img_object.display_width = me.img_object.orig_width = this.width;
@@ -257,10 +257,7 @@
         * set coordinates of upper left corner of image object
         **/
         setCoords: function(x,y)
-        {			
-		
-	
-
+        {
             //do nothing while image is being loaded
             if(!this.image_loaded)
             {
@@ -289,13 +286,11 @@
             x = Math.round(x); y = Math.round(y);
             this.img_object.x = x;
             this.img_object.y = y;
-      
+            
             this.img_object.object.css("top",y + "px")
                              .css("left",x + "px");
         },
-        	
-
-
+        
         
         /**
         * convert coordinates on the container to the coordinates on the image (in original size)
@@ -407,8 +402,6 @@
             this.setCoords(new_x, new_y);
 
             this.current_zoom = new_zoom;
-
-            $.isFunction( this.settings.onAfterZoom ) && this.settings.onAfterZoom.call( this, new_zoom );
             this.update_status();
         },
         
@@ -583,4 +576,3 @@
     });
 
  })(jQuery);
-

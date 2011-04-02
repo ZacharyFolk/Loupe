@@ -10,23 +10,23 @@
  * @since Twenty Ten 1.0
  */
 ?>
+
 	</div><!-- #main -->
-		<?php 
-	if (is_single()){ ?>
+
 	<div class="thumbBox" >
 	<?php
 $thumbPosts = new WP_Query();
 $thumbPosts->query('showposts=55');
 while ($thumbPosts->have_posts()) : $thumbPosts->the_post(); ?>
 <a href="<?php the_permalink(); ?>">
-<img src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo catch_that_image() ?>&w=80&h=80&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
+<img class="nofotomoto" src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo catch_that_image() ?>&w=80&h=80&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
 </a>
 <?php endwhile;
 ?>
 
-	
+
 	</div>
-    <?php } ?>
+
 	<div id="footer" role="contentinfo">
 	
 	<ul id="colorPick">
@@ -34,11 +34,16 @@ while ($thumbPosts->have_posts()) : $thumbPosts->the_post(); ?>
 	<li><a class="box_2f2" href="#2f">&nbsp;</a></li>
 	<li><a class="box_fff" href="#white">&nbsp;</a></li>
 	</ul>
-	<?php if (is_single()){  ?>
-	 <div class="all">Hide</div>
-	 <?php } ?>
-	 
-	 <div class="fb">
+	
+	 <div class="all">Show Recent Posts</div>
+	
+	<?php //if ( have_posts() ) while ( have_posts() ) : the_post();
+	
+//	wpfp_link();  ?> 
+   
+<?php // endwhile; // end of the loop. ?>
+
+		 <div class="fb"> 
 <iframe src="http://www.facebook.com/plugins/like.php?href=<?php the_permalink(); ?>&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:35px;" allowTransparency="true"></iframe>
 </div>
 	</div><!-- #footer -->
@@ -53,13 +58,12 @@ var $ = jQuery;
 
 $(document).ready(function(){
 var colors = $.cookie('colors');
-<?php if (is_single()){ ?>
 var panel = $('.thumbBox');
 var button = $('.all');
 var initialState = "collapsed";
 var activeClass = "active";
-var visibleText = "hide";
-var hiddenText = "show";
+var visibleText = "hide recent posts";
+var hiddenText = "show recent posts";
 
 if($.cookie("panelState") == undefined) {
 	$.cookie("panelState", initialState);
@@ -83,15 +87,18 @@ var state = $.cookie("panelState");
 		panel.slideToggle("slow");
 		return false;
 	});
-<?php } ?>	
+
 <?php if (is_home()){ ?>
 	var recPanel = $('ul#recentPosts');
+	var tagPanel = $('ul#recentTags');
 	var postButton = $('h2.postTrigger');
+	var tagButton = $('h2.tagTrigger');
 	var initialState = "collapsed";
 	var activeClass = "active";
 	var visibleText = "HIDE RECENT POSTS";
 	var hiddenText = "VIEW RECENT POSTS";
-	
+	var visibleTagText = "HIDE TOP TEN TAGS";
+	var hiddenTagText = "SHOW TOP TEN TAGS";
 
 	if($.cookie("postPanelState") == undefined) {
 		$.cookie("postPanelState", initialState);
@@ -100,55 +107,43 @@ var state = $.cookie("panelState");
 		if(state == "collapsed") {
 			recPanel.hide('fast');
 			postButton.text(hiddenText);
-			postButton.addClass(activeClass);
+			postButton.removeClass(activeClass);
 		}
 		postButton.click(function(){
 			if($.cookie("postPanelState") == "expanded") {
 				$.cookie("postPanelState", "collapsed");
 				postButton.text(hiddenText);
-				postButton.addClass(activeClass);
+				postButton.removeClass(activeClass);
 			} else {
 				$.cookie("postPanelState", "expanded");
 				postButton.text(visibleText);
-				postButton.removeClass(activeClass);
+				postButton.addClass(activeClass);
 			}
 			recPanel.slideToggle("fast");
 			return false;
 		});
-<?php } ?>			
-		
-	$(".box_2f2").click(function(){
-		$('body').removeClass('c000 cfff c2f2');
-		$('body').addClass('c2f2');
-		$.cookie('colors','middleGrey');
-		return false;
+			
+		var state = $.cookie("tagPanelState");
+		if(state == "collapsed") {
+			tagPanel.hide('fast');
+			tagButton.text(hiddenTagText);
+			tagButton.removeClass(activeClass);
+		}
+		tagButton.click(function(){
+			if($.cookie("tagPanelState") == "expanded") {
+				$.cookie("tagPanelState", "collapsed");
+				tagButton.text(hiddenTagText);
+				tagButton.removeClass(activeClass);
+			} else {
+				$.cookie("tagPanelState", "expanded");
+				tagButton.text(visibleTagText);
+				tagButton.addClass(activeClass);
+			}
+			tagPanel.slideToggle("fast");
+			return false;
 		});
-	$(".box_fff").click(function(){
-		$('body').removeClass('c000 cfff c2f2');
-		$('body').addClass('cfff');
-		$.cookie('colors','white');
-		return false;
-		});
-	$(".box_000").click(function(){
-		$('body').removeClass('c000 cfff c2f2');
-		$('body').addClass('c000');
-		$.cookie('colors','black');
-		return false;
-		});
-	if(colors == 'middleGrey')
-	{
-	$('body').addClass('c2f2');
-	}
-	if (colors == 'white')
-	{
-	$('body').addClass('cfff');
-	}
-	if(colors == 'black')
-	{
-	$('body').addClass('c000');
-	}
-
-	
+				
+<?php } ?>				
 });	
 
 
@@ -195,13 +190,10 @@ function type()
 
 setTimeout(TypingEffect, "1000")
 </script>
+
+
 <?php } ?>
 <?php
-	/* Always have wp_footer() just before the closing </body>
-	 * tag of your theme, or you will break many plugins, which
-	 * generally use this hook to reference JavaScript files.
-	 */
-
 	wp_footer();
 ?>
 </body>
