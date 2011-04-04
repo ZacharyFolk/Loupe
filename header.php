@@ -1,14 +1,4 @@
-<?php
-/**
- * The Header for our theme.
- *
- * Displays all of the <head> section and everything up till <div id="main">
- *
- * @package WordPress
- * @subpackage Twenty_Ten
- * @since Twenty Ten 1.0
- */
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
@@ -96,9 +86,7 @@
                   });
             });
         </script>
-		
 	<?php } ?>
-
 <body <?php body_class(); ?>>
 <script type="text/javascript">
 function readCookie(name) {
@@ -121,13 +109,8 @@ if (x == 'white') {
 if (x == 'black') {
 	document.body.className +=" "+'c000'
 }
-
-
 </script>
-
 		<?php if (is_home() || is_page('tags') ) { ?>
-		
-
 	<div id="header">
 		<div id="masthead">
 				<h1 id="site-title">
@@ -136,12 +119,7 @@ if (x == 'black') {
 					</span>
 				 </h1>
 		</div><!-- #masthead -->		 
-	</div><!-- #header -->	
-	
-		
-			
-		
-				
+	</div><!-- #header -->		
 		<?php } elseif (is_single() ) { ?>
 	<div id="header">
 		<div id="masthead">
@@ -172,12 +150,12 @@ if (x == 'black') {
 				 </h1>
 				
 		<?php }?>
-		<div id="topNav">
+		<!-- //  <div id="topNav">
 	<ul><li><a href="#">about</a></li>
-	<li><a href="<?php echo home_url( '/' ); ?>tags">tags</a></li>
+	<li><a href="<?php // echo home_url( '/' ); ?>tags">tags</a></li>
 	<li><a href="#">favorites</a></li>
 	</ul>
-	</div>	
+	</div>	 // -->
 		<?php 
 	if (is_single()){ ?>
 	<div class="imageTitle">
@@ -194,10 +172,3 @@ if (x == 'black') {
  <a id="orig" href="#">orig</a> -->
 	</ul>
     <?php } ?>
-	
-
-	
-	
-	
-
-	
