@@ -417,14 +417,14 @@ function my_init() {
 		//wp_deregister_script('jquery');
 		//wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js', false, '1.3.2');
 		wp_enqueue_script('jquery');
-		wp_register_script('cookie', '/wp-content/themes/theLoupe2/scripts/cookie.js', array('jquery'), '1.0',false);
+		wp_register_script('cookie',get_bloginfo('template_directory') . '/scripts/cookie.js', array('jquery'), '1.0',false);
 		wp_enqueue_script('cookie');
-		wp_register_script('cycle', '/wp-content/themes/theLoupe2/scripts/cycle.js', array('jquery'), '1.0',false);
+		wp_register_script('cycle', get_bloginfo('template_directory') . '/scripts/cycle.js', array('jquery'), '1.0',false);
 		wp_enqueue_script('cycle');
-		wp_register_script('loupe', '/wp-content/themes/theLoupe2/scripts/loupe.js', array('jquery'), '1.0',false);
+		wp_register_script('loupe', get_bloginfo('template_directory') .'/scripts/loupe.js', array('jquery'), '1.0',false);
 		wp_enqueue_script('loupe');
 		if (is_single('gallery')) {
-		wp_register_script('galleria', '/wp-content/themes/theLoupe2/scripts/galleria.js', array('jquery'), '2.0',false);
+		wp_register_script('galleria', get_bloginfo('template_directory') . '2/scripts/galleria.js', array('jquery'), '2.0',false);
 		wp_enqueue_script('galleria');
 		}
 		if (is_page('home')) {
