@@ -144,16 +144,16 @@ var state = $.cookie("panelState");
 			return false;
 		});
 				
-<?php } ?>				
+<?php // } ?>				
 });	
 
 */
 
 </script>
 		<?php 
-	if (is_single()){ ?>
+	if // (is_single()){ ?>
 <script type="text/javaScript">
-
+/*
 setInterval ( "cursorAnimation()", 700 );
 
 function cursorAnimation()
@@ -190,10 +190,12 @@ function type()
 }
 
 setTimeout(TypingEffect, "1000")
+
+*/
 </script>
 
 
-<?php } ?>
+<?php // } ?>
 <?php
 	wp_footer();
 ?>
