@@ -199,7 +199,13 @@ word-spacing: normal;
 text-align: left;
 }
 
-#rightBlock h2 { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus.png') no-repeat 98% 0 transparent; cursor: pointer; height: 20px; margin: 0 0 10px }
+#rightBlock h2 { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; 
+/* 
+background: url('images/plusMinus.png') no-repeat 98% 0 transparent; 
+cursor: pointer; 
+*/
+
+height: 20px; margin: 0 0 10px }
 #rightBlock h2.active {background-position: 98% bottom;}
 
 
