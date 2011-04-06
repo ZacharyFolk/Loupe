@@ -58,6 +58,7 @@ var $ = jQuery;
 
 $(document).ready(function(){
 var colors = $.cookie('colors');
+/*
 var panel = $('.thumbBox');
 var button = $('.all');
 var initialState = "collapsed";
@@ -87,9 +88,9 @@ var state = $.cookie("panelState");
 		panel.slideToggle("slow");
 		return false;
 	});
-
-<?php if (is_home()){ ?>
-	var recPanel = $('ul#recentPosts');
+*/
+<?php  // if (is_home()){ ?>
+/*	var recPanel = $('ul#recentPosts');
 	var tagPanel = $('ul#recentTags');
 	var postButton = $('h2.postTrigger');
 	var tagButton = $('h2.tagTrigger');
@@ -146,7 +147,7 @@ var state = $.cookie("panelState");
 <?php } ?>				
 });	
 
-
+*/
 
 </script>
 		<?php 
