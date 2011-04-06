@@ -57,8 +57,8 @@ while ($thumbPosts->have_posts()) : $thumbPosts->the_post(); ?>
 var $ = jQuery;
 
 $(document).ready(function(){
-var colors = $.cookie('colors');
-/*
+
+<?php if (! is_home()){ ?>
 var panel = $('.thumbBox');
 var button = $('.all');
 var initialState = "collapsed";
@@ -88,8 +88,8 @@ var state = $.cookie("panelState");
 		panel.slideToggle("slow");
 		return false;
 	});
-*/
-<?php  // if (is_home()){ ?>
+
+
 /*	var recPanel = $('ul#recentPosts');
 	var tagPanel = $('ul#recentTags');
 	var postButton = $('h2.postTrigger');
@@ -100,7 +100,7 @@ var state = $.cookie("panelState");
 	var hiddenText = "VIEW RECENT POSTS";
 	var visibleTagText = "HIDE TOP TEN TAGS";
 	var hiddenTagText = "SHOW TOP TEN TAGS";
-
+*/
 	if($.cookie("postPanelState") == undefined) {
 		$.cookie("postPanelState", initialState);
 		}
@@ -124,7 +124,7 @@ var state = $.cookie("panelState");
 			return false;
 		});
 			
-		var state = $.cookie("tagPanelState");
+	/*	var state = $.cookie("tagPanelState");
 		if(state == "collapsed") {
 			tagPanel.hide('fast');
 			tagButton.text(hiddenTagText);
@@ -143,17 +143,17 @@ var state = $.cookie("panelState");
 			tagPanel.slideToggle("fast");
 			return false;
 		});
-				
-<?php // } ?>				
+		*/		
+<?php } ?>				
 });	
 
-*/
+
 
 </script>
 		<?php 
-	if // (is_single()){ ?>
+	if (is_single()){ ?>
 <script type="text/javaScript">
-/*
+
 setInterval ( "cursorAnimation()", 700 );
 
 function cursorAnimation()
@@ -190,12 +190,10 @@ function type()
 }
 
 setTimeout(TypingEffect, "1000")
-
-*/
 </script>
 
 
-<?php // } ?>
+<?php } ?>
 <?php
 	wp_footer();
 ?>
