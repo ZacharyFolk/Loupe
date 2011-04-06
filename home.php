@@ -22,7 +22,7 @@ get_header(); ?>
 				</div>
 			
 				<div id="rightBlock">
-					<h2 class="buttPad postTrigger">Recent Posts</h2>
+					<h2>Recent Posts</h2>
 					<ul id="recentPosts" class="clearfix">
 					<?php $myposts = get_posts('numberposts=10');
 						foreach($myposts as $post) :?>
@@ -33,22 +33,7 @@ get_header(); ?>
 						<?php endforeach; ?>
 					</ul>
 					
-					<h2 class="tagTrigger">Top Ten Tags</h2>
-						<ul id="recentTags">
-						<?php $ttargs = array(
-						'orderby' => 'count',
-						'order' => 'DESC',
-						'number' => 10,
-						);
-						$tttags = get_tags( $ttargs );
-						$topTenHTML = '<div class="post_tags">';
-							foreach ($tttags as $tttag){
-								$tttag_link = get_tag_link($tttag->term_id);		$topTenHTML .= "<li><a href='{$tttag_link}' title='{$tttag->name} Tag' class='{$tttag->slug}'>{$tttag->name}</a></li>";
-							}
-							$topTenHTML .= '</div>';
-							echo $topTenHTML;
-						?>
-						</ul>
+				
 					</div>
 				</div> 
 
