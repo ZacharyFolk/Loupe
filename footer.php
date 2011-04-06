@@ -10,25 +10,20 @@
  * @since Twenty Ten 1.0
  */
 ?>
-
-	</div><!-- #main -->
-
-	<div class="thumbBox" >
+</div><!-- #main -->
+<?php if (! is_home()){ ?>
+<div class="thumbBox" >
 	<?php
-$thumbPosts = new WP_Query();
-$thumbPosts->query('showposts=55');
-while ($thumbPosts->have_posts()) : $thumbPosts->the_post(); ?>
-<a href="<?php the_permalink(); ?>">
-<img class="nofotomoto" src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo catch_that_image() ?>&w=80&h=80&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
-</a>
-<?php endwhile;
-?>
-
-
-	</div>
-
+		$thumbPosts = new WP_Query();
+		$thumbPosts->query('showposts=55');
+		while ($thumbPosts->have_posts()) : $thumbPosts->the_post(); ?>
+		<a href="<?php the_permalink(); ?>">
+		<img class="nofotomoto" src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo catch_that_image() ?>&w=80&h=80&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
+		</a>
+	<?php endwhile; ?>
+</div>
+<?php } ?>
 	<div id="footer" role="contentinfo">
-	
 	<ul id="colorPick">
 	<li><a class="box_000" href="#black">&nbsp;</a></li>
 	<li><a class="box_2f2" href="#2f">&nbsp;</a></li>
@@ -53,12 +48,12 @@ while ($thumbPosts->have_posts()) : $thumbPosts->the_post(); ?>
     </div>
   </div>
 </div>
+<?php if (! is_home()){ ?>
 <script type="text/javascript">
 var $ = jQuery;
 
 $(document).ready(function(){
 
-<?php if (! is_home()){ ?>
 var panel = $('.thumbBox');
 var button = $('.all');
 var initialState = "collapsed";
@@ -88,7 +83,6 @@ var state = $.cookie("panelState");
 		panel.slideToggle("slow");
 		return false;
 	});
-
 
 /*	var recPanel = $('ul#recentPosts');
 	var tagPanel = $('ul#recentTags');
@@ -144,56 +138,10 @@ var state = $.cookie("panelState");
 			return false;
 		});
 		*/		
-<?php } ?>				
+			
 });	
-
-
-
 </script>
-		<?php 
-	if (is_single()){ ?>
-<script type="text/javaScript">
-
-setInterval ( "cursorAnimation()", 700 );
-
-function cursorAnimation()
-{
-  jQuery(".blinky").animate(
-  {
-    opacity: 0
-  }, "fast", "swing").animate(
-  {
-    opacity: 1
-  }, "fast", "swing");
-}
-
-var captionLength = 0;
-var caption = "";
-
-function TypingEffect()
-{
-  caption = $("input#userCaption").val();
-  type();
-}
-function type()
-{
-  $('div.caption').html(caption.substr(0, captionLength++ ));
-  if(captionLength < caption.length+1)
-  {
-    setTimeout("type()", 300);
-  }
-  else
-  {
-    captionLength = 0;
-    caption = "";
-  }
-}
-
-setTimeout(TypingEffect, "1000")
-</script>
-
-
-<?php } ?>
+<?php } ?>	
 <?php
 	wp_footer();
 ?>
