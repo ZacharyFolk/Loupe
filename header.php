@@ -54,7 +54,7 @@
         <script type="text/javascript">
             var $ = jQuery;
             $(document).ready(function(){
-				
+				var colors = $.cookie('colors');
                   $("#viewer").iviewer(
                        {
                        src: "<?php echo catch_that_image() ?>",    
@@ -110,6 +110,8 @@ if (x == 'black') {
 	document.body.className +=" "+'c000'
 }
 </script>
+
+
 		<?php if (is_home() || is_page('tags') ) { ?>
 	<div id="header">
 		<div id="masthead">
@@ -118,7 +120,12 @@ if (x == 'black') {
 						<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 					</span>
 				 </h1>
-		</div><!-- #masthead -->		 
+				 <div class="sep">|</div>
+				 <div class="headlink">
+				<a href="<?php echo home_url( '/' ); ?>tags">tags</a>
+				</div>
+		</div><!-- #masthead -->
+
 	</div><!-- #header -->		
 		<?php } elseif (is_single() ) { ?>
 	<div id="header">
@@ -128,7 +135,8 @@ if (x == 'black') {
 						<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 					</span>
 				 </h1>
-			</div><!-- #masthead -->	
+			</div><!-- #masthead -->
+			
 		</div><!-- #header -->
 
 		<?php } elseif (is_archive() ) { ?>
@@ -140,6 +148,8 @@ if (x == 'black') {
 					</span>
 				 </h1>
 			</div><!-- #masthead -->	
+			
+
 		</div><!-- #header -->
 					
 		<?php } else { ?> 
