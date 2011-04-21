@@ -157,7 +157,7 @@ body.black  a:hover{color: #CFCFCF; text-decoration: underline}
 /** HEADER **/
 
 
-#header {position: fixed; top: 0; left: 0; width: 100%; height: 30px; margin-bottom: 30px; border-bottom: 1px solid #2F2F2F; background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; z-index: 1003; /*filter:alpha(opacity=60); opacity:0.6;*/}
+#header {position: fixed; top: 0; left: 0; width: 100%; height: 30px;  border-bottom: 1px solid #2F2F2F; background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; z-index: 1003; /*filter:alpha(opacity=60); opacity:0.6;*/}
 
 h1#site-title {font-size: 16px; text-transform: uppercase;  margin:6px 0 0 10px; letter-spacing: .1em; width: 190px;float: left;}
 h1#site-title a:link, h1#site-title a:visited {color: #000!important}
@@ -276,10 +276,9 @@ a {text-decoration: none}
     z-index: 1010;
 }
 /************** TAGS ********************/
+.loader {position: absolute; top: 40%; left: 50%; background: url('images/ajax-loader-000.gif'); display: none; width: 32px; height: 32px;}
 #tagTableOuter{width: 100%; position: absolute; top: 54px;}
-#tagList { background: #fff; position: absolute; top: 20px; right: 70px; width: 500px; z-index: 1020; padding: 20px;}
-
-
+#tagList { background: #fff;  width: 100%; z-index: 1020; padding: 26px; margin: 14px 0 0;}
 .tag-links {position: absolute; right: 92px; top: 5px;  z-index: 1002; }
 .singleTags {}
 .singleTags a {}
@@ -289,9 +288,10 @@ a {text-decoration: none}
 ul.post_tags {}
 ul.post_tags li {float: left; margin: 0 0 0 10px;}
 ul.post_tags li a {}
+/*
 ul.post_tags li.count-1 {font-size: 12px}
 ul.post_tags li.count-2 {font-size: 22px}
-
+*/
 /******************************* FONTS ********************/
 #slide
 {

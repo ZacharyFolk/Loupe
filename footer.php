@@ -100,8 +100,8 @@ var state = $.cookie("panelState");
 		$.cookie("postPanelState", initialState);
 		}
 	var state = $.cookie("postPanelState");
-		if(state == "collapsed") {
-			recPanel.hide('fast');
+		/* if(state == "collapsed") {
+			recPanel.hide('fast'); 
 			postButton.text(hiddenText);
 			postButton.removeClass(activeClass);
 		}
@@ -115,10 +115,10 @@ var state = $.cookie("panelState");
 				postButton.text(visibleText);
 				postButton.addClass(activeClass);
 			}
-			recPanel.slideToggle("fast");
+		/*	recPanel.slideToggle("fast");
 			return false;
 		});
-			
+			 */
 	/*	var state = $.cookie("tagPanelState");
 		if(state == "collapsed") {
 			tagPanel.hide('fast');

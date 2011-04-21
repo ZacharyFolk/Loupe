@@ -135,6 +135,10 @@ if (x == 'black') {
 						<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 					</span>
 				 </h1>
+				 	 <div class="sep">|</div>
+				 <div class="headlink">
+				<a href="<?php echo home_url( '/' ); ?>tags">tags</a>
+				</div>
 			</div><!-- #masthead -->
 			
 		</div><!-- #header -->
@@ -182,3 +186,49 @@ if (x == 'black') {
  <a id="orig" href="#">orig</a> -->
 	</ul>
     <?php } ?>
+	
+	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-000.gif'></div>
+	<div id="tagList">
+	<?php $tagArgs = array(
+						'orderby' => 'count',
+						'order' => 'DESC',
+						'number' => 50,
+						);
+						$theTags = get_tags( $tagArgs );
+						$tagListHTML = '<ul class="post_tags">';
+							foreach ($theTags as $theTag){
+							$tagLink = get_tag_link($theTag->term_id);		
+							$tagListHTML .= "<li class='count-{$theTag->count}' id='{$theTag->slug}'><a href='#{$theTag->name}' title='{$theTag->name} Tag' class='{$theTag->slug}'>{$theTag->name}</a></li>";
+								}
+							$tagListHTML .= '</ul>';
+							echo $tagListHTML;
+	?>
+	</div>
+
+<script type="text/javaScript">
+jQuery(document).ready(function($){
+	$('#tagList li').each(function() {
+        $(this).click(function() {
+			var tagName = $(this).attr("id");
+			var toLoad = 'tag/'+ tagName + ' .tagTable';
+            $('.lightTable').hide();
+			function loadContent() {
+			$('.loader').fadeIn('fast', loadThemTags());
+			}
+			function loadThemTags(){		
+			$('.lightTable').load(toLoad,hideLoader);
+			};
+			
+			function hideLoader(){
+			$('.loader').fadeOut('fast');
+			$('.lightTable').fadeIn('slow');
+			};
+		    loadContent();
+		
+			return false;
+        });
+    });
+
+	});
+
+</script>

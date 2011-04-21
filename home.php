@@ -36,7 +36,7 @@ get_header(); ?>
 				
 					</div>
 				</div> 
-
+	</div> 
 <script type="text/javascript">
 jQuery(document).ready(function($){
 $('#featured').cycle({fx: 'fade', speed: 2500});
