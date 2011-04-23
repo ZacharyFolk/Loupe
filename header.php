@@ -189,8 +189,8 @@ if (x == 'black') {
 
 	<div id="tagList">
 	<?php $tagArgs = array(
-						'orderby' => 'count',
-						'order' => 'DESC',
+						'orderby' => 'name',
+						'order' => 'ASC',
 						'number' => 50,
 						);
 						$theTags = get_tags( $tagArgs );
@@ -230,6 +230,13 @@ jQuery(document).ready(function($){
         });
     });
 
+	$('.pro.captionfull').hover(function(){
+					$(".cover", this).stop().animate({top:'55px'},{queue:false,duration:160});
+				}, function() {
+					$(".cover", this).stop().animate({top:'160px'},{queue:false,duration:160});
+				});
+
+				
 	});
 
 </script>

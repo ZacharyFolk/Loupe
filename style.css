@@ -284,6 +284,36 @@ a {text-decoration: none}
 .singleTags a {}
 
 
+.boxcaption{ 
+				float: left; 
+				position: absolute; 
+				background: #000; 
+				height: 100px; 
+				width: 132px; 
+				opacity: .8; 
+				top: 160px;
+				text-align: left;
+				padding: 8px 10px 0 10px;
+				font-family: Arial;
+				/* For IE 5-7 */
+				filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+				/* For IE 8 */
+				-MS-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+ 			}
+ 				.captionfull .boxcaption {
+ 					top: 260;
+ 					left: 0;
+ 				}
+ 				.caption .boxcaption {
+ 					top: 220;
+ 					left: 0;
+ 				}
+				
+			.boxcaption{color: #fff; font-size: 17px; font-variant: small-caps;  text-decoration: none; font-weight: bold; font-family: verdana}
+			.boxcaption a:hover{color:#DFDFDF; font-size: 14px; font-variant: small-caps;  text-decoration: none}
+				
+
+				
 
 ul.post_tags {}
 ul.post_tags li {float: left; margin: 0 0 0 10px;}
