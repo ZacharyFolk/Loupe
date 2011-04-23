@@ -176,7 +176,7 @@ if (x == 'black') {
 <span class="blinky">_</span><div class="caption"></div>
 <input class="hidden" type="text" id="userCaption"  value="<?php the_title(); ?>" /></div>
 			
-<?php drop_tags(); ?>
+<?php // drop_tags(); ?>
 
 					
 <ul id="controls">
@@ -186,8 +186,7 @@ if (x == 'black') {
  <a id="orig" href="#">orig</a> -->
 	</ul>
     <?php } ?>
-	
-	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-000.gif'></div>
+
 	<div id="tagList">
 	<?php $tagArgs = array(
 						'orderby' => 'count',
@@ -212,23 +211,27 @@ jQuery(document).ready(function($){
 			var tagName = $(this).attr("id");
 			var toLoad = 'tag/'+ tagName + ' .tagTable';
             $('.lightTable').hide();
-			function loadContent() {
-			$('.loader').fadeIn('fast', loadThemTags());
-			}
-			function loadThemTags(){		
-			$('.lightTable').load(toLoad,hideLoader);
+			 $('.tagTable').remove();
+			loadThemTags();
+			
+			function loadThemTags(){	
+			$('.loader').fadeIn('fast');			
+			$('#ajaxTable').load(toLoad,hideLoader);
 			};
 			
 			function hideLoader(){
 			$('.loader').fadeOut('fast');
-			$('.lightTable').fadeIn('slow');
+			$('.tagTable').fadeIn('slow');
 			};
-		    loadContent();
+		  
 		
-			return false;
+			// uncomment to stop showing #tagName
+			//return false;
         });
     });
 
 	});
 
 </script>
+	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-000.gif'></div>
+	<div id="ajaxTable">

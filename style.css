@@ -278,7 +278,7 @@ a {text-decoration: none}
 /************** TAGS ********************/
 .loader {position: absolute; top: 40%; left: 50%; background: url('images/ajax-loader-000.gif'); display: none; width: 32px; height: 32px;}
 #tagTableOuter{width: 100%; position: absolute; top: 54px;}
-#tagList { background: #fff;  width: 100%; z-index: 1020; padding: 26px; margin: 14px 0 0;}
+#tagList { background: #fff;  width: 100%; z-index: 1020; padding: 9px 0 28px; margin: 31px 0 0; position: relative; border-bottom: 1px solid #000}
 .tag-links {position: absolute; right: 92px; top: 5px;  z-index: 1002; }
 .singleTags {}
 .singleTags a {}
