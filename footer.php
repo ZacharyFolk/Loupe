@@ -84,7 +84,14 @@ var state = $.cookie("panelState");
 		panel.slideToggle("slow");
 		return false;
 	});
-
+	
+  var tagPanel = $('#tagList');
+	$('.tagLink').click(function(){
+	
+		tagPanel.slideToggle('fast');
+		return false;
+	});
+	
 /*	var recPanel = $('ul#recentPosts');
 	var tagPanel = $('ul#recentTags');
 	var postButton = $('h2.postTrigger');

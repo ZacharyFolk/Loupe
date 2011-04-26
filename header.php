@@ -136,8 +136,8 @@ if (x == 'black') {
 					</span>
 				 </h1>
 				 	 <div class="sep">|</div>
-				 <div class="headlink">
-				<a href="<?php echo home_url( '/' ); ?>tags">tags</a>
+				 <div class="tagLink">
+				tags
 				</div>
 			</div><!-- #masthead -->
 			
