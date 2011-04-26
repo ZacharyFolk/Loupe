@@ -280,7 +280,7 @@ a {text-decoration: none}
 #ajaxTable {width: 95%; margin: 50px auto 0; }
 .loader {position: absolute; top: 40%; left: 50%; background: url('images/ajax-loader-000.gif'); display: none; width: 32px; height: 32px;}
 #tagTableOuter{width: 100%; position: absolute; top: 54px;}
-#tagList { background: #fff;  width: 100%; z-index: 1002; margin: 31px 0 0; position: fixed; border-bottom: 1px solid #000; line-height: 31px; display: none
+#tagList { background: #fff;  width: 100%; z-index: 1002; position: fixed; top: 31px; left: 0px;  border-bottom: 1px solid #000; line-height: 31px; display: none
 }
 .tag-links {position: absolute; right: 92px; top: 5px;  z-index: 1002; }
 .singleTags {}
