@@ -121,8 +121,8 @@ if (x == 'black') {
 					</span>
 				 </h1>
 				 <div class="sep">|</div>
-				 <div class="headlink">
-				<a href="<?php echo home_url( '/' ); ?>tags">tags</a>
+				 <div class="tagLink">
+				 tags
 				</div>
 		</div><!-- #masthead -->
 
@@ -150,8 +150,11 @@ if (x == 'black') {
 					<span>
 						<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 					</span>
-				 </h1>
-			</div><!-- #masthead -->	
+				 </h1> <div class="sep">|</div>
+				 <div class="tagLink">
+				tags
+				</div>
+			</div><!-- #masthead -->
 			
 
 		</div><!-- #header -->
@@ -161,7 +164,14 @@ if (x == 'black') {
 					<span>
 						<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 					</span>
-				 </h1>
+				 </h1> 
+				 
+				 <div class="sep">|</div>
+				 <div class="tagLink">
+				tags
+				</div>
+			</div><!-- #masthead -->
+			
 				
 		<?php }?>
 		<!-- //  <div id="topNav">

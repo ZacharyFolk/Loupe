@@ -282,38 +282,36 @@ a {text-decoration: none}
 #tagTableOuter{width: 100%; position: absolute; top: 54px;}
 #tagList { background: #fff;  width: 100%; z-index: 1002; position: fixed; top: 31px; left: 0px;  border-bottom: 1px solid #000; line-height: 31px; display: none
 }
+.activeTagTable {padding: 30px 0 0 0;}
 .tag-links {position: absolute; right: 92px; top: 5px;  z-index: 1002; }
 .singleTags {}
 .singleTags a {}
 
-
+.tagThumbBox {width: 200px; height: 200px; margin: 0 0 0 7px; float: left; overflow: hidden;}
 .boxcaption{ 
 				float: left; 
 				position: absolute; 
 				background: #000; 
-				height: 100px; 
-				width: 132px; 
+				height: 30px; 
+				width: 200px; 
 				opacity: .8; 
 				top: 160px;
-				text-align: left;
-				padding: 8px 10px 0 10px;
+				text-align: center;
+				padding: 8px 0 0;
 				font-family: Arial;
 				/* For IE 5-7 */
 				filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
 				/* For IE 8 */
 				-MS-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+				color: #fff; font-size: 17px; font-variant: small-caps;  text-decoration: none; font-weight: bold; font-family: verdana
  			}
- 				.captionfull .boxcaption {
- 					top: 260;
- 					left: 0;
- 				}
- 				.caption .boxcaption {
- 					top: 220;
- 					left: 0;
- 				}
-				
-			.boxcaption{color: #fff; font-size: 17px; font-variant: small-caps;  text-decoration: none; font-weight: bold; font-family: verdana}
+			
 			.boxcaption a:hover{color:#DFDFDF; font-size: 14px; font-variant: small-caps;  text-decoration: none}
+
+				
+
+
+
 				
 
 				

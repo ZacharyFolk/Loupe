@@ -54,14 +54,12 @@
 var $ = jQuery;
 
 $(document).ready(function(){
-
 var panel = $('.thumbBox');
 var button = $('.all');
 var initialState = "collapsed";
 var activeClass = "active";
 var visibleText = "hide recent posts";
 var hiddenText = "show recent posts";
-
 if($.cookie("panelState") == undefined) {
 	$.cookie("panelState", initialState);
 	}
@@ -83,11 +81,10 @@ var state = $.cookie("panelState");
 		}
 		panel.slideToggle("slow");
 		return false;
-	});
-	
+	});	
   var tagPanel = $('#tagList');
 	$('.tagLink').click(function(){
-	
+		$('#ajaxTable').toggleClass('activeTagTable');
 		tagPanel.slideToggle('fast');
 		return false;
 	});
@@ -149,7 +146,19 @@ var state = $.cookie("panelState");
 			
 });	
 </script>
-<?php } ?>	
+<?php } elseif ( is_home() ) { ?>	
+<script type="text/javascript">
+
+$(document).ready(function(){
+  var tagPanel = $('#tagList');
+	$('.tagLink').click(function(){
+		$('#ajaxTable').toggleClass('activeTagTable');
+		tagPanel.slideToggle('fast');
+		return false;
+	});
+	});
+</script>
+<?php } ?>
 <?php
 	wp_footer();
 ?>
