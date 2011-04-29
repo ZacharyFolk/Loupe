@@ -233,21 +233,19 @@ jQuery(document).ready(function($){
 			$('.loader').fadeOut('fast');
 			$('.tagTable').fadeIn('slow');
 			};
-		  
-		
-			// uncomment to stop showing #tagName
-			//return false;
+		  return false;
         });
-    });
-
-	$('.pro.captionfull').hover(function(){
+ });
+	$('.tagImgBox').hover(function(){
 					$(".cover", this).stop().animate({top:'55px'},{queue:false,duration:160});
 				}, function() {
 					$(".cover", this).stop().animate({top:'160px'},{queue:false,duration:160});
 				});
 
-				
-	});
+
+    });
+
+
 
 </script>
 	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-000.gif'></div>
