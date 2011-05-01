@@ -20,7 +20,15 @@ get_header(); ?>
 				</div> <!-- featured -->
 			</div>		
 			<div id="rightBlock">
-				<h2>Recent Posts</h2>
+			<ul id="thumbNav">
+			<?php $the_query = new WP_Query('category_name=featured&showposts=20');
+						while ($the_query->have_posts()) : $the_query->the_post();?>
+			<li>
+			<img src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo catch_that_image() ?>&w=80&h=80&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
+			</li>
+			<?php endwhile; ?>
+			</ul>
+			<!-- //	<h2>Recent Posts</h2>
 				<ul id="recentPosts" class="clearfix">
 				<?php $myposts = get_posts('numberposts=10');
 						foreach($myposts as $post) :?>
@@ -29,7 +37,8 @@ get_header(); ?>
 						</a>
 					</li>
 						<?php endforeach; ?>
-				</ul>			
+				</ul>	
+			//-->		
 			</div>
 		</div> 
 	</div> 
