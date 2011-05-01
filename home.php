@@ -23,9 +23,10 @@ get_header(); ?>
 			<ul id="thumbNav">
 			<?php $the_query = new WP_Query('category_name=featured&showposts=20');
 						while ($the_query->have_posts()) : $the_query->the_post();?>
-			<li>
+			<li class="recentThumbs">
+			<a class="" href="<?php the_permalink(); ?>">
 			<img src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo catch_that_image() ?>&w=80&h=80&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
-			</li>
+			</a></li>
 			<?php endwhile; ?>
 			</ul>
 			<!-- //	<h2>Recent Posts</h2>
@@ -44,7 +45,15 @@ get_header(); ?>
 	</div> 
 <script type="text/javascript">
 jQuery(document).ready(function($){
-$('#featured').cycle({fx: 'fade', speed: 2500});
+$('#featured').cycle(
+{fx: 'fade', speed: 300, timeout: 3000,
+allowPagerClickBubble: true, 
+pagerEvent: 'mouseover',
+pauseOnPagerHover:true,
+pagerAnchorBuilder: function(idx,slide){
+return '#thumbNav li:eq(' + idx + ') a';
+}
+});
 });
 </script>
 <?php get_footer(); ?>
