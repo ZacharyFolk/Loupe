@@ -57,7 +57,7 @@
 				var colors = $.cookie('colors');
                   $("#viewer").iviewer(
                        {
-                       src: "<?php echo catch_that_image() ?>",    
+                       src: "<?php echo get_first_attachment() ?>",    
                        zoom: 70,
                        initCallback: function ()
                        {

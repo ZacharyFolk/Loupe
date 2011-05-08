@@ -18,7 +18,7 @@
 		$thumbPosts->query('showposts=55');
 		while ($thumbPosts->have_posts()) : $thumbPosts->the_post(); ?>
 		<a href="<?php the_permalink(); ?>">
-		<img class="nofotomoto" src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo catch_that_image() ?>&w=80&h=80&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
+		<img class="nofotomoto" src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo get_first_attachment() ?>&w=80&h=80&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
 		</a>
 	<?php endwhile; ?>
 </div>

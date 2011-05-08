@@ -596,7 +596,6 @@ ob_start();
 ob_end_clean();
 $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
 $first_img = $matches [1] [0];
-
 // no image found display default image instead
 if(empty($first_img)){
 $first_img = "";
@@ -605,11 +604,13 @@ return $first_img;
 }
 
 
+
 function bm_extract_string($start, $end, $original) {
 $original = stristr($original, $start);
 $trimmed = stristr($original, $end);
 return substr($original, strlen($start), -strlen($trimmed));
 }
+
 function getFirstImage() {
 $content = get_the_content();
 $pic_string = bm_extract_string('src="','" ',$content);
@@ -629,7 +630,116 @@ echo '<a href="'.$link.'" style="background:url('.$pic_string.'); display:block;
             echo "</li>";
 			
 			}
+//return the first image, <img/> tag and all.
+function first_image($width=100,$height=100,$zoomcrop=1){
+	$timthumb_url = get_first_image($width, $height, $zoomcrop);
+	if(isset($timthumb_url)){
+		?>
+		<a href="<?php the_permalink()?>" class="thumbnail" title="Links to: <?php the_title()?>">
+			<img src="<?php echo $timthumb_url?>" alt="<?php the_title() ?>" class="thumbnail"/>
+		</a>
+		<?php
+	}
+}
 
+//return just the src for the first image whether that be in the content or an attachment
+function get_first_image($width=100,$height=100,$zoomcrop=1){
+	$tn_src = get_first_content_image();
+	if (!isset($tn_src)) //no image? try getting an attached image instead (native media galleries inserted into posts use attachments)
+		$tn_src = get_first_attachment();
+
+	if(isset($tn_src))
+		$timthumb_url = get_bloginfo('template_url').'/scripts/timthumb.php?src='.$tn_src.'&h='.$height.'&w='.$width.'&zc='.$zoomcrop;
+	else
+		unset($timthumb_url);
+
+	return $timthumb_url;
+}
+
+//return just the src for the first image buried in the post's textual content.
+function get_first_content_image() {
+	global $post, $posts;
+	$first_img = '';
+	$url = get_bloginfo('url');
+	ob_start();
+	ob_end_clean();
+	$output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
+	$first_img = $matches [1] [0];
+
+	$not_broken = @fopen("$first_img","r"); // checks if the image exists
+	if(empty($first_img) || !($not_broken)){ //Defines a default image
+		unset($first_img);
+	}else{
+		$first_img = str_replace($url, '', $first_img);
+	}
+	return $first_img;
+}
+
+//return just the src for the first image attachment
+function get_first_attachment(){
+	$querystr =
+	"
+		SELECT
+				wp_posts.post_excerpt AS 'imageTitle'
+			,	wp_posts.guid AS 'imageGuid'
+		FROM
+			wp_posts
+		WHERE
+				wp_posts.post_parent = ".get_the_ID()."
+			AND	wp_posts.post_type = \"attachment\"
+		ORDER BY \"menu_order\"
+		LIMIT 1
+	";
+	global $wpdb;
+	$url = get_bloginfo('url');
+
+	$post_item = $wpdb->get_row($querystr);
+	$first_attachment = $post_item->imageGuid;
+
+	$not_broken = @fopen("$first_attachment","r"); // checks if the image exists
+	if(empty($first_attachment) || !($not_broken)){ //Defines a default image
+		unset($first_attachment);
+	}else{
+		$first_attachment = str_replace($url, '', $first_attachment);
+	}
+
+	return $first_attachment;
+}
+
+
+// This is added in to remove image if it is added in post as well
+add_filter( 'the_content', 'remove_first_image' );
+
+// This is the function name
+function remove_first_image($content) {
+global $post, $posts;
+
+// This is the preg replace that removes the first image
+$content = preg_replace('/]+./’,”, ob_get_contents(),1');
+return $content;
+}
+
+
+// this is another attmept
+function grab_image_attachment() {
+$images =& get_children( 'post_type=attachment&post_mime_type=image' );
+
+$videos =& get_children( 'post_type=attachment&post_mime_type=video/mp4' );
+
+if ( empty($images) ) {
+	// no attachments here
+} else {
+	foreach ( $images as $attachment_id => $attachment ) {
+		echo wp_get_attachment_image( $attachment_id, 'full' );
+	}
+}
+
+//  If you don't need to handle an empty result:
+
+foreach ( (array) $videos as $attachment_id => $attachment ) {
+	echo wp_get_attachment_link( $attachment_id );
+}	
+}
 
 /* Define the custom box */
 

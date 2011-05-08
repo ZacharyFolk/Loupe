@@ -1,6 +1,10 @@
 <?php
 get_header(); ?>		
 <div id="viewer" class="viewer">
+<?php while ( have_posts() ) : the_post(); ?>
+<?php the_title(); ?>
+<?php the_content(); ?>
+<?php endwhile; ?>
 <noscript>
 <style type="text/css">
 #controls{display:none}
