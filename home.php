@@ -12,7 +12,7 @@ get_header(); ?>
 						<?php //getImage(1); ?>
 					<div class="featuredSlide">
 						<a href="<?php the_permalink(); ?>">
-						<img src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo catch_that_image() ?>&w=500&h=500&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
+						<img src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo get_first_attachment() ?>&w=500&h=500&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
 						</a>
 						<?php the_title(); ?>
 					</div>
@@ -25,7 +25,7 @@ get_header(); ?>
 						while ($the_query->have_posts()) : $the_query->the_post();?>
 			<li class="recentThumbs">
 			<a class="" href="<?php the_permalink(); ?>">
-			<img src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo catch_that_image() ?>&w=80&h=80&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
+			<img src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo get_first_attachment() ?>&w=80&h=80&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
 			</a></li>
 			<?php endwhile; ?>
 			</ul>
