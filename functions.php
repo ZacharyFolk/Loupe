@@ -423,6 +423,8 @@ function my_init() {
 		wp_enqueue_script('cycle');
 		wp_register_script('loupe', get_bloginfo('template_directory') .'/scripts/loupe.js', array('jquery'), '1.0',false);
 		wp_enqueue_script('loupe');
+		wp_register_script('history', get_bloginfo('template_directory') .'/scripts/history.js', array('jquery'), '1.0',false);
+		wp_enqueue_script('history');
 		if (is_single('gallery')) {
 		wp_register_script('galleria', get_bloginfo('template_directory') . '2/scripts/galleria.js', array('jquery'), '2.0',false);
 		wp_enqueue_script('galleria');
