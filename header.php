@@ -214,69 +214,6 @@ if (x == 'black') {
 	?>
 	</div>
 
-<script type="text/javaScript">
-jQuery(document).ready(function($){
-	$('#tagList li').each(function() {
-        $(this).click(function() {
-	
-			var tagName = $(this).attr("id");
-			var toLoad = 'tag/'+ tagName + ' .tagTable';
 
-            $('.lightTable').hide();
-			 $('.tagTable').remove();
-			loadThemTags();
-			
-			function loadThemTags(){	
-			$('.loader').fadeIn('fast');			
-			$('#ajaxTable').load(toLoad,hideLoader);
-			};
-			
-			function hideLoader(){
-			$('.loader').fadeOut('fast');
-			$('.tagTable').fadeIn('slow');
-			};
-	
-		//  return false;
-        });
- });
-	$('.tagImgBox').hover(function(){
-					$(".cover", this).stop().animate({top:'55px'},{queue:false,duration:160});
-				}, function() {
-					$(".cover", this).stop().animate({top:'160px'},{queue:false,duration:160});
-				});
-
-
-    });
-
-$.history.init(function(hash){
-        if(hash == "") {
-            // initialize your app
-        } else {
-		var tagHash = window.location.hash;
-		var noHash = tagHash.replace(/^.*#/, '');
-		var Hash = noHash.replace(/\s/g, '-');
-		var reLoadURL = 'tag/'+ Hash + ' .tagTable';
-		function reLoad(){
-            $('.lightTable').hide();
-			$('.tagTable').detach();
-			reloadThemTags();
-			}
-			function reloadThemTags(){	
-			//rehideLoader();
-			$('.loader').fadeIn('fast');			
-			$('#ajaxTable').load(reLoadURL,rehideLoader);
-		    $('.tagTable').appendTo($('#ajaxTable'));
-			};
-			function rehideLoader(){
-			$('.loader').fadeOut('fast');		
-			};
-		reLoad ();
-            // restore the state from hash
-        }
-    },
-    { unescape: ",/" });
-
-
-</script>
 	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-000.gif'></div>
 	<div id="ajaxTable">
