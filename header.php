@@ -139,6 +139,10 @@ if (x == 'black') {
 				 <div class="tagLink">
 				tags
 				</div>
+				<div class="sep">|</div>
+				<div class="editLink">
+					<?php edit_post_link('edit', '<p>', '</p>'); ?>
+				</div>
 			</div><!-- #masthead -->
 			
 		</div><!-- #header -->
