@@ -24,11 +24,12 @@
 </div>
 <?php } ?>
 	<div id="footer" role="contentinfo">
-	<ul id="colorPick">
+<!--//	<ul id="colorPick">
 	<li><a class="box_000" href="#black">&nbsp;</a></li>
 	<li><a class="box_2f2" href="#2f">&nbsp;</a></li>
 	<li><a class="box_fff" href="#white">&nbsp;</a></li>
 	</ul>
+	// -->
 	<?php if (! is_home()){ ?>
 	 <div class="all">Show Recent Posts</div>
 	<?php } ?>
