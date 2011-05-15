@@ -45,9 +45,7 @@
 		#wrap {display:table;height:100%}
 	</style>
 <![endif]-->
-
 	<?php if (is_single() ) { ?>
-	
 <link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
  <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/jquery.mousewheel.min.js" ></script>
      <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/iViewer.js" ></script>
@@ -165,10 +163,7 @@ if (x == 'black') {
 				tags
 				</div>
 			</div><!-- #masthead -->
-			
-
-		</div><!-- #header -->
-					
+		</div><!-- #header -->				
 		<?php } else { ?> 
 			<h1 id="site-title">
 					<span>

@@ -2,16 +2,16 @@
 get_header(); ?>		
 <div id="viewer" class="viewer">
 <?php if ( have_posts() ) :  while ( have_posts() ) : the_post(); ?>
-<?php the_title(); ?>
-<?php the_content(); ?>
-
+<div id="infoPanel">
+<div class="title"><?php the_title(); ?></div>
+<div class="description"><?php the_content(); ?></div>
+<p><?php the_tags(); ?></p>
+</div>	
 <?php if ( get_post_meta($post->ID, 'story', true) ) : ?>
 
      <?php echo get_post_meta($post->ID, 'story', true) ?>
    
 <?php endif; ?>
-
-
 
 <?php endwhile; else: ?>
 	<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>

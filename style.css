@@ -373,6 +373,13 @@ a#out:hover{background-position: -23px -20px}
 span.info { float: left;}
 
 span.openClose {width: 24px; height: 20px; display: block; background: url('images/openClose.png') no-repeat  1px 0px transparent; cursor: pointer; float: left; margin: 0px 0 0 0; }
+
+/* INFO PANEL */
+
+#infoPanel {width: 260px; float: right;  background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; padding: 20px; margin: 0 15px 0 0; position: fixed; right: 15px; border: 1px solid #2F2F2F; border-top:0px solid #999; top: 30px; z-index: 1500; border-top: 1px dashed #999;}
+.title  {}
+.description {}
+
 /******************************* GALLERIA ********************/
 
 /*** FOOTER **/
