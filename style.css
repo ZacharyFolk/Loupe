@@ -165,7 +165,7 @@ h1#site-title a:link, h1#site-title a:visited {color: #000!important}
 .tagLink {width: 60px; float: left; font-size: 16px; margin: 6px 0 0 6px; letter-spacing: .1em; 
 text-transform:uppercase; cursor: pointer}
 
-.editLink {width: 60px; float: left; font-size: 16px; margin: 6px 0 0 6px; letter-spacing: .1em; 
+.editLink {float: left; font-size: 16px; margin: 6px 0 0 6px; letter-spacing: .1em; 
 text-transform:uppercase; cursor: pointer}
 .imageTitle {position: absolute; top: 4px; left: 200px; width: 300px; z-index: 1002}
 .caption {float: left; margin: 2px 0 0 21px}
@@ -354,9 +354,13 @@ a#in { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size
 a#out { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus.png') no-repeat 98% bottom transparent; cursor: pointer; height: 20px; width: 20px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}
 
 ul#controls {
-position: absolute; width: 60px; top: 4px; right: 20px; z-index: 1005;
+	font-size: 14px; letter-spacing: 3px; line-height: 20px; text-transform: uppercase;
+position: absolute; width: 260px; top: 4px; right: 20px; z-index: 1005;
 }
-ul#controls li {margin: 0 0 0 6px; float: left}
+ul#controls li {margin: 0 0 0 10px; float: left}
+
+ul#controls li.zoom {margin: 0 0 0 0px;}
+ul#controls li.zoom_out {}
 /******************************* GALLERIA ********************/
 
 /*** FOOTER **/

@@ -140,6 +140,12 @@ if (x == 'black') {
 				tags
 				</div>
 				<div class="sep">|</div>
+			
+				<div class="editLink">
+					categories
+				</div>
+				
+					<div class="sep">|</div>
 				<div class="editLink">
 					<?php edit_post_link('edit', '<p>', '</p>'); ?>
 				</div>
@@ -175,8 +181,7 @@ if (x == 'black') {
 				tags
 				</div>
 			</div><!-- #masthead -->
-			
-				
+							
 		<?php }?>
 		<!-- //  <div id="topNav">
 	<ul><li><a href="#">about</a></li>
@@ -191,16 +196,17 @@ if (x == 'black') {
 <input class="hidden" type="text" id="userCaption"  value="<?php the_title(); ?>" /></div>
 			
 <?php // drop_tags(); ?>
-
-					
+	
 <ul id="controls">
-	<li><a id="in" href="#">+</a></li>
-    <li><a id="out" href="#">-</a></li>
+	<li class="zoom">Zoom : </li>
+	<li class="zoom_out"><a id="out" href="#"> - </a></li>
+	<li class="zoom_in"><a id="in" href="#"> + </a></li>
+	<li>|</li>
+    <li>info</li>
   <!--    <a id="fit" href="#">100%</a>
  <a id="orig" href="#">orig</a> -->
 	</ul>
     <?php } ?>
-
 	<div id="tagList">
 	<?php $tagArgs = array(
 						'orderby' => 'name',
@@ -217,7 +223,5 @@ if (x == 'black') {
 							echo $tagListHTML;
 	?>
 	</div>
-
-
 	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-000.gif'></div>
 	<div id="ajaxTable">

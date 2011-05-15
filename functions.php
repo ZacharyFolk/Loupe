@@ -717,7 +717,7 @@ function remove_first_image($content) {
 global $post, $posts;
 
 // This is the preg replace that removes the first image
-$content = preg_replace('/]+./’,”, ob_get_contents(),1');
+$content = preg_replace('/]+./',  ob_get_contents(),'',1);
 return $content;
 }
 
