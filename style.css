@@ -348,10 +348,7 @@ margin-left: -512px;   /* 50% */
 {overflow: hidden;}
 .iviewer_zoom_status {position: fixed; top: 0; right: 0; z-index: 500; display: none}
 
-
-a#in { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus.png') no-repeat 98% 0 transparent; cursor: pointer; height: 20px; width: 20px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}
-
-a#out { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus.png') no-repeat 98% bottom transparent; cursor: pointer; height: 20px; width: 20px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}
+/* Single Image Options */
 
 ul#controls {
 	font-size: 14px; letter-spacing: 3px; line-height: 20px; text-transform: uppercase;
@@ -361,6 +358,21 @@ ul#controls li {margin: 0 0 0 10px; float: left}
 
 ul#controls li.zoom {margin: 0 0 0 0px;}
 ul#controls li.zoom_out {}
+
+
+/*ZOOM CONTROLS */
+
+a#in:link, a#in:visited { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus.png') no-repeat 0 0 transparent; cursor: pointer; height: 20px; width: 24px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}
+a#in:hover {background-position: -22px  0px}
+
+a#out:link, a#out:visited { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus.png') no-repeat  0 -20px transparent; cursor: pointer; height: 20px; width: 24px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}
+a#out:hover{background-position: -23px -20px}
+
+/* INFO CONTROL */
+
+span.info { float: left;}
+
+span.openClose {width: 24px; height: 20px; display: block; background: url('images/openClose.png') no-repeat  1px 0px transparent; cursor: pointer; float: left; margin: 0px 0 0 0; }
 /******************************* GALLERIA ********************/
 
 /*** FOOTER **/

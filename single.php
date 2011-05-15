@@ -1,16 +1,27 @@
 <?php
 get_header(); ?>		
 <div id="viewer" class="viewer">
-<?php while ( have_posts() ) : the_post(); ?>
+<?php if ( have_posts() ) :  while ( have_posts() ) : the_post(); ?>
 <?php the_title(); ?>
 <?php the_content(); ?>
-<?php endwhile; ?>
+
+<?php if ( get_post_meta($post->ID, 'story', true) ) : ?>
+
+     <?php echo get_post_meta($post->ID, 'story', true) ?>
+   
+<?php endif; ?>
+
+
+
+<?php endwhile; else: ?>
+	<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
+<?php endif; ?>
 <noscript>
 <style type="text/css">
 #controls{display:none}
 #viewer img {width: 800px}
 .imgContainer{margin: 0 auto; width: 800px}</style>
-<?php while ( have_posts() ) : the_post(); ?>
+<?php  while ( have_posts() ) : the_post(); ?>
 <div class="imgContainer">
 <img src="<?php echo catch_that_image() ?>" />
 </div>

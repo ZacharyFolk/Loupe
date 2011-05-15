@@ -202,7 +202,7 @@ if (x == 'black') {
 	<li class="zoom_out"><a id="out" href="#"> - </a></li>
 	<li class="zoom_in"><a id="in" href="#"> + </a></li>
 	<li>|</li>
-    <li>info</li>
+    <li><a href="#info"><span class="info">info </span><span class="openClose"></span></a></li>
   <!--    <a id="fit" href="#">100%</a>
  <a id="orig" href="#">orig</a> -->
 	</ul>

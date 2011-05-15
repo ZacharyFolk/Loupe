@@ -708,7 +708,7 @@ function get_first_attachment(){
 	return $first_attachment;
 }
 
-
+/*
 // This is added in to remove image if it is added in post as well
 add_filter( 'the_content', 'remove_first_image' );
 
@@ -717,10 +717,12 @@ function remove_first_image($content) {
 global $post, $posts;
 
 // This is the preg replace that removes the first image
+
 $content = preg_replace('/]+./',  ob_get_contents(),'',1);
 return $content;
 }
 
+*/
 
 // this is another attmept
 function grab_image_attachment() {
@@ -815,34 +817,37 @@ add_filter( 'show_admin_bar', '__return_false' );
 // custom fields - http://www.deluxeblogtips.com/2010/04/how-to-create-meta-box-wordpress-post.html
 
 $meta_boxes = array(
+   
     array(
-        'id' => 'my-meta-box-1',
-        'title' => 'Custom meta box 1',
+        'id' => 'story',
+        'title' => 'Description',
+        'pages' => array('post', 'page' , 'link'), // custom post type
+        'context' => 'normal',
+        'priority' => 'high',
+        'fields' => array(
+            array(
+                'name' => 'Describe the scene :',
+                'id' => $prefix . 'textarea',
+                'type' => 'textarea'
+                
+            )
+        )
+    ),
+	
+	
+	 array(
+        'id' => 'text-location',
+        'title' => 'Location Data',
         'pages' => array('post', 'page', 'link'), // multiple post types
         'context' => 'normal',
         'priority' => 'high',
         'fields' => array(
             array(
-                'name' => 'Text box',
-                'desc' => 'Enter something here',
+                'name' => 'Text Location',
+                'desc' => 'Enter location here',
                 'id' => $prefix . 'text',
                 'type' => 'text',
-                'std' => 'Default value 1'
-            )
-        )
-    ),
-    array(
-        'id' => 'my-meta-box-2',
-        'title' => 'Custom meta box 2',
-        'pages' => array('post', 'link'), // custom post type
-        'context' => 'normal',
-        'priority' => 'high',
-        'fields' => array(
-            array(
-                'name' => 'Select box',
-                'id' => $prefix . 'select',
-                'type' => 'select',
-                'options' => array('Option 1', 'Option 2', 'Option 3')
+                'std' => ''
             )
         )
     )
@@ -997,7 +1002,7 @@ register_taxonomy("Skills", array("portfolio"), array("hierarchical" => true, "l
 
 add_action("admin_init", "admin_init");
  
-function admin_init(){
+function admin_init(){ // add_meta_box( $id, $title, $callback, $page, $context, $priority ); 
   add_meta_box("year_completed-meta", "Year Completed", "year_completed", "portfolio", "side", "low");
   add_meta_box("credits_meta", "Design & Build Credits", "credits_meta", "portfolio", "normal", "low");
 }
@@ -1028,7 +1033,7 @@ function credits_meta() {
   <?php
 }
 
- // add_meta_box( $id, $title, $callback, $page, $context, $priority ); 
+
 
 global $post;
 	
