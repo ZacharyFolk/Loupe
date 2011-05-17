@@ -152,17 +152,24 @@ var state = $.cookie("panelState");
 
 $(document).ready(function(){
   var tagPanel = $('#tagList');
+
 	$('.tagLink').click(function(){
 		$('#ajaxTable').toggleClass('activeTagTable');
 		tagPanel.slideToggle('fast');
 		return false;
 	});
-	});
+	
+
 </script>
 <?php } ?>
 
 <script type="text/javaScript">
 jQuery(document).ready(function($){
+	$('#infoLink').click(function() {
+		$('#infoPanel').slideDown();
+	
+	});
+
 	$('#tagList li').each(function() {
         $(this).click(function() {
 	

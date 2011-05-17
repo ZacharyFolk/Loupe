@@ -991,7 +991,7 @@ function portfolio_register() {
 		'hierarchical' => false,
 		'menu_position' => null,
 		'taxonomies' => array('post_tag','category'),
-		'supports' => array('title','thumbnail', 'excerpt', 'tags')
+		'supports' => array('title','editor','thumbnail', 'excerpt', 'tags')
 	  ); 
  
 	register_post_type( 'portfolio' , $args );

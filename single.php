@@ -5,7 +5,8 @@ get_header(); ?>
 <div id="infoPanel">
 <div class="title"><?php the_title(); ?></div>
 <div class="description"><?php the_content(); ?></div>
-<p><?php the_tags(); ?></p>
+<div class="link">url: <?php the_permalink(); ?></div>
+<p><?php the_tags('<ul><li>','</li><li>','</li></ul>'); ?></p>
 </div>	
 <?php if ( get_post_meta($post->ID, 'story', true) ) : ?>
 
