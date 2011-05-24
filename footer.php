@@ -55,6 +55,7 @@
 var $ = jQuery;
 
 $(document).ready(function(){
+var imgCtrl = $('#controls');
 var panel = $('.thumbBox');
 var button = $('.all');
 var initialState = "collapsed";
@@ -122,6 +123,8 @@ triangle.addClass(opened);
 main.addClass(tagBump);
 }
 tagButton.click(function(){
+	
+	
 		if($.cookie("tagPanel") == "expanded") {
 			$.cookie("tagPanel", "collapsed");
 			tagButton.removeClass(activeTags);
@@ -141,6 +144,8 @@ tagButton.click(function(){
 
 	$('#tagList li').each(function() {
         $(this).click(function() {
+			// remove single image ui controls
+			imgCtrl.hide();
 	
 			var tagName = $(this).attr("id");
 			var toLoad = 'tag/'+ tagName + ' .tagTable';
