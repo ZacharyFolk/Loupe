@@ -162,8 +162,9 @@ body.black  a:hover{color: #CFCFCF; text-decoration: underline}
 h1#site-title {font-size: 16px; text-transform: uppercase;  margin:6px 0 0 10px; letter-spacing: .1em; width: 190px;float: left;}
 h1#site-title a:link, h1#site-title a:visited {color: #000!important}
 .sep {margin: 0 6px; width: 20px; line-height: 24px; float: left; text-align: center;}
-.tagLink {width: 60px; float: left; font-size: 16px; margin: 6px 0 0 6px; letter-spacing: .1em; 
-text-transform:uppercase; cursor: pointer}
+.tagLink {width: 70px; float: left; font-size: 16px; margin: 6px 0 0 6px; letter-spacing: .1em; text-transform:uppercase; cursor: pointer; line-height: 16px;}
+
+
 
 .editLink {float: left; font-size: 16px; margin: 6px 0 0 6px; letter-spacing: .1em; 
 text-transform:uppercase; cursor: pointer}
@@ -287,6 +288,11 @@ a {text-decoration: none}
 /************** TAGS ********************/
 
 #ajaxTable {width: 99%; margin: 30px auto 0; }
+
+/* add various bumps for when panel is toggled */
+
+.tagged {padding-top: 30px;}
+
 .loader {position: absolute; top: 40%; left: 50%; background: url('images/ajax-loader-000.gif'); display: none; width: 32px; height: 32px;}
 #tagTableOuter{width: 100%; position: absolute; top: 54px;}
 #tagList { background: #fff;  width: 100%; z-index: 1002; position: fixed; top: 31px; left: 0px;  border-bottom: 1px solid #000; line-height: 31px; display: none
@@ -372,7 +378,12 @@ a#out:hover{background-position: -23px -20px}
 
 span.info { float: left;}
 
-span.openClose {width: 24px; height: 20px; display: block; background: url('images/openClose.png') no-repeat  1px 0px transparent; cursor: pointer; float: left; margin: 0px 0 0 0; }
+.close {width: 24px; height: 20px; display: block; background: url('images/openClose.png') no-repeat  1px 0px transparent; cursor: pointer; float: right; margin: -2px 0 0 0; }
+
+.open {width: 24px; height: 20px; display: block; background: url('images/openClose.png') no-repeat  1px -20px transparent; cursor: pointer; float: right; margin: -2px 0 0 0; }
+
+
+a:hover span.openClose {width: 24px; height: 20px; display: block; background: url('images/openClose.png') no-repeat  1px -20px transparent; cursor: pointer; float: left; margin: 0px 0 0 0; }
 
 /* INFO PANEL */
 

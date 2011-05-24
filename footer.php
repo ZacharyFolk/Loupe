@@ -50,7 +50,7 @@
     </div>
   </div>
 </div>
-<?php if (! is_home()){ ?>
+
 <script type="text/javascript">
 var $ = jQuery;
 
@@ -61,6 +61,24 @@ var initialState = "collapsed";
 var activeClass = "active";
 var visibleText = "hide recent posts";
 var hiddenText = "show recent posts";
+
+var triangle = $('.tagLink span'); // for tags
+var infoTri = $('#infoLink span');
+var closed = "close";
+var opened = "open";	
+
+var tags = $('#tagList');	
+var tagPanelState = $.cookie("tagPanel");
+var tagButton = $('.tagLink');
+
+var info = $('#infoPanel');	
+var infoPanelState = $.cookie("infoPanel");
+var infoButton = $('#infoLink');
+
+var main = $('#ajaxTable');
+var tagBump = ("tagged");
+var activeTags = "activeTagClass";
+
 if($.cookie("panelState") == undefined) {
 	$.cookie("panelState", initialState);
 	}
@@ -82,14 +100,109 @@ var state = $.cookie("panelState");
 		}
 		panel.slideToggle("slow");
 		return false;
-	});	
-  var tagPanel = $('#tagList');
-	$('.tagLink').click(function(){
-		$('#ajaxTable').toggleClass('activeTagTable');
-		tagPanel.slideToggle('fast');
+	});		
+
+// tags 
+
+if($.cookie("tagPanel") == undefined){
+	$.cookie("tagPanel", initialState);
+	triangle.addClass(closed);
+	triangle.removeClass(opened);
+}
+if(tagPanelState == "collapsed"){
+tags.hide();
+triangle.removeClass(opened);
+triangle.addClass(closed);
+}
+
+if(tagPanelState == "expanded"){
+tags.show();
+triangle.removeClass(closed);
+triangle.addClass(opened);
+main.addClass(tagBump);
+}
+tagButton.click(function(){
+		if($.cookie("tagPanel") == "expanded") {
+			$.cookie("tagPanel", "collapsed");
+			tagButton.removeClass(activeTags);
+			triangle.removeClass(opened);
+			triangle.addClass(closed);
+			main.removeClass(tagBump);
+		} else {
+			$.cookie("tagPanel", "expanded");
+			tagButton.addClass(activeTags);
+			main.addClass(tagBump);
+			triangle.addClass(opened);
+			triangle.removeClass(closed);
+		}
+		tags.slideToggle("fast");
 		return false;
-	});
+});
+
+	$('#tagList li').each(function() {
+        $(this).click(function() {
 	
+			var tagName = $(this).attr("id");
+			var toLoad = 'tag/'+ tagName + ' .tagTable';
+
+            $('.lightTable').hide();
+			 $('.tagTable').remove();
+			loadThemTags();
+			
+			function loadThemTags(){	
+			$('.loader').fadeIn('fast');			
+			$('#ajaxTable').load(toLoad,hideLoader);
+			};
+			
+			function hideLoader(){
+			$('.loader').fadeOut('fast');
+			$('.tagTable').fadeIn('slow');
+			};
+	
+		//  return false;
+        });
+ });
+	$('.tagImgBox').hover(function(){
+					$(".cover", this).stop().animate({top:'55px'},{queue:false,duration:160});
+				}, function() {
+					$(".cover", this).stop().animate({top:'160px'},{queue:false,duration:160});
+				});
+				
+// info
+
+if($.cookie("infoPanel") == undefined){
+	$.cookie("infoPanel", initialState);
+	infoTri.addClass(closed);
+	infoTri.removeClass(opened);
+}
+if(tagPanelState == "collapsed"){
+info.hide();
+infoTri.removeClass(opened);
+infoTri.addClass(closed);
+}
+
+if(tagPanelState == "expanded"){
+info.show();
+infoTri.removeClass(closed);
+infoTri.addClass(opened);
+}
+infoButton.click(function(){
+		if($.cookie("infoPanel") == "expanded") {
+			$.cookie("infoPanel", "collapsed");
+			infoButton.removeClass(activeTags);
+			infoTri.removeClass(opened);
+			infoTri.addClass(closed);
+		} else {
+			$.cookie("infoPanel", "expanded");
+			infoButton.addClass(activeTags);
+			infoTri.addClass(opened);
+			infoTri.removeClass(closed);
+		}
+		info.slideToggle("fast");
+		return false;
+});	
+	
+				
 /*	var recPanel = $('ul#recentPosts');
 	var tagPanel = $('ul#recentTags');
 	var postButton = $('h2.postTrigger');
@@ -100,7 +213,7 @@ var state = $.cookie("panelState");
 	var hiddenText = "VIEW RECENT POSTS";
 	var visibleTagText = "HIDE TOP TEN TAGS";
 	var hiddenTagText = "SHOW TOP TEN TAGS";
-*/
+
 	if($.cookie("postPanelState") == undefined) {
 		$.cookie("postPanelState", initialState);
 		}
@@ -147,61 +260,7 @@ var state = $.cookie("panelState");
 			
 });	
 </script>
-<?php } elseif ( is_home() ) { ?>	
-<script type="text/javascript">
-
-$(document).ready(function(){
-  var tagPanel = $('#tagList');
-
-	$('.tagLink').click(function(){
-		$('#ajaxTable').toggleClass('activeTagTable');
-		tagPanel.slideToggle('fast');
-		return false;
-	});
-	
-
-</script>
-<?php } ?>
-
 <script type="text/javaScript">
-jQuery(document).ready(function($){
-	$('#infoLink').click(function() {
-		$('#infoPanel').slideDown();
-	
-	});
-
-	$('#tagList li').each(function() {
-        $(this).click(function() {
-	
-			var tagName = $(this).attr("id");
-			var toLoad = 'tag/'+ tagName + ' .tagTable';
-
-            $('.lightTable').hide();
-			 $('.tagTable').remove();
-			loadThemTags();
-			
-			function loadThemTags(){	
-			$('.loader').fadeIn('fast');			
-			$('#ajaxTable').load(toLoad,hideLoader);
-			};
-			
-			function hideLoader(){
-			$('.loader').fadeOut('fast');
-			$('.tagTable').fadeIn('slow');
-			};
-	
-		//  return false;
-        });
- });
-	$('.tagImgBox').hover(function(){
-					$(".cover", this).stop().animate({top:'55px'},{queue:false,duration:160});
-				}, function() {
-					$(".cover", this).stop().animate({top:'160px'},{queue:false,duration:160});
-				});
-
-
-    });
-
 $.history.init(function(hash){
         if(hash == "") {
             // initialize your app
@@ -229,8 +288,6 @@ $.history.init(function(hash){
         }
     },
     { unescape: ",/" });
-
-
 </script>
 <?php
 	wp_footer();

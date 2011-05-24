@@ -32,12 +32,6 @@
 	 */
 	if ( is_singular() && get_option( 'thread_comments' ) )
 		wp_enqueue_script( 'comment-reply' );
-
-	/* Always have wp_head() just before the closing </head>
-	 * tag of your theme, or you will break many plugins, which
-	 * generally use this hook to add elements to <head> such
-	 * as styles, scripts, and meta tags.
-	 */
 	wp_head();
 ?>
 <!--[if !IE 7]>
@@ -48,11 +42,11 @@
 	<?php if (is_single() ) { ?>
 <link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
  <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/jquery.mousewheel.min.js" ></script>
-     <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/iViewer.js" ></script>
-        <script type="text/javascript">
-            var $ = jQuery;
-            $(document).ready(function(){
-				var colors = $.cookie('colors');
+ <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/iViewer.js" ></script>
+<script type="text/javascript">
+    var $ = jQuery;
+      $(document).ready(function(){
+		var colors = $.cookie('colors');
                   $("#viewer").iviewer(
                        {
                        src: "<?php echo get_first_attachment() ?>",    
@@ -135,14 +129,13 @@ if (x == 'black') {
 				 </h1>
 				 	 <div class="sep">|</div>
 				 <div class="tagLink">
-				tags
+				tags <span class="close"></span>
 				</div>
 				<div class="sep">|</div>
 			
 				<div class="editLink">
 					categories
-				</div>
-				
+				</div>		
 					<div class="sep">|</div>
 				<div class="editLink">
 					<?php edit_post_link('edit', '<p>', '</p>'); ?>
@@ -173,7 +166,7 @@ if (x == 'black') {
 				 
 				 <div class="sep">|</div>
 				 <div class="tagLink">
-				tags
+				tags <span class="close"></span>
 				</div>
 			</div><!-- #masthead -->
 							
@@ -197,7 +190,7 @@ if (x == 'black') {
 	<li class="zoom_out"><a id="out" href="#"> - </a></li>
 	<li class="zoom_in"><a id="in" href="#"> + </a></li>
 	<li>|</li>
-    <li><a href="#info" id="infoLink"><span class="info">info </span><span class="openClose"></span></a></li>
+    <li><a href="#info" id="infoLink">info <span class="close"></span></a></li>
   <!--    <a id="fit" href="#">100%</a>
  <a id="orig" href="#">orig</a> -->
 	</ul>
@@ -212,7 +205,8 @@ if (x == 'black') {
 						$tagListHTML = '<ul class="post_tags">';
 							foreach ($theTags as $theTag){
 							$tagLink = get_tag_link($theTag->term_id);		
-							$tagListHTML .= "<li class='count-{$theTag->count}' id='{$theTag->slug}'><a href='#{$theTag->name}' title='{$theTag->name} Tag' class='{$theTag->slug}'>{$theTag->name}</a></li>";
+							$tagListHTML .= "<li class='count-{$theTag->count}' id='{$theTag->slug}'><a href='#{$theTag->name}' title='{$theTag->name} Tag' class='{$theTag->slug}'>{$theTag->name}</a></li>
+							<li> | </li>";
 								}
 							$tagListHTML .= '</ul>';
 							echo $tagListHTML;
