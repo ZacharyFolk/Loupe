@@ -112,33 +112,37 @@ if($.cookie("tagPanel") == undefined){
 }
 if(tagPanelState == "collapsed"){
 tags.hide();
+info.removeClass(tagBump);
 triangle.removeClass(opened);
 triangle.addClass(closed);
 }
 
 if(tagPanelState == "expanded"){
 tags.show();
+info.addClass(tagBump);
 triangle.removeClass(closed);
 triangle.addClass(opened);
 main.addClass(tagBump);
 }
+
 tagButton.click(function(){
-	
 	
 		if($.cookie("tagPanel") == "expanded") {
 			$.cookie("tagPanel", "collapsed");
-			tagButton.removeClass(activeTags);
+		
 			triangle.removeClass(opened);
 			triangle.addClass(closed);
-			main.removeClass(tagBump);
+		
 		} else {
 			$.cookie("tagPanel", "expanded");
-			tagButton.addClass(activeTags);
-			main.addClass(tagBump);
+		
 			triangle.addClass(opened);
 			triangle.removeClass(closed);
 		}
-		tags.slideToggle("fast");
+		tagButton.toggleClass(activeTags);
+		tags.slideToggle("fast");	
+		info.toggleClass(tagBump);
+		
 		return false;
 });
 
@@ -151,8 +155,7 @@ tagButton.click(function(){
 			var toLoad = 'tag/'+ tagName + ' .tagTable';
 
             $('.lightTable').hide();
-			 $('.tagTable').remove();
-			loadThemTags();
+			$('.tagTable').remove();
 			
 			function loadThemTags(){	
 			$('.loader').fadeIn('fast');			
@@ -163,6 +166,8 @@ tagButton.click(function(){
 			$('.loader').fadeOut('fast');
 			$('.tagTable').fadeIn('slow');
 			};
+			
+			loadThemTags();
 	
 		//  return false;
         });
@@ -180,17 +185,18 @@ if($.cookie("infoPanel") == undefined){
 	infoTri.addClass(closed);
 	infoTri.removeClass(opened);
 }
-if(tagPanelState == "collapsed"){
+if(infoPanelState == "collapsed"){
 info.hide();
 infoTri.removeClass(opened);
 infoTri.addClass(closed);
 }
 
-if(tagPanelState == "expanded"){
+if(infoPanelState == "expanded"){
 info.show();
 infoTri.removeClass(closed);
 infoTri.addClass(opened);
 }
+
 infoButton.click(function(){
 		if($.cookie("infoPanel") == "expanded") {
 			$.cookie("infoPanel", "collapsed");
