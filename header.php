@@ -40,9 +40,10 @@
 	</style>
 <![endif]-->
 	<?php if (is_single() ) { ?>
-<link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
- <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/jquery.mousewheel.min.js" ></script>
- <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/iViewer.js" ></script>
+
+<script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/jquery.mousewheel.min.js" ></script>
+<script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/iViewer.js" ></script>
+
 <script type="text/javascript">
     var $ = jQuery;
       $(document).ready(function(){
@@ -79,6 +80,7 @@
             });
         </script>
 	<?php } ?>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAROWEqURhKzwCcde7FfovARTyRiL7IE6hyITZU8V5EzKicC6EOBTs38fFe23Dc5VFbtYGUPUQg8qeGw" type="text/javascript"></script>
 <body <?php body_class(); ?>>
 <script type="text/javascript">
 function readCookie(name) {

@@ -4,6 +4,22 @@ get_header(); ?>
 <?php if ( have_posts() ) :  while ( have_posts() ) : the_post(); ?>
 <div id="infoPanel">
 <div class="title"><?php the_title(); ?></div>
+<?php $testing = get_post_meta($post->ID, 'year_completed', true);
+if ($testing !== '') {
+echo $testing;
+}
+
+$lat = get_post_meta($post->ID, 'latitude', true);
+if ($lat !== '') {
+echo $lat;
+}
+
+$long = get_post_meta($post->ID, 'longitude', true);
+if (long !== '') {
+echo $long;
+}
+?>	
+
 <div class="description"><?php the_content(); ?></div>
 <div class="link">url: <?php the_permalink(); ?></div>
 <p><?php the_tags('<ul><li>','</li><li>','</li></ul>'); ?></p>

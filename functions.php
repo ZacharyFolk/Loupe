@@ -44,23 +44,16 @@
  * Used to set the width of images and content. Should be equal to the width the theme
  * is designed for, generally via the style.css stylesheet.
  */
+
+
 if ( ! isset( $content_width ) )
 	$content_width = 640;
 
-/** Tell WordPress to run twentyten_setup() when the 'after_setup_theme' hook is run. */
-add_action( 'after_setup_theme', 'twentyten_setup' );
+add_action( 'after_setup_theme', 'loupe_setup' );
 
-if ( ! function_exists( 'twentyten_setup' ) ):
+if ( ! function_exists( 'loupe_setup' ) ):
 /**
- * Sets up theme defaults and registers support for various WordPress features.
- *
- * Note that this function is hooked into the after_setup_theme hook, which runs
- * before the init hook. The init hook is too late for some features, such as indicating
- * support post thumbnails.
- *
- * To override twentyten_setup() in a child theme, add your own twentyten_setup to your child theme's
- * functions.php file.
- *
+
  * @uses add_theme_support() To add support for post thumbnails and automatic feed links.
  * @uses register_nav_menus() To add support for navigation menus.
  * @uses add_custom_background() To add support for a custom background.
@@ -72,7 +65,7 @@ if ( ! function_exists( 'twentyten_setup' ) ):
  *
  * @since Twenty Ten 1.0
  */
-function twentyten_setup() {
+function loupe_setup() {
 
 	// This theme styles the visual editor with editor-style.css to match the theme style.
 	add_editor_style();
@@ -85,12 +78,12 @@ function twentyten_setup() {
 
 	// Make theme available for translation
 	// Translations can be filed in the /languages/ directory
-	load_theme_textdomain( 'twentyten', TEMPLATEPATH . '/languages' );
+	//load_theme_textdomain( 'twentyten', TEMPLATEPATH . '/languages' );
 
-	$locale = get_locale();
-	$locale_file = TEMPLATEPATH . "/languages/$locale.php";
-	if ( is_readable( $locale_file ) )
-		require_once( $locale_file );
+//	$locale = get_locale();
+//	$locale_file = TEMPLATEPATH . "/languages/$locale.php";
+//	if ( is_readable( $locale_file ) )
+//		require_once( $locale_file );
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
@@ -434,6 +427,19 @@ function my_init() {
 		}
 
 	}
+
+	if (is_admin()) {
+		wp_register_script('Gmaps', 'http://maps.google.com/maps/api/js?sensor=false', false, '3.0', false);
+		wp_enqueue_script('Gmaps');
+		
+		wp_register_script('Zmaps', get_bloginfo('template_directory') .'/scripts/maps.js', array('Gmaps'), '1.0',false);
+		wp_enqueue_script('Zmaps');
+		
+		wp_register_style('admin_css', get_bloginfo('template_directory') . '/css/adminstuff.css');
+		wp_enqueue_style('admin_css');
+		
+		}
+
 }
 add_action('init', 'my_init');
 
@@ -998,13 +1004,12 @@ function portfolio_register() {
 }
 
 
-register_taxonomy("Skills", array("portfolio"), array("hierarchical" => true, "label" => "Skills", "singular_label" => "Skill", "rewrite" => true));
 
 add_action("admin_init", "admin_init");
  
 function admin_init(){ // add_meta_box( $id, $title, $callback, $page, $context, $priority ); 
   add_meta_box("year_completed-meta", "Year Completed", "year_completed", "portfolio", "side", "low");
-  add_meta_box("credits_meta", "Design & Build Credits", "credits_meta", "portfolio", "normal", "low");
+  add_meta_box("map_meta", "Mapping Info", "map_meta", "portfolio", "normal", "high");
 }
  
 function year_completed(){
@@ -1017,19 +1022,31 @@ function year_completed(){
   <?php
 }
  
-function credits_meta() {
+function map_meta() {
   global $post;
   $custom = get_post_custom($post->ID);
-  $designers = $custom["designers"][0];
-  $developers = $custom["developers"][0];
+  $latitude = $custom["latitude"][0];
+  $longitude = $custom["longitude"][0];
   $producers = $custom["producers"][0];
   ?>
-  <p><label>Designed By:</label><br />
-  <textarea  rows="5" name="designers"><?php echo $designers; ?></textarea></p>
-  <p><label>Built By:</label><br />
-  <textarea cols="50" rows="5" name="developers"><?php echo $developers; ?></textarea></p>
-  <p><label>Produced By:</label><br />
-  <textarea cols="50" rows="5" name="producers"><?php echo $producers; ?></textarea></p>
+
+  <div id="mapMetaBoxLeft">
+  <p><label for="lat">Latitude:</label><br />
+  <input id="latitude"  name="latitude" value="<?php echo $latitude; ?>"></input></p>
+  <p><label>Longitude:</label><br />
+  <input id="longitude" name="longitude" value="<?php echo $longitude; ?>"></input></p>
+  </div>
+  <div id="mapMetaBoxRight">
+  	<?php
+  	$lat = get_post_meta($post->ID, 'latitude', true);
+if ($lat !== '') { ?>
+
+  	Currently set at : <div id="idlat"><?php echo $latitude; ?></div>,<?php echo $longitude; ?>
+ <? } ?>
+ </div>
+  	<div id="map_canvas" style="width:98%; height:350px; margin-left: 10px;"></div>
+
+  
   <?php
 }
 
@@ -1044,41 +1061,10 @@ add_action('save_post', 'save_details');
 
 function save_details(){
   global $post;
- 
-  update_post_meta($post->ID, "year_completed", $_POST["year_completed"]);
-  update_post_meta($post->ID, "designers", $_POST["designers"]);
-  update_post_meta($post->ID, "developers", $_POST["developers"]);
+
+  update_post_meta($post->ID, "latitude", $_POST["latitude"]);
+  update_post_meta($post->ID, "longitude", $_POST["longitude"]);
   update_post_meta($post->ID, "producers", $_POST["producers"]);
 }
 
-add_action("manage_posts_custom_column",  "portfolio_custom_columns");
-add_filter("manage_edit-portfolio_columns", "portfolio_edit_columns");
- 
-function portfolio_edit_columns($columns){
-  $columns = array(
-    "cb" => "<input type=\"checkbox\" />",
-    "title" => "Images",
-    "description" => "Description",
-    "year" => "Year Completed",
-    "skills" => "Skills",
-  );
- 
-  return $columns;
-}
-function portfolio_custom_columns($column){
-  global $post;
- 
-  switch ($column) {
-    case "description":
-      the_excerpt();
-      break;
-    case "year":
-      $custom = get_post_custom();
-      echo $custom["year_completed"][0];
-      break;
-    case "skills":
-      echo get_the_term_list($post->ID, 'Skills', '', ', ','');
-      break;
-  }
-}
 
