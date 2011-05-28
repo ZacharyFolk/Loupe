@@ -26,6 +26,8 @@
       	map = new google.maps.Map(document.getElementById("map_canvas"),
       		mapOptions);   
       	
+   
+				 
       google.maps.event.addListener(map, 'click', function(event) {
       	addMarker(event.latLng);
       	document.getElementById("latitude").value = event.latLng.lat();
@@ -80,8 +82,17 @@ function addMarker(latLng) {
     }
   }
   
-
-  
+  jQuery().ready(function(){
+  	demo1();
+  });
+   	function demo1() {
+		jQuery('#searchbox').geo_autocomplete({
+			select: function(_event, _ui) {
+			if (_ui.item.viewport) map.fitBounds(_ui.item.viewport);
+		}
+		});
+		}
+      
 /*
  * 
  * 		GEvent.addListener(map,'mousemove',function(point)

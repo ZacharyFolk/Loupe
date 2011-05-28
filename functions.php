@@ -438,6 +438,15 @@ function my_init() {
 		wp_register_style('admin_css', get_bloginfo('template_directory') . '/css/adminstuff.css');
 		wp_enqueue_style('admin_css');
 		
+		wp_register_style('ui_css', get_bloginfo('template_directory') . '/css/jquery-ui-1.8.13.custom.css');
+		wp_enqueue_style('ui_css');		
+		
+		wp_register_script('ui',get_bloginfo('template_directory') . '/scripts/jquery-ui-1.8.13.custom.min.js', array('jquery'), '1.8',false);
+		wp_enqueue_script('ui');
+		
+		wp_register_script('auto',get_bloginfo('template_directory') . '/scripts/geo_autocomplete.js', array('ui'), '2.1',false);
+		wp_enqueue_script('auto');
+		
 		}
 
 }
@@ -1029,21 +1038,26 @@ function map_meta() {
   $longitude = $custom["longitude"][0];
   $producers = $custom["producers"][0];
   ?>
-
-  <div id="mapMetaBoxLeft">
+<div id="mapControls">
+<div class="lat">
   <p><label for="lat">Latitude:</label><br />
   <input id="latitude"  name="latitude" value="<?php echo $latitude; ?>"></input></p>
+ </div>
+ <div class="lng">
   <p><label>Longitude:</label><br />
   <input id="longitude" name="longitude" value="<?php echo $longitude; ?>"></input></p>
-  </div>
-  <div id="mapMetaBoxRight">
+ </div>
+  <input type="text" value="" id="searchbox" style=" width:800px;height:30px; font-size:15px;">
   	<?php
   	$lat = get_post_meta($post->ID, 'latitude', true);
 if ($lat !== '') { ?>
 
   	Currently set at : <div id="idlat"><?php echo $latitude; ?></div>,<?php echo $longitude; ?>
  <? } ?>
+
+
  </div>
+ 
   	<div id="map_canvas" style="width:98%; height:350px; margin-left: 10px;"></div>
 
   

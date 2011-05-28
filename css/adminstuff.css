@@ -1,2 +1,9 @@
-/*********************************MAP*****************/
+/*********************************MAP***************
 
+#mapControls {width: 100%}
+#mapMetaBoxLeft{width: 20%; float: left;}
+#mapMetaBoxRight{width: 60%; float: left;}
+#map_canvas {}**/
+
+.lat {}
+.lng {}
