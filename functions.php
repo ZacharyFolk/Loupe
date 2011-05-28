@@ -1047,7 +1047,7 @@ function map_meta() {
   <p><label>Longitude:</label><br />
   <input id="longitude" name="longitude" value="<?php echo $longitude; ?>"></input></p>
  </div>
-  <input type="text" value="" id="searchbox" style=" width:800px;height:30px; font-size:15px;">
+  <!-- <input type="text" value="" id="searchbox" style=" width:800px;height:30px; font-size:15px;"> -->
   	<?php
   	$lat = get_post_meta($post->ID, 'latitude', true);
 if ($lat !== '') { ?>

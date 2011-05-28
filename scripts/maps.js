@@ -81,9 +81,12 @@ function addMarker(latLng) {
       markersArray.length = 0;
     }
   }
-  
+ /* 
   jQuery().ready(function(){
+  	jQuery('#searchbox').click(function()
+  	{
   	demo1();
+  });
   });
    	function demo1() {
 		jQuery('#searchbox').geo_autocomplete({
@@ -92,7 +95,7 @@ function addMarker(latLng) {
 		}
 		});
 		}
-      
+*/      
 /*
  * 
  * 		GEvent.addListener(map,'mousemove',function(point)
