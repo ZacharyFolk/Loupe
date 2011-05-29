@@ -17,15 +17,17 @@
     	}
     	
       	var mapOptions = {
-      		zoom: 12,
+      		zoom: 9,
       		center: latlng,
-      		mapTypeId: google.maps.MapTypeId.TERRAIN
+      		mapTypeId: google.maps.MapTypeId.ROADMAP
       	};
       	
       	
       	map = new google.maps.Map(document.getElementById("map_canvas"),
       		mapOptions);   
       	
+      	var bikeLayer = new google.maps.BicyclingLayer();
+      	bikeLayer.setMap(map);
    
 				 
       google.maps.event.addListener(map, 'click', function(event) {

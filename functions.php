@@ -438,14 +438,14 @@ function my_init() {
 		wp_register_style('admin_css', get_bloginfo('template_directory') . '/css/adminstuff.css');
 		wp_enqueue_style('admin_css');
 		
-		wp_register_style('ui_css', get_bloginfo('template_directory') . '/css/jquery-ui-1.8.13.custom.css');
-		wp_enqueue_style('ui_css');		
+	//	wp_register_style('ui_css', get_bloginfo('template_directory') . '/css/jquery-ui-1.8.13.custom.css');
+	//	wp_enqueue_style('ui_css');		
 		
-		wp_register_script('ui',get_bloginfo('template_directory') . '/scripts/jquery-ui-1.8.13.custom.min.js', array('jquery'), '1.8',false);
-		wp_enqueue_script('ui');
+	//	wp_register_script('ui',get_bloginfo('template_directory') . '/scripts/jquery-ui-1.8.13.custom.min.js', array('jquery'), '1.8',false);
+	//	wp_enqueue_script('ui');
 		
-		wp_register_script('auto',get_bloginfo('template_directory') . '/scripts/geo_autocomplete.js', array('ui'), '2.1',false);
-		wp_enqueue_script('auto');
+	//	wp_register_script('auto',get_bloginfo('template_directory') . '/scripts/geo_autocomplete.js', array('ui'), '2.1',false);
+	//	wp_enqueue_script('auto');
 		
 		}
 
@@ -1052,12 +1052,12 @@ function map_meta() {
   	$lat = get_post_meta($post->ID, 'latitude', true);
 if ($lat !== '') { ?>
 
-  	Currently set at : <div id="idlat"><?php echo $latitude; ?></div>,<?php echo $longitude; ?>
+  	<div class="cur1">Current lat : <?php echo $latitude; ?> long: <?php echo $longitude; ?></div>
  <? } ?>
 
 
  </div>
- 
+ <div class="clearfix" id="mapFix">&nbsp;</div>
   	<div id="map_canvas" style="width:98%; height:350px; margin-left: 10px;"></div>
 
   

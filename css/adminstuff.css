@@ -4,6 +4,7 @@
 #mapMetaBoxLeft{width: 20%; float: left;}
 #mapMetaBoxRight{width: 60%; float: left;}
 #map_canvas {}**/
-
-.lat {}
-.lng {}
+input#longitude, input#latitude {width: 90%}
+.lat {width: 15%; float: left;}
+.lng {width: 15%; float: left;}
+.cur1 {width: 70%; float: left; font-size: 14px; margin-top: 25px;}
