@@ -8,3 +8,7 @@ input#longitude, input#latitude {width: 90%}
 .lat {width: 15%; float: left;}
 .lng {width: 15%; float: left;}
 .cur1 {width: 70%; float: left; font-size: 14px; margin-top: 25px;}
+
+/* search results */
+
+ul.ui-autocomplete {width: 500px!important}

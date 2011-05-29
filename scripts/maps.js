@@ -83,7 +83,7 @@ function addMarker(latLng) {
       markersArray.length = 0;
     }
   }
- /* 
+
   jQuery().ready(function(){
   	jQuery('#searchbox').click(function()
   	{
@@ -97,7 +97,7 @@ function addMarker(latLng) {
 		}
 		});
 		}
-*/      
+     
 /*
  * 
  * 		GEvent.addListener(map,'mousemove',function(point)
