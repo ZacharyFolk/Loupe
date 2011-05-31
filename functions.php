@@ -1,37 +1,6 @@
 <?php
 /**
  *
- * Core Twentyten functions
- *
- * The first function, twentyten_setup(), sets up the theme by registering support
- * for various features in WordPress, such as post thumbnails, navigation menus, and the like.
- *
- * When using a child theme (see http://codex.wordpress.org/Theme_Development and
- * http://codex.wordpress.org/Child_Themes), you can override certain functions
- * (those wrapped in a function_exists() call) by defining them first in your child theme's
- * functions.php file. The child theme's functions.php file is included before the parent
- * theme's file, so the child theme functions would be used.
- *
- * Functions that are not pluggable (not wrapped in function_exists()) are instead attached
- * to a filter or action hook. The hook can be removed by using remove_action() or
- * remove_filter() and you can attach your own function to the hook.
- *
- * We can remove the parent theme's hook only after it is attached, which means we need to
- * wait until setting up the child theme:
- *
- * <code>
- * add_action( 'after_setup_theme', 'my_child_theme_setup' );
- * function my_child_theme_setup() {
- *     // We are providing our own filter for excerpt_length (or using the unfiltered value)
- *     remove_filter( 'excerpt_length', 'twentyten_excerpt_length' );
- *     ...
- * }
- * </code>
- *
- * For more information on hooks, actions, and filters, see http://codex.wordpress.org/Plugin_API.
- *
- * @package WordPress
- * @subpackage Twenty_Ten
  * @since Twenty Ten 1.0
  * The Loupe functions and definitions
  * function my_init = safe loading of all of the scripts
@@ -993,7 +962,7 @@ function portfolio_register() {
 		'not_found_in_trash' => __('Nothing found in Trash'),
 		'parent_item_colon' => ''
 	);
- 
+	
 	$args = array(
 		'labels' => $labels,
 		'public' => true,
@@ -1017,17 +986,23 @@ function portfolio_register() {
 add_action("admin_init", "admin_init");
  
 function admin_init(){ // add_meta_box( $id, $title, $callback, $page, $context, $priority ); 
-  add_meta_box("year_completed-meta", "Year Completed", "year_completed", "portfolio", "side", "low");
+  add_meta_box("media", "Media Type", "media", "portfolio", "side", "high");
   add_meta_box("map_meta", "Mapping Info", "map_meta", "portfolio", "normal", "high");
 }
  
-function year_completed(){
+function media(){
   global $post;
   $custom = get_post_custom($post->ID);
-  $year_completed = $custom["year_completed"][0];
+  $film = $custom["film"][0];
+  $camera = $custom["camera"][0];
+ 
   ?>
-  <label>Year:</label>
-  <input name="year_completed" value="<?php echo $year_completed; ?>" />
+  <label>Camera:</label>
+  <input name="camera" value="<?php echo $camera; ?>" />
+  
+    <label>Film:</label>
+  <input name="film" value="<?php echo $film; ?>" />
+  
   <?php
 }
  
@@ -1036,7 +1011,7 @@ function map_meta() {
   $custom = get_post_custom($post->ID);
   $latitude = $custom["latitude"][0];
   $longitude = $custom["longitude"][0];
-  $producers = $custom["producers"][0];
+
   ?>
 <div id="mapControls">
 <div class="lat">
@@ -1072,7 +1047,8 @@ function save_details(){
 
   update_post_meta($post->ID, "latitude", $_POST["latitude"]);
   update_post_meta($post->ID, "longitude", $_POST["longitude"]);
-  update_post_meta($post->ID, "producers", $_POST["producers"]);
+  update_post_meta($post->ID, "camera", $_POST["camera"]);
+  update_post_meta($post->ID, "film", $_POST["film"]);
 }
 
 

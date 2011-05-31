@@ -45,18 +45,13 @@ jQuery(document).ready(function($){
 			$('#singleTagContainer').html(ajax_load)
             $(this).animate({
                 fontSize: "40px"
-            }, 1000, function() {
-					
-					
+            }, 1000, function() {					
 					$('#singleTagContainer').html(ajax_load).load('tag/'+ tagName + ' .tagTable')
 					});
 
             $(this).siblings().each(function() {
-
 				var originalSize = $(this).data('original-size');
-
                 if ($(this).css('fontSize') != originalSize) {
-
                     $(this).animate({
                         fontSize: originalSize
                     }, 500);

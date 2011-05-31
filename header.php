@@ -192,7 +192,7 @@ if (x == 'black') {
 	<li class="zoom_out"><a id="out" href="#"> - </a></li>
 	<li class="zoom_in"><a id="in" href="#"> + </a></li>
 	<li>|</li>
-    <li><a href="#info" id="infoLink">info <span class="close"></span></a></li>
+    <li id="infoLink">info <span class="close"></span></li>
   <!--    <a id="fit" href="#">100%</a>
  <a id="orig" href="#">orig</a> -->
 	</ul>
@@ -214,5 +214,6 @@ if (x == 'black') {
 							echo $tagListHTML;
 	?>
 	</div>
+	<div id="tagThumbs"></div>
 	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-000.gif'></div>
 	<div id="ajaxTable">

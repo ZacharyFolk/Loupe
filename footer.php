@@ -149,21 +149,21 @@ tagButton.click(function(){
 	$('#tagList li').each(function() {
         $(this).click(function() {
 			// remove single image ui controls
-			imgCtrl.hide();
-	
+			//imgCtrl.hide();
+			
 			var tagName = $(this).attr("id");
-			var toLoad = 'tag/'+ tagName + ' .tagTable';
+			var toLoad = '<?php bloginfo( 'url' ); ?>/tag/'+ tagName + ' .tagTable';
 
-            $('.lightTable').hide();
+         //  $('.lightTable').hide();
 			$('.tagTable').remove();
 			
 			function loadThemTags(){	
-			$('.loader').fadeIn('fast');			
-			$('#ajaxTable').load(toLoad,hideLoader);
+			//$('.loader').fadeIn('fast');			
+			$('#tagThumbs').load(toLoad,hideLoader);
 			};
 			
 			function hideLoader(){
-			$('.loader').fadeOut('fast');
+			//$('.loader').fadeOut('fast');
 			$('.tagTable').fadeIn('slow');
 			};
 			
@@ -279,20 +279,20 @@ $.history.init(function(hash){
 		var tagHash = window.location.hash;
 		var noHash = tagHash.replace(/^.*#/, '');
 		var Hash = noHash.replace(/\s/g, '-');
-		var reLoadURL = 'tag/'+ Hash + ' .tagTable';
+		var reLoadURL = '<?php bloginfo( 'url' ); ?>/tag/'+ Hash + ' .tagTable';
 		function reLoad(){
-            $('.lightTable').remove();
+            //$('.lightTable').remove();
 			$('.tagTable').detach();
 			reloadThemTags();
 			}
 			function reloadThemTags(){	
 			//rehideLoader();
-			$('.loader').fadeIn('fast');			
-			$('#ajaxTable').load(reLoadURL,rehideLoader);
+			//$('.loader').fadeIn('fast');			
+			$('#tagThumbs').load(reLoadURL,rehideLoader);
 		    $('.tagTable').appendTo($('#ajaxTable'));
 			};
 			function rehideLoader(){
-			$('.loader').fadeOut('fast');		
+			//$('.loader').fadeOut('fast');		
 			};
 		reLoad ();
             // restore the state from hash

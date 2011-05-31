@@ -4,10 +4,7 @@ get_header(); ?>
 <?php if ( have_posts() ) :  while ( have_posts() ) : the_post(); ?>
 <div id="infoPanel">
 <div class="title"><?php the_title(); ?></div>
-<?php $testing = get_post_meta($post->ID, 'year_completed', true);
-if ($testing !== '') {
-echo $testing;
-}
+<?php 
 
 $lat = get_post_meta($post->ID, 'latitude', true);
 if ($lat !== '') {

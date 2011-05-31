@@ -370,7 +370,7 @@ ul#controls li {margin: 0 0 0 10px; float: left}
 ul#controls li.zoom {margin: 0 0 0 0px;}
 ul#controls li.zoom_out {}
 
-
+li#infoLink {width: 80px}
 /*ZOOM CONTROLS */
 
 a#in:link, a#in:visited { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus.png') no-repeat 0 0 transparent; cursor: pointer; height: 20px; width: 24px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}
@@ -383,9 +383,9 @@ a#out:hover{background-position: -23px -20px}
 
 span.info { float: left;}
 
-.close {width: 24px; height: 20px; display: block; background: url('images/openClose.png') no-repeat  1px 0px transparent; cursor: pointer; float: right; margin: -2px 0 0 0; }
+.close {width: 24px; height: 20px; display: block; background: url('images/openClose.png') no-repeat  1px 0px transparent; cursor: pointer; float: right; margin: 0px 0 0 0; }
 
-.open {width: 24px; height: 20px; display: block; background: url('images/openClose.png') no-repeat  1px -20px transparent; cursor: pointer; float: right; margin: -2px 0 0 0; }
+.open {width: 24px; height: 20px; display: block; background: url('images/openClose.png') no-repeat  1px -20px transparent; cursor: pointer; float: right; margin: 0px 0 0 0; }
 
 
 a:hover span.openClose {width: 24px; height: 20px; display: block; background: url('images/openClose.png') no-repeat  1px -20px transparent; cursor: pointer; float: left; margin: 0px 0 0 0; }

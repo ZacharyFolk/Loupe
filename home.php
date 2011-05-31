@@ -7,7 +7,12 @@ get_header(); ?>
 		<div class="floater">
 			<div id="leftBlock">
 				<div id="featured" class="pics"> 
-						<?php $the_query = new WP_Query('category_name=featured&showposts=20');
+						<?php 
+						$args = array('category_name' => 'featured',
+				              		'post_type' => array ('post','portfolio'),
+							         'posts_per_page' => 20);
+									 
+						$the_query = new WP_Query($args);
 						while ($the_query->have_posts()) : $the_query->the_post();?>
 						<?php //getImage(1); ?>
 					<div class="featuredSlide">
@@ -21,7 +26,12 @@ get_header(); ?>
 			</div>		
 			<div id="rightBlock">
 			<ul id="thumbNav">
-			<?php $the_query = new WP_Query('category_name=featured&showposts=20');
+			<?php
+			$args = array('category_name' => 'featured',
+				              		'post_type' => array ('post','portfolio'),
+							        'posts_per_page' => 20);
+									 
+						$the_query = new WP_Query($args);
 						while ($the_query->have_posts()) : $the_query->the_post();?>
 			<li class="recentThumbs">
 			<a class="" href="<?php the_permalink(); ?>">
