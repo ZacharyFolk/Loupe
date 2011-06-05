@@ -1,4 +1,4 @@
-    window.onload = function () {
+  window.onload = function () {
         initialize();
     }
 
@@ -8,8 +8,7 @@
   var vlong;
    function initialize() {	
    	    vlat = document.getElementById('latitude').value; 
-        vlong = document.getElementById('longitude').value; 
-       
+        vlong = document.getElementById('longitude').value;        
         var latlng = new google.maps.LatLng(vlat, vlong);
     	
     	if ((vlat) == null || (vlat) == '') {
@@ -21,14 +20,12 @@
       		center: latlng,
       		mapTypeId: google.maps.MapTypeId.ROADMAP
       	};
-      	
-      	
+      	   	
       	map = new google.maps.Map(document.getElementById("map_canvas"),
       		mapOptions);   
       	
       	var bikeLayer = new google.maps.BicyclingLayer();
-      	bikeLayer.setMap(map);
-   
+      	bikeLayer.setMap(map);   
 				 
       google.maps.event.addListener(map, 'click', function(event) {
       	addMarker(event.latLng);
@@ -36,7 +33,11 @@
       	document.getElementById("longitude").value = event.latLng.lng();	
       });
       
-
+        jQuery('#searchbox').click(function()
+  		{
+  		demo1();
+  		});
+  		
 	/*  var marker = new google.maps.Marker({
      	position: latlng,
      	map: map,
@@ -44,7 +45,6 @@
      });
  */
      }
-
 
 function addMarker(latLng) {
 	deleteOverlays();
@@ -83,21 +83,16 @@ function addMarker(latLng) {
       markersArray.length = 0;
     }
   }
-
-  jQuery().ready(function(){
-  	jQuery('#searchbox').click(function()
-  	{
-  	demo1();
-  });
-  });
-   	function demo1() {
+  
+   function demo1() {
 		jQuery('#searchbox').geo_autocomplete({
 			select: function(_event, _ui) {
 			if (_ui.item.viewport) map.fitBounds(_ui.item.viewport);
 		}
 		});
 		}
-     
+
+
 /*
  * 
  * 		GEvent.addListener(map,'mousemove',function(point)
