@@ -154,18 +154,26 @@ body.black  a:hover{color: #CFCFCF; text-decoration: underline}
 .floater {float: left; margin-top: 80px}
 .hidden {display: none}
 
-/** HEADER **/
+/** HEADER 
+#48577D
+#2F2F2F
+#D3DCF2 
+**/
 
 
-#header {position: fixed; top: 0; left: 0; width: 100%; height: 30px;  border-bottom: 1px solid #2F2F2F; background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; z-index: 1003; /*filter:alpha(opacity=60); opacity:0.6;*/}
+#header {position: fixed; top: 0; left: 0; width: 100%; height: 30px;  border-bottom: 1px solid #2F2F2F; 
+/* background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; */
+background:  #43464C;
+ z-index: 1003; /*filter:alpha(opacity=60); opacity:0.6;*/}
+
+#masthead a:link, #mashead a:visited {color: #9EA5B5}
+#masthead a:hover {color: #D3DCF2  }
 
 h1#site-title {font-size: 16px; text-transform: uppercase;  margin:6px 0 0 10px; letter-spacing: .1em; width: 190px;float: left;}
-h1#site-title a:link, h1#site-title a:visited {color: #000!important}
+h1#site-title a:link, h1#site-title a:visited {color: #D3DCF2}
+
 .sep {margin: 0 6px; width: 20px; line-height: 24px; float: left; text-align: center;}
 .tagLink {width: 78px; float: left; font-size: 16px; margin: 6px 0 0 6px; letter-spacing: .1em; text-transform:uppercase; cursor: pointer; line-height: 16px;}
-
-
-
 .editLink {float: left; font-size: 16px; margin: 6px 0 0 6px; letter-spacing: .1em; 
 text-transform:uppercase; cursor: pointer}
 .imageTitle {position: absolute; top: 4px; left: 200px; width: 300px; z-index: 1002}
@@ -299,8 +307,11 @@ a {text-decoration: none}
 .tagTable img {margin: 0 0 0 10px; border-top: 1px solid #000; float: left;}
 
 #tagTableOuter{width: 100%; position: absolute; top: 54px;}
-#tagList { background: #fff;  width: 100%; z-index: 1002; position: fixed; top: 31px; left: 0px;  border-bottom: 1px solid #000; line-height: 31px; display: none
+#tagList {background: url("images/raster.png") repeat scroll 0 0; background-color:rgba(239,239,239,0.8);   width: 100%; z-index: 1002; position: fixed; top: 31px; left: 0px;  border-bottom: 1px solid #000; line-height: 31px; display: none
 }
+
+
+
 .activeTagTable {padding: 30px 0 0 0;}
 .tag-links {position: absolute; right: 92px; top: 5px;  z-index: 1002; }
 .singleTags {}
@@ -357,10 +368,13 @@ left: 0;
 }
 /* fix to correct for 30px fixed header */
 
-.viewer img {margin-top: -30px; -moz-box-shadow: 0 0 18px #000;
+.viewer img.postImage {margin-top: -30px; -moz-box-shadow: 0 0 18px #000;
 -webkit-box-shadow: 0 0 18px#000;
 box-shadow: 0 0 18px #000;}
- 
+
+#viewer .postImage {display:none}
+
+
 @media screen and (max-width: 1024px) { /* Specific to this particular image */
 img.bg {
 left: 50%;
@@ -404,7 +418,12 @@ a:hover span.openClose {width: 24px; height: 20px; display: block; background: u
 
 /* INFO PANEL */
 
-#infoPanel {width: 260px; float: right;  background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; padding: 20px; margin: 0 15px 0 0; position: fixed; right: 15px; border: 1px solid #2F2F2F; border-top:0px solid #999; top: 30px; z-index: 1001; border-top: 1px dashed #999; }
+#infoPanel {width: 260px; float: right;  
+/*background: url("images/raster.png") repeat scroll 0 0; */
+background-color: #e0e0e0;  padding: 20px; margin: 2px 0px 0 0; position: fixed; right: 0px; border: 1px solid #2F2F2F; border-top:0px solid #999; top: 30px; z-index: 1001; border-top: 1px dashed #999; }
+
+
+
 .title  {font-size:30px; font-family: Helvetica;}
 .description {font-size: 16px; font-family: Verdana; margin: 10px 0; text-indent: 8px;}
 
@@ -437,4 +456,4 @@ a.box_fff:hover {width: 10px; height: 10px; display: block; background: #0F0F0F;
 
 
 
-#viewer img {display:none}
+

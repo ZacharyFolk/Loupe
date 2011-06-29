@@ -387,23 +387,18 @@ function my_init() {
 		wp_enqueue_script('loupe');
 		wp_register_script('history', get_bloginfo('template_directory') .'/scripts/history.js', array('jquery'), '1.0',false);
 		wp_enqueue_script('history');
-		if (is_single('gallery')) {
-		wp_register_script('galleria', get_bloginfo('template_directory') . '2/scripts/galleria.js', array('jquery'), '2.0',false);
-		wp_enqueue_script('galleria');
-		}
+	
 		if (is_page('home')) {
-		
 		}
-
 	}
+    if (is_admin()) {
+        wp_register_style('admin_js', get_bloginfo('template_directory') . '/admin.js');
+		wp_enqueue_script('admin_js');
 
-	if (is_admin()) {
-		wp_register_script('Gmaps', 'http://maps.google.com/maps/api/js?sensor=false', false, '3.0', false);
-		wp_enqueue_script('Gmaps');
-		
-		wp_register_script('Zmaps', get_bloginfo('template_directory') .'/scripts/maps.js', array('Gmaps'), '1.0',false);
+		wp_register_script('Zmaps', get_bloginfo('template_directory') .'/scripts/maps.js', array('Gmaps'), '1.0', true);
 		wp_enqueue_script('Zmaps');
 		
+			
 		wp_register_style('admin_css', get_bloginfo('template_directory') . '/css/adminstuff.css');
 		wp_enqueue_style('admin_css');
 		
@@ -417,6 +412,9 @@ function my_init() {
 		wp_enqueue_script('auto');
 		
 		}
+	
+		wp_register_script('Gmaps', 'http://maps.google.com/maps/api/js?sensor=false', false, '3.0', false);
+		wp_enqueue_script('Gmaps');
 
 }
 add_action('init', 'my_init');

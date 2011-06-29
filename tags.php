@@ -10,6 +10,7 @@ get_header(); ?>
 	<div id="tagList">
 	<?php $tagArgs = array(
 						'orderby' => 'count',
+						'post_type' => array ('post','portfolio'),
 						'order' => 'DESC',
 						'number' => 50,
 						);

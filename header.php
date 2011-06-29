@@ -2,7 +2,8 @@
 <html <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
-<title><?php
+<title>
+<?php
 	/*
 	 * Print the <title> tag based on what is being viewed.
 	 */
@@ -80,8 +81,7 @@
             });
         </script>
 	<?php } ?>
-<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAROWEqURhKzwCcde7FfovARTyRiL7IE6hyITZU8V5EzKicC6EOBTs38fFe23Dc5VFbtYGUPUQg8qeGw" type="text/javascript"></script>
-<body <?php body_class(); ?>>
+<body>
 <script type="text/javascript">
 function readCookie(name) {
 	var nameEQ = name + "=";
@@ -116,7 +116,7 @@ if (x == 'black') {
 				 </h1>
 				 <div class="sep">|</div>
 				 <div class="tagLink">
-				 tags
+				<a href="?tags">tags </a><span class="close"></span>
 				</div>
 		</div><!-- #masthead -->
 

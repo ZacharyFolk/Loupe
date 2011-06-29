@@ -71,6 +71,8 @@ var opened = "open";
 var tags = $('#tagList');	
 var tagPanelState = $.cookie("tagPanel");
 var tagButton = $('.tagLink');
+var tagThumbs = $('.tagTable');
+
 
 var info = $('#infoPanel');	
 var infoPanelState = $.cookie("infoPanel");
@@ -115,6 +117,7 @@ tags.hide();
 info.removeClass(tagBump);
 triangle.removeClass(opened);
 triangle.addClass(closed);
+
 }
 
 if(tagPanelState == "expanded"){
@@ -135,14 +138,15 @@ tagButton.click(function(){
 		
 		} else {
 			$.cookie("tagPanel", "expanded");
-		
+
 			triangle.addClass(opened);
 			triangle.removeClass(closed);
 		}
+		
 		tagButton.toggleClass(activeTags);
 		tags.slideToggle("fast");	
 		info.toggleClass(tagBump);
-		
+		tagThumbs.slideToggle("fast");	
 		return false;
 });
 
