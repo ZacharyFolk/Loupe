@@ -55,6 +55,7 @@
 var $ = jQuery;
 
 $(document).ready(function(){
+
 var imgCtrl = $('#controls');
 var panel = $('.thumbBox');
 var button = $('.all');

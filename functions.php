@@ -676,17 +676,14 @@ function get_first_attachment(){
 	";
 	global $wpdb;
 	$url = get_bloginfo('url');
-
 	$post_item = $wpdb->get_row($querystr);
 	$first_attachment = $post_item->imageGuid;
-
 	$not_broken = @fopen("$first_attachment","r"); // checks if the image exists
 	if(empty($first_attachment) || !($not_broken)){ //Defines a default image
 		unset($first_attachment);
 	}else{
 		$first_attachment = str_replace($url, '', $first_attachment);
 	}
-
 	return $first_attachment;
 }
 
