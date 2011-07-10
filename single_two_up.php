@@ -59,37 +59,7 @@ get_header(); ?>
 <p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
 <?php endif; ?>
 </div> 
-<!--
- <script type="text/javascript">
- 
- function imageresize() {
-		 var contentwidth = $('#two_up').width();
-		 var under700 = "<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo $image_img_tag[0] ?>&w=340";
- 		 var under900 = "<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo $image_img_tag[0] ?>&w=440";
-		 var under1000 = "<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo $image_img_tag[0] ?>&w=340";
 
-		 console.log(under700);
-		 console.log(contentwidth);
-		 if ((contentwidth) < '700'){	
-		 	 console.log('under 700');	
-			 $('.two_images img').attr('src', under700);
-			 } else if ((contentwidth) < '900') {
-			 console.log('under 900');			 
-			 $('.two_images img').attr('src', under900);
-			 }
-			  else {
-			 $('.two_images img').attr('src','<?php echo $image_img_tag[0] ?>');
-			 }
-	 }
-// awesomeness found at http://buildinternet.com/2009/07/quick-tip-resizing-images-based-on-browser-window-size/
-	$(document).ready(function() {
-	
-	 imageresize();//Triggers when document first loads    	
-	 $(window).bind("resize", function(){//Adjusts image when browser resized
-	 imageresize();
-	 });
- });
- </script> -->
  <script type="text/javascript">
 
 	
