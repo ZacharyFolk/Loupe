@@ -84,6 +84,12 @@ var main = $('#ajaxTable');
 var tagBump = ("tagged");
 var activeTags = "activeTagClass";
 
+<?php 
+$id = $_GET['tagP'];
+?>
+
+var tagParam = "<?php echo $id; ?>";
+
 if($.cookie("panelState") == undefined) {
 	$.cookie("panelState", initialState);
 	}
@@ -123,66 +129,113 @@ triangle.addClass(closed);
 }
 
 if(tagPanelState == "expanded"){
-tags.show();
 
+tags.show();
 info.addClass(tagBump);
 triangle.removeClass(closed);
 triangle.addClass(opened);
 main.addClass(tagBump);
+
+var reLoadTagURL = '<?php bloginfo( 'url' ); ?>/tag/'+ tagParam + ' .tagTable';
+
+		function reLoadOpenTags(){
+            //$('.lightTable').remove();
+			$('.tagTable').detach();
+			reloadThemOpenTags();
+			}
+			function reloadThemOpenTags(){	
+			//rehideLoader();
+			//$('.loader').fadeIn('fast');			
+			$('#tagThumbs').load(reLoadTagURL,rehideTagLoader);
+		    $('.tagTable').appendTo($('#ajaxTable'));
+	
+			};
+			function rehideTagLoader(){
+			//$('.loader').fadeOut('fast');		
+			};
+		reLoadOpenTags ();
 }
 
-tagButton.click(function(){
-	
-		if($.cookie("tagPanel") == "expanded") {
-			$.cookie("tagPanel", "collapsed");
+	tagButton.click(function(){
 		
-			triangle.removeClass(opened);
-			triangle.addClass(closed);
-				$('.tagTable').remove();
-		
-		} else {
-			$.cookie("tagPanel", "expanded");
+			if($.cookie("tagPanel") == "expanded") {
+				$.cookie("tagPanel", "collapsed");
 			
-			triangle.addClass(opened);
-			triangle.removeClass(closed);
-		}
-		
-		tagButton.toggleClass(activeTags);
-		tags.slideToggle("fast");	
-		info.toggleClass(tagBump);
-		tagThumbs.slideToggle("fast");	
-		return false;
-});
+				triangle.removeClass(opened);
+				triangle.addClass(closed);
+					$('.tagTable').remove();
+			
+			} else {
+				$.cookie("tagPanel", "expanded");
+				
+				triangle.addClass(opened);
+				triangle.removeClass(closed);
+			}
+			
+			tagButton.toggleClass(activeTags);
+			tags.slideToggle("fast");	
+			info.toggleClass(tagBump);
+			tagThumbs.slideToggle("fast");	
+			return false;
+	});
 
 
 	$('#tagList li').each(function() {
         $(this).click(function() {
 			// remove single image ui controls
-			//imgCtrl.hide();
-			
+			//imgCtrl.hide();	
 			var tagName = $(this).attr("id");
 			var tagURL = '<?php bloginfo( 'url' );?>/tag/' + tagName;
-			var toLoad = '<?php bloginfo( 'url' ); ?>/tag/'+ tagName + ' .tagTable';
-			
-         //  $('.lightTable').hide();
-		
-			
+			var toLoad = '<?php bloginfo( 'url' ); ?>/tag/'+ tagName + ' .tagTable';	
+			$.cookie("lastTag",tagName);
+         //  $('.lightTable').hide();			
 			function loadThemTags(){	
 			//$('.loader').fadeIn('fast');
-			
 			$('#tagThumbs').load(toLoad,hideLoader);
 			};
 			
 			function hideLoader(){
 			//$('.loader').fadeOut('fast');
-			$('.tagTable').fadeIn('slow');
+			$('.tagTable').fadeIn('slow'); 	
 			};
 			
+			
+			<?php if(empty($_GET)) { ?> 	
 			loadThemTags();
-	
+			<?php } else { ?>
+			
+				loadThemTags();
+			<?php } ?>
 		//  return false;
         });
  });
+ 
+ $('#tagImgBox li').live("click", function(){ 	
+ 	var uc = $(this).attr('class');
+ 	var uc = uc + "_link";
+ 	var up = $('.' + uc).html(); 		
+ 	var curTagHash = window.location.hash;
+ 	<?php 
+ 		if(empty($_GET)) { ?> 			
+ 	    var noHash = curTagHash.replace(/^.*#/, '');
+		var hash_param = noHash.replace(/\s/g, '-');
+		var tagParamURL = up +"?tagP=" + hash_param;
+ 		window.location = tagParamURL;
+	<?php } else { ?>
+		
+	if($.cookie("lastTag") == "null") {
+				
+		var tagParamURL = up +"?tagP=" + tagParam;
+ 		window.location = tagParamURL;
+ 		
+ } else {
+ 		var lastTagCookie = $.cookie("lastTag");
+ 		var tagParamURL = up +"?tagP=" + lastTagCookie;
+ 		window.location = tagParamURL;
+ 		
+ 	}
+	<? } ?>
+ 		});
 
 // info
 
