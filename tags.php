@@ -12,7 +12,7 @@ get_header(); ?>
 						'orderby' => 'count',
 						'post_type' => array ('post','portfolio'),
 						'order' => 'DESC',
-						'number' => 50,
+						'number' => 50
 						);
 						$theTags = get_tags( $tagArgs );
 						$tagListHTML = '<ul class="post_tags">';

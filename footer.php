@@ -73,6 +73,7 @@ var tags = $('#tagList');
 var tagPanelState = $.cookie("tagPanel");
 var tagButton = $('.tagLink');
 var tagThumbs = $('.tagTable');
+var tagImage = $('.tagImgBox a');
 
 
 var info = $('#infoPanel');	
@@ -123,6 +124,7 @@ triangle.addClass(closed);
 
 if(tagPanelState == "expanded"){
 tags.show();
+
 info.addClass(tagBump);
 triangle.removeClass(closed);
 triangle.addClass(opened);
@@ -136,10 +138,11 @@ tagButton.click(function(){
 		
 			triangle.removeClass(opened);
 			triangle.addClass(closed);
+				$('.tagTable').remove();
 		
 		} else {
 			$.cookie("tagPanel", "expanded");
-
+			
 			triangle.addClass(opened);
 			triangle.removeClass(closed);
 		}
@@ -151,19 +154,22 @@ tagButton.click(function(){
 		return false;
 });
 
+
 	$('#tagList li').each(function() {
         $(this).click(function() {
 			// remove single image ui controls
 			//imgCtrl.hide();
 			
 			var tagName = $(this).attr("id");
+			var tagURL = '<?php bloginfo( 'url' );?>/tag/' + tagName;
 			var toLoad = '<?php bloginfo( 'url' ); ?>/tag/'+ tagName + ' .tagTable';
-
+			
          //  $('.lightTable').hide();
-			$('.tagTable').remove();
+		
 			
 			function loadThemTags(){	
-			//$('.loader').fadeIn('fast');			
+			//$('.loader').fadeIn('fast');
+			
 			$('#tagThumbs').load(toLoad,hideLoader);
 			};
 			
@@ -177,12 +183,7 @@ tagButton.click(function(){
 		//  return false;
         });
  });
-	$('.tagImgBox').hover(function(){
-					$(".cover", this).stop().animate({top:'55px'},{queue:false,duration:160});
-				}, function() {
-					$(".cover", this).stop().animate({top:'160px'},{queue:false,duration:160});
-				});
-				
+
 // info
 
 if($.cookie("infoPanel") == undefined){
@@ -285,6 +286,7 @@ $.history.init(function(hash){
 		var noHash = tagHash.replace(/^.*#/, '');
 		var Hash = noHash.replace(/\s/g, '-');
 		var reLoadURL = '<?php bloginfo( 'url' ); ?>/tag/'+ Hash + ' .tagTable';
+
 		function reLoad(){
             //$('.lightTable').remove();
 			$('.tagTable').detach();
@@ -295,6 +297,7 @@ $.history.init(function(hash){
 			//$('.loader').fadeIn('fast');			
 			$('#tagThumbs').load(reLoadURL,rehideLoader);
 		    $('.tagTable').appendTo($('#ajaxTable'));
+	
 			};
 			function rehideLoader(){
 			//$('.loader').fadeOut('fast');		

@@ -664,8 +664,8 @@ function get_first_attachment(){
 	$querystr =
 	"
 		SELECT
-				wp_posts.post_excerpt AS 'imageTitle'
-			,	wp_posts.guid AS 'imageGuid'
+				wp_posts.post_excerpt AS 'imageTitle',
+					wp_posts.guid AS 'imageGuid'
 		FROM
 			wp_posts
 		WHERE
@@ -937,6 +937,16 @@ class My_meta_box {
     }
 }
 
+//http://wordpress.stackexchange.com/questions/13237/custom-post-type-tag-archives-dont-work-for-basic-loop
+
+function post_type_tags_fix($request) {
+    if ( isset($request['tag']) && !isset($request['post_type']) )
+    $request['post_type'] = 'any';
+    return $request;
+} 
+add_filter('request', 'post_type_tags_fix');
+
+
 
 // http://thinkvitamin.com/code/create-your-first-wordpress-custom-post-type/
 
@@ -974,6 +984,29 @@ function portfolio_register() {
 	  ); 
  
 	register_post_type( 'portfolio' , $args );
+	
+	function register_post_type_archives( $post_type, $base_path = '' ) {
+    global $wp_rewrite;
+    if ( !$base_path ) {
+        $base_path = $post_type;
+    }
+    $rules = $wp_rewrite->generate_rewrite_rules($base_path);
+    $rules[$base_path.'/?$'] = 'index.php?paged=1';
+    foreach ( $rules as $regex=>$redirect ) {
+        if ( strpos($redirect, 'attachment=') == FALSE ) {
+            $redirect .= '&post_type='.$post_type;
+            if (  0 < preg_match_all('@\$([0-9])@', $redirect, $matches) ) {
+                for ( $i=0 ; $i < count($matches[0]) ; $i++ ) {
+                    $redirect = str_replace($matches[0][$i], '$matches['.$matches[1][$i].']', $redirect);
+                }
+            }
+        }
+        add_rewrite_rule($regex, $redirect, 'top');
+    }
+}
+	
+	register_post_type_archives('portfolio');
+	
 }
 
 

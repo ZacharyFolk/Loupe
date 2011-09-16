@@ -27,7 +27,14 @@ get_header(); ?>
     	$image = wp_get_attachment_url( $images[$i]->ID );
     echo "<img src='$image' class='image_$z' />";	
     	?>
-    <script type="text/javascript">
+   
+    <?php
+      $i++;
+	  $z++;
+    }
+  }
+ ?>
+	 <script type="text/javascript">
     var image = "<?php echo $image ; ?>";
     var under700_<? echo $z ?> = "/wp-content/themes/Loupe/scripts/timthumb.php?src=<? echo $image ?>&w=340";
      var under900_<? echo $z ?> = "/wp-content/themes/Loupe/scripts/timthumb.php?src=<? echo $image ?>&w=440";
@@ -46,13 +53,8 @@ get_header(); ?>
 			 }
 	 }
     	</script>
-    <?php
-      $i++;
-	  $z++;
-    }
-  }
- ?>
-		</div><!-- .gallery-thumb -->
+    	
+    		</div><!-- .gallery-thumb -->
 
 
 <?php endwhile; else: ?>
