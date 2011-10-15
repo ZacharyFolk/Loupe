@@ -91,43 +91,12 @@ function twentyten_admin_header_style() {
 }
 endif;
 
-/**
- * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
- *
- * To override this in a child theme, remove the filter and optionally add
- * your own function tied to the wp_page_menu_args filter hook.
- *
- * @since Twenty Ten 1.0
- */
-function twentyten_page_menu_args( $args ) {
-	$args['show_home'] = true;
-	return $args;
-}
-add_filter( 'wp_page_menu_args', 'twentyten_page_menu_args' );
 
-/**
- * Sets the post excerpt length to 40 characters.
- *
- * To override this length in a child theme, remove the filter and add your own
- * function tied to the excerpt_length filter hook.
- *
- * @since Twenty Ten 1.0
- * @return int
- */
-function twentyten_excerpt_length( $length ) {
-	return 40;
-}
-add_filter( 'excerpt_length', 'twentyten_excerpt_length' );
+ 
 
-/**
- * Returns a "Continue Reading" link for excerpts
- *
- * @since Twenty Ten 1.0
- * @return string "Continue Reading" link
- */
-function twentyten_continue_reading_link() {
-	return ' <a href="'. get_permalink() . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' ) . '</a>';
-}
+ 
+
+
 
 /**
  * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis and twentyten_continue_reading_link().
@@ -381,17 +350,28 @@ function my_init() {
 		wp_enqueue_script('jquery');
 		wp_register_script('cookie',get_bloginfo('template_directory') . '/scripts/cookie.js', array('jquery'), '1.0',false);
 		wp_enqueue_script('cookie');
-		wp_register_script('cycle', get_bloginfo('template_directory') . '/scripts/cycle.js', array('jquery'), '1.0',false);
-		wp_enqueue_script('cycle');
-		wp_register_script('loupe', get_bloginfo('template_directory') .'/scripts/loupe.js', array('jquery'), '1.0',false);
-		wp_enqueue_script('loupe');
+		
+	//	wp_register_script('loupe', get_bloginfo('template_directory') .'/scripts/loupe.js', array('jquery'), '1.0',false);
+	//	wp_enqueue_script('loupe');
+	
 		wp_register_script('history', get_bloginfo('template_directory') .'/scripts/history.js', array('jquery'), '1.0',false);
 		wp_enqueue_script('history');
 	
-		if (is_page('home')) {
-		}
+	
 	}
+
+	if (is_page('home')) {
+		wp_register_script('cycle', get_bloginfo('template_directory') . '/scripts/cycle.js', array('jquery'), '1.0',false);
+		wp_enqueue_script('cycle');
+		}
+	
+	
     if (is_admin()) {
+    	// move below this } when ready for maps 
+		wp_register_script('Gmaps', 'http://maps.google.com/maps/api/js?sensor=false', false, '3.0', false);
+		wp_enqueue_script('Gmaps');
+		
+		
         wp_register_style('admin_js', get_bloginfo('template_directory') . '/admin.js');
 		wp_enqueue_script('admin_js');
 
@@ -413,11 +393,10 @@ function my_init() {
 		
 		}
 	
-		wp_register_script('Gmaps', 'http://maps.google.com/maps/api/js?sensor=false', false, '3.0', false);
-		wp_enqueue_script('Gmaps');
+
 
 }
-add_action('init', 'my_init');
+add_action('wp_enqueue_scripts', 'my_init');
 
 
 //deactivate WordPress function

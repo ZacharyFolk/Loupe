@@ -162,9 +162,13 @@ body.black  a:hover{color: #CFCFCF; text-decoration: underline}
 **/
 
 
-#header {position: fixed; top: 0; left: 0; width: 100%; height: 40px;  border-bottom: 1px solid #2F2F2F; 
-/* background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; */
-background:  #43464C;
+#header {position: fixed; top: 0; left: 0; width: 100%; height: 40px;  border-bottom: 3px solid #000; 
+/* background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; 
+background-image: url('images/fpbg.gif');
+background-repeat: repeat*/
+
+background-color:rgba(15,0,0,0.7);
+
  z-index: 1003; /*filter:alpha(opacity=60); opacity:0.6;*/}
 
 #masthead {margin: 7px 0 0 0}
@@ -265,7 +269,7 @@ http://www.jakpsatweb.cz/css/priklady/vertical-align-valid-solution-en.html*/
 
 /**** SINGLE **/
 
-#viewer img {cursor: move;}
+#viewer img {cursor: move; display: none;}
 
 #slide {width: 260px; height: 230px; background-color: #fff; border: 1px solid #999; float: left; margin: 10px 20px 0 0;-moz-border-radius: 15px;
 border-radius: 15px;-moz-box-shadow: 2px 3px 6px #BFBFBF;
@@ -302,7 +306,7 @@ a {text-decoration: none}
 
 /* add various bumps for when panel is toggled */
 
-.tagged {top: 60px!important; padding-top: 20px;}
+.tagged {top: 71px!important; }
 
 .loader {position: absolute; top: 40%; left: 50%; background: url('images/ajax-loader-000.gif'); display: none; width: 32px; height: 32px;}
 
@@ -330,7 +334,7 @@ a {text-decoration: none}
 ul.post_tags {}
 ul.post_tags li {float: left; margin: 0 0 0 10px;}
 ul.post_tags li a {}
-
+#tagImgBox li {cursor: pointer;}
 
 
 
@@ -365,7 +369,7 @@ width: 100%;
 height: auto;
 border: 1px solid black;
 position: fixed;
-top: 30px;
+top:  0px;
 left: 0;			
 
 }
@@ -391,8 +395,16 @@ margin-left: -512px;   /* 50% */
 /* Single Image Options */
 
 ul#controls {
-	font-size: 14px; letter-spacing: 3px; line-height: 20px; text-transform: uppercase;
-position: absolute; width: 260px; top: 4px; right: 20px; z-index: 1005;
+	color: #9EA5B5;
+    font-size: 18px;
+    letter-spacing: 3px;
+    line-height: 16px;
+    position: absolute;
+    right: 20px;
+    text-transform: uppercase;
+    top: 11px;
+    width: 260px;
+    z-index: 1005;
 }
 ul#controls li {margin: 0 0 0 10px; float: left}
 
@@ -402,33 +414,35 @@ ul#controls li.zoom_out {}
 li#infoLink {width: 80px}
 /*ZOOM CONTROLS */
 
-a#in:link, a#in:visited { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus.png') no-repeat 0 0 transparent; cursor: pointer; height: 20px; width: 24px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}
+a#in:link, a#in:visited { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus-darkTheme.png') no-repeat 0 0 transparent; cursor: pointer; height: 20px; width: 24px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}
 a#in:hover {background-position: -22px  0px}
 
-a#out:link, a#out:visited { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus.png') no-repeat  0 -20px transparent; cursor: pointer; height: 20px; width: 24px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}
-a#out:hover{background-position: -23px -20px}
+a#out:link, a#out:visited { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus-darkTheme.png') no-repeat  0 -20px transparent; cursor: pointer; height: 20px; width: 24px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}
+a#out:hover{background-position: -22px -20px}
 
 /* INFO CONTROL */
 
 span.info { float: left;}
 
-.close {width: 24px; height: 20px; display: block; background: url('images/openClose_000.png') no-repeat  1px 0px transparent; cursor: pointer; float: right; margin: 0px 0 0 0; }
+.close {width: 24px; height: 20px; display: block; background: url('images/openClose_000_2.png') no-repeat  1px 0px transparent; cursor: pointer; float: right; margin: 0px 0 0 0; }
 
-.open {width: 24px; height: 20px; display: block; background: url('images/openClose_000.png') no-repeat  1px -20px transparent; cursor: pointer; float: right; margin: 0px 0 0 0; }
+.open {width: 24px; height: 20px; display: block; background: url('images/openClose_000_2.png') no-repeat  1px -20px transparent; cursor: pointer; float: right; margin: 0px 0 0 0; }
 
 
-a:hover span.openClose {width: 24px; height: 20px; display: block; background: url('images/openClose_000.png') no-repeat  1px -20px transparent; cursor: pointer; float: left; margin: 0px 0 0 0; }
+a:hover span.openClose {width: 24px; height: 20px; display: block; background: url('images/openClose_000_2.png') no-repeat  1px -20px transparent; cursor: pointer; float: left; margin: 0px 0 0 0; }
 
 /* INFO PANEL */
 
-#infoPanel {width: 260px; float: right;  
+#infoPanel {width: 260px; float: right; display: none;
 /*background: url("images/raster.png") repeat scroll 0 0; */
-background-color: #e0e0e0;  padding: 20px; margin: 2px 0px 0 0; position: fixed; right: 0px; border: 1px solid #2F2F2F; border-top:0px solid #999; top: 30px; z-index: 1001; border-top: 1px dashed #999; }
+background-color: #e0e0e0;  padding: 20px; margin: 2px 0px 0 0; position: fixed; right: 0px; border: 1px solid #2F2F2F; border-top:0px solid #999; top: 40px; z-index: 1001; border-top: 1px dashed #999; }
 
-
-
-.title  {font-size:30px; font-family: Helvetica;}
-.description {font-size: 16px; font-family: Verdana; margin: 10px 0; text-indent: 8px;}
+.theInfoTagList {float: left; width: 100%; margin: 5px 0;}
+.theInfoTagList p {float: left;}
+#infoTags {}
+#infoTags li {float: left; margin: 0 0 0 10px;}
+.title  {font-size:28px; font-family: fantasy; text-transform: uppercase;}
+.description {font-size: 15px; font-family: Verdana; margin: 10px 0;}
 
 /******************************* GALLERIA ********************/
 

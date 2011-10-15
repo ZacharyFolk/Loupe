@@ -3,15 +3,17 @@ get_header(); ?>
 <div id="viewer" class="viewer">
 <?php if ( have_posts() ) :  while ( have_posts() ) : the_post(); ?>	
 <div id="infoPanel">
-<div class="title"><?php the_title(); the_category(); ?></div>
-
+<div class="title"><?php the_title(); ?></div>
+<div class="theInfoTagList">
+<p>Tagged with : <?php the_tags('<ul id="infoTags" ><li>','</li><li>','</li></ul>'); ?></p>
+</div>
 <?php 
-$lat = get_post_meta($post->ID, 'latitude', true);
+/* $lat = get_post_meta($post->ID, 'latitude', true);
 $long = get_post_meta($post->ID, 'longitude', true);
 if ($lat !== '') {
-?>	
+*/ ?>	
 <script type="text/javascript">
-  function initialize() {
+/*  function initialize() {
     var latlng = new google.maps.LatLng(<?php echo $lat;?>,<?php echo $long;?>);
     var mapOptions = {
       zoom: 11,
@@ -29,16 +31,18 @@ if ($lat !== '') {
   		map: map,
   		title: "<?php the_title(); ?>"
   	});
-
   		}
+ */
 </script>
-
+<!--
  <div id="map_canvas" style="width:100%; height:300px"></div>
- <script>initialize();</script>
-<?php } ?>
+ <script>initialize();</script> -->
+<?php // } ?>
 <div class="description"><?php the_content(); ?></div>
+<!--
 <div class="link">url: <?php the_permalink(); ?></div>
-<p><?php the_tags('<ul><li>','</li><li>','</li></ul>'); ?></p>
+-->
+
 </div>	
 <?php if ( get_post_meta($post->ID, 'story', true) ) : ?>
 

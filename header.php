@@ -48,11 +48,12 @@
 <script type="text/javascript">
     var $ = jQuery;
       $(document).ready(function(){
-		var colors = $.cookie('colors');
+	//	var colors = $.cookie('colors');
                   $("#viewer").iviewer(
                        {
                        src: "<?php echo get_first_attachment() ?>",    
-                       zoom: 70,
+                       zoom: "fit",
+              
                        initCallback: function ()
                        {
                            var object = this;
@@ -67,6 +68,7 @@
                        },
 					     onFinishLoad: function()
                     {
+                    	
 	$("#viewer img").fadeIn(400);
                     }
         //      onFinishLoad: function()
@@ -82,31 +84,10 @@
         </script>
 	<?php } ?>
 <body>
-<script type="text/javascript">
-function readCookie(name) {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') c = c.substring(1,c.length);
-		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-	}
-	return null;
-}
-var x = readCookie('colors')
-if (x == 'middleGrey') {
-	document.body.className +=" "+'c2f2'
-}
-if (x == 'white') {
-	document.body.className +=" "+'cfff'
-}
-if (x == 'black') {
-	document.body.className +=" "+'c000'
-}
-</script>
 
 
-		<?php if (is_home() || is_page('tags') ) { ?>
+
+		<?php if (is_page('home') || is_page('tags') ) { ?>
 	<div id="header">
 		<div id="masthead">
 				<h1 id="site-title">
@@ -129,15 +110,11 @@ if (x == 'black') {
 						<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 					</span>
 				 </h1>
-				 	 <div class="sep">|</div>
+				  <div class="sep">|</div>
 				 <div class="tagLink">
-				tags <span class="close"></span>
+				<a href="?tags">tags </a><span class="close"></span>
 				</div>
-				<div class="sep">|</div>
 			
-				<div class="editLink">
-					categories
-				</div>		
 					<div class="sep">|</div>
 				<div class="editLink">
 					<?php edit_post_link('edit', '<p>', '</p>'); ?>
@@ -181,11 +158,6 @@ if (x == 'black') {
 	</div>	 // -->
 		<?php 
 	if (is_single()){ ?>
-	<div class="imageTitle">
-<span class="blinky">_</span><div class="caption"></div>
-<input class="hidden" type="text" id="userCaption"  value="<?php the_title(); ?>" /></div>
-			
-<?php // drop_tags(); ?>
 	
 <ul id="controls">
 	<li class="zoom">Zoom : </li>

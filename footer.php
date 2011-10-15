@@ -24,12 +24,6 @@
 </div>
 <?php } ?>
 	<div id="footer" role="contentinfo">
-<!--//	<ul id="colorPick">
-	<li><a class="box_000" href="#black">&nbsp;</a></li>
-	<li><a class="box_2f2" href="#2f">&nbsp;</a></li>
-	<li><a class="box_fff" href="#white">&nbsp;</a></li>
-	</ul>
-	// -->
 	<?php if (! is_home()){ ?>
 	 <div class="all">Show Recent Posts</div>
 	<?php } ?>
@@ -221,19 +215,18 @@ var reLoadTagURL = '<?php bloginfo( 'url' ); ?>/tag/'+ tagParam + ' .tagTable';
 		var hash_param = noHash.replace(/\s/g, '-');
 		var tagParamURL = up +"?tagP=" + hash_param;
  		window.location = tagParamURL;
-	<?php } else { ?>
-		
+	<?php } else { ?>		
 	if($.cookie("lastTag") == "null") {
 				
 		var tagParamURL = up +"?tagP=" + tagParam;
  		window.location = tagParamURL;
  		
- } else {
- 		var lastTagCookie = $.cookie("lastTag");
- 		var tagParamURL = up +"?tagP=" + lastTagCookie;
- 		window.location = tagParamURL;
- 		
- 	}
+	 } else {
+	 		var lastTagCookie = $.cookie("lastTag");
+	 		var tagParamURL = up +"?tagP=" + lastTagCookie;
+	 		window.location = tagParamURL;
+	 		
+	 	}
 	<? } ?>
  		});
 
@@ -329,8 +322,7 @@ infoButton.click(function(){
 		*/		
 			
 });	
-</script>
-<script type="text/javaScript">
+
 $.history.init(function(hash){
         if(hash == "") {
             // initialize your app
