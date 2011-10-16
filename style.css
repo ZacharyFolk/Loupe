@@ -435,7 +435,7 @@ a:hover span.openClose {width: 24px; height: 20px; display: block; background: u
 
 #infoPanel {width: 260px; float: right; display: none;
 /*background: url("images/raster.png") repeat scroll 0 0; */
-background-color: #e0e0e0;  padding: 20px; margin: 2px 0px 0 0; position: fixed; right: 0px; border: 1px solid #2F2F2F; border-top:0px solid #999; top: 40px; z-index: 1001; border-top: 1px dashed #999; }
+background-color: #e0e0e0;  padding: 20px; margin: 3px 6px 0 0; position: fixed; right: 0px; border: 1px dashed #999; top: 40px; z-index: 999;  }
 
 .theInfoTagList {float: left; width: 100%; margin: 5px 0;}
 .theInfoTagList p {float: left;}
