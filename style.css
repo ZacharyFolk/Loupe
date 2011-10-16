@@ -306,11 +306,11 @@ a {text-decoration: none}
 
 /* add various bumps for when panel is toggled */
 
-.tagged {top: 71px!important; }
-.tagTeam {top: 171px!important;}
+.tagged {top: 74px!important; }
+.tagTeam {top: 178px!important;}
 .loader {position: absolute; top: 40%; left: 50%; background: url('images/ajax-loader-000.gif'); display: none; width: 32px; height: 32px;}
 
-.tagTable {background: url("images/raster.png") repeat scroll 0 0 transparent; z-index: 1000; height: 81px; padding: 10px 0; width: 100%; position: fixed; top: 70px; border: 1px solid #000; }
+.tagTable {background: url("images/raster.png") repeat scroll 0 0 transparent; z-index: 1000; height: 81px; padding: 10px 0; width: 100%; position: fixed; top: 73px; border: 1px solid #000; }
 .tagTable img {margin: 0 0 0 10px; border-top: 1px solid #000; float: left;}
 
 #tagTableOuter{width: 100%; position: absolute; top: 54px;}
@@ -435,7 +435,7 @@ a:hover span.openClose {width: 24px; height: 20px; display: block; background: u
 
 #infoPanel {width: 260px; float: right; display: none;
 /*background: url("images/raster.png") repeat scroll 0 0; */
-background-color: #e0e0e0;  padding: 20px; margin: 3px 6px 0 0; position: fixed; right: 0px; border: 1px dashed #999; top: 40px; z-index: 999;  }
+background-color: #e0e0e0;  padding: 20px; margin: 0px 5px 0 0; position: fixed; right: 0px; border: 1px dashed #999; top: 40px; z-index: 999;  }
 
 .theInfoTagList {float: left; width: 100%; margin: 5px 0;}
 .theInfoTagList p {float: left;}

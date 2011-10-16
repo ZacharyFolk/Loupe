@@ -44,7 +44,7 @@
 
 <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/jquery.mousewheel.min.js" ></script>
 <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/iViewer.js" ></script>
-
+<script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/zScripts.js" ></script>
 <script type="text/javascript">
     var $ = jQuery;
       $(document).ready(function(){

@@ -46,6 +46,9 @@
 </div>
 
 <script type="text/javascript">
+var $ = jQuery;
+
+$(document).ready(function(){
 
 var imgCtrl = $('#controls');
 var panel = $('.thumbBox');
@@ -71,33 +74,32 @@ var main = $('#ajaxTable');
 var tagBump = ("tagged");
 var tagTeamBump = ("tagTeam");
 var activeTags = "activeTagClass";
-<?php $id = $_GET['tagP'];?>
+<?php $id = $_GET['tagP']; ?>
 var tagParam = "<?php echo $id; ?>";
-var $ = jQuery;
-
-$(document).ready(function(){
-
-if($.cookie("panelState") == undefined) {
-	$.cookie("panelState", initialState);
-	}
 var state = $.cookie("panelState");
+
+	if($.cookie("panelState") == undefined) {
+		$.cookie("panelState", initialState);
+		}
+
 	if(state == "collapsed") {
-		panel.hide();
-		button.text(hiddenText);
-		button.addClass(activeClass);
-	}
-	button.click(function(){
-		if($.cookie("panelState") == "expanded") {
-			$.cookie("panelState", "collapsed");
+			panel.hide();
 			button.text(hiddenText);
 			button.addClass(activeClass);
-		} else {
-			$.cookie("panelState", "expanded");
-			button.text(visibleText);
-			button.removeClass(activeClass);
 		}
-		panel.slideToggle("slow");
-		return false;
+		
+	button.click(function(){
+			if($.cookie("panelState") == "expanded") {
+				$.cookie("panelState", "collapsed");
+				button.text(hiddenText);
+				button.addClass(activeClass);
+			} else {
+				$.cookie("panelState", "expanded");
+				button.text(visibleText);
+				button.removeClass(activeClass);
+			}
+			panel.slideToggle("slow");
+			return false;
 	});		
 
 // tags 
@@ -107,14 +109,14 @@ var state = $.cookie("panelState");
 		triangle.addClass(closed);
 		triangle.removeClass(opened);
 		}
-		
+	
 	if(tagPanelState == "collapsed"){
 		tags.hide();
 		info.removeClass(tagBump);
 		triangle.removeClass(opened);
 		triangle.addClass(closed);
 		}
-	
+
 	if(tagPanelState == "expanded"){
 		tags.show();
 		info.addClass(tagBump);
@@ -122,7 +124,7 @@ var state = $.cookie("panelState");
 		triangle.addClass(opened);
 		main.addClass(tagBump);
 
-	var reLoadTagURL = '<?php bloginfo( 'url' ); ?>/tag/'+ tagParam + ' .tagTable';
+		var reLoadTagURL = '<?php bloginfo( 'url' ); ?>/tag/'+ tagParam + ' .tagTable';
 
 		function reLoadOpenTags(){
             //$('.lightTable').remove();
@@ -140,27 +142,26 @@ var state = $.cookie("panelState");
 			//$('.loader').fadeOut('fast');		
 			};
 		reLoadOpenTags ();
-}
+		}
 
-	tagButton.click(function(){
-		
+	tagButton.click(function(){		
 			if($.cookie("tagPanel") == "expanded") {
 				$.cookie("tagPanel", "collapsed");			
 				triangle.removeClass(opened);
 				triangle.addClass(closed);
-					$('.tagTable').remove();			
+				$('.tagTable').remove();
+				info.removeClass(tagTeamBump);			
 			} else {
-				$.cookie("tagPanel", "expanded");
-				
+				$.cookie("tagPanel", "expanded");			
 				triangle.addClass(opened);
 				triangle.removeClass(closed);
 			}			
-			tagButton.toggleClass(activeTags);
-			tags.slideToggle("fast");	
-			info.toggleClass(tagBump);
-			tagThumbs.slideToggle("fast");	
-			return false;
-	});
+				tagButton.toggleClass(activeTags);
+				tags.slideToggle("fast");	
+				info.toggleClass(tagBump);
+				tagThumbs.slideToggle("fast");	
+				return false;
+			});
 
 
 	$('#tagList li').each(function() {
@@ -176,7 +177,8 @@ var state = $.cookie("panelState");
 			function loadThemTags(){	
 			//$('.loader').fadeIn('fast');
 			$('#tagThumbs').load(toLoad,hideLoader);
-			};		
+			};
+			
 			function hideLoader(){
 			//$('.loader').fadeOut('fast');
 			$('.tagTable').fadeIn('slow'); 	
@@ -184,12 +186,13 @@ var state = $.cookie("panelState");
 						
 			<?php if(empty($_GET)) { ?> 	
 			loadThemTags();
-			<?php } else { ?>			
+			<?php } else { ?>
+			
 				loadThemTags();
 			<?php } ?>
 		//  return false;
         });
-	 });
+ 	});
 	 
 	 $('#tagImgBox li').live("click", function(){ 	
 	 	var uc = $(this).attr('class');
@@ -205,7 +208,8 @@ var state = $.cookie("panelState");
 		<?php } else { ?>		
 		if($.cookie("lastTag") == "null") {				
 			var tagParamURL = up +"?tagP=" + tagParam;
-	 		window.location = tagParamURL; 		
+	 		window.location = tagParamURL;
+	 		
 		 } else {
 		 		var lastTagCookie = $.cookie("lastTag");
 		 		var tagParamURL = up +"?tagP=" + lastTagCookie;
@@ -213,27 +217,27 @@ var state = $.cookie("panelState");
 		 		
 		 	}
 		<? } ?>
-	 	});
+	 });
 
 // info
-
+	
 	if($.cookie("infoPanel") == undefined){
 		$.cookie("infoPanel", initialState);
 		infoTri.addClass(closed);
 		infoTri.removeClass(opened);
-	}
+		}
 	if(infoPanelState == "collapsed"){
-	info.hide();
-	infoTri.removeClass(opened);
-	infoTri.addClass(closed);
-	}
-	
+		info.hide();
+		infoTri.removeClass(opened);
+		infoTri.addClass(closed);
+		}
+		
 	if(infoPanelState == "expanded"){
-	info.show();
-	infoTri.removeClass(closed);
-	infoTri.addClass(opened);
-	}
-
+		info.show();
+		infoTri.removeClass(closed);
+		infoTri.addClass(opened);
+		}
+	
 	infoButton.click(function(){
 			if($.cookie("infoPanel") == "expanded") {
 				$.cookie("infoPanel", "collapsed");
@@ -317,7 +321,6 @@ $.history.init(function(hash){
 		var Hash = noHash.replace(/\s/g, '-');
 		var reLoadURL = '<?php bloginfo( 'url' ); ?>/tag/'+ Hash + ' .tagTable';
 
-		info.addClass(tagTeamBump);
 		function reLoad(){
             //$('.lightTable').remove();
 			$('.tagTable').detach();
@@ -339,6 +342,8 @@ $.history.init(function(hash){
     },
     { unescape: ",/" });
 </script>
-<?php wp_footer();?>
+<?php
+	wp_footer();
+?>
 </body>
 </html>
