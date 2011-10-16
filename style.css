@@ -307,7 +307,7 @@ a {text-decoration: none}
 /* add various bumps for when panel is toggled */
 
 .tagged {top: 71px!important; }
-
+.tagTeam {top: 171px!important;}
 .loader {position: absolute; top: 40%; left: 50%; background: url('images/ajax-loader-000.gif'); display: none; width: 32px; height: 32px;}
 
 .tagTable {background: url("images/raster.png") repeat scroll 0 0 transparent; z-index: 1000; height: 81px; padding: 10px 0; width: 100%; position: fixed; top: 70px; border: 1px solid #000; }

@@ -76,6 +76,7 @@ var infoButton = $('#infoLink');
 
 var main = $('#ajaxTable');
 var tagBump = ("tagged");
+var tagTeamBump = ("tagTeam");
 var activeTags = "activeTagClass";
 
 <?php 
@@ -178,6 +179,7 @@ var reLoadTagURL = '<?php bloginfo( 'url' ); ?>/tag/'+ tagParam + ' .tagTable';
         $(this).click(function() {
 			// remove single image ui controls
 			//imgCtrl.hide();	
+			info.addClass(tagTeamBump);
 			var tagName = $(this).attr("id");
 			var tagURL = '<?php bloginfo( 'url' );?>/tag/' + tagName;
 			var toLoad = '<?php bloginfo( 'url' ); ?>/tag/'+ tagName + ' .tagTable';	
