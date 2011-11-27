@@ -50,33 +50,33 @@ var $ = jQuery;
 
 $(document).ready(function(){
 
-var imgCtrl = $('#controls');
-var panel = $('.thumbBox');
-var button = $('.all');
-var initialState = "collapsed";
-var activeClass = "active";
-var visibleText = "hide recent posts";
-var hiddenText = "show recent posts";
-var triangle = $('.tagLink span');
-var infoTri = $('#infoLink span');
-var closed = "close";
-var opened = "open";	
-var tags = $('#tagList');	
-var tagPanelState = $.cookie("tagPanel");
-var tagButton = $('.tagLink');
-var tagThumbs = $('.tagTable');
-var tagImage = $('.tagImgBox a');
-var tagThumbState = $.cookie("tagThumbPanel");
-var info = $('#infoPanel');	
-var infoPanelState = $.cookie("infoPanel");
-var infoButton = $('#infoLink');
-var main = $('#ajaxTable');
-var tagBump = ("tagged");
-var tagTeamBump = ("tagTeam");
-var activeTags = "activeTagClass";
-<?php $id = $_GET['tagP']; ?>
-var tagParam = "<?php echo $id; ?>";
-var state = $.cookie("panelState");
+	var imgCtrl = $('#controls');
+	var panel = $('.thumbBox');
+	var button = $('.all');
+	var initialState = "collapsed";
+	var activeClass = "active";
+	var visibleText = "hide recent posts";
+	var hiddenText = "show recent posts";
+	var triangle = $('.tagLink span');
+	var infoTri = $('#infoLink span');
+	var closed = "close";
+	var opened = "open";	
+	var tags = $('#tagList');	
+	var tagPanelState = $.cookie("tagPanel");
+	var tagButton = $('.tagLink');
+	var tagThumbs = $('.tagTable');
+	var tagImage = $('.tagImgBox a');
+	var tagThumbState = $.cookie("tagThumbPanel");
+	var info = $('#infoPanel');	
+	var infoPanelState = $.cookie("infoPanel");
+	var infoButton = $('#infoLink');
+	var main = $('#ajaxTable');
+	var tagBump = ("tagged");
+	var tagTeamBump = ("tagTeam");
+	var activeTags = "activeTagClass";
+	<?php $id = $_GET['tagP']; ?>
+	var tagParam = "<?php echo $id; ?>";
+	var state = $.cookie("panelState");
 
 	if($.cookie("panelState") == undefined) {
 		$.cookie("panelState", initialState);
@@ -168,6 +168,7 @@ var state = $.cookie("panelState");
         $(this).click(function() {
 			// remove single image ui controls
 			//imgCtrl.hide();	
+			$('.tagTable').show();
 			info.addClass(tagTeamBump);
 			var tagName = $(this).attr("id");
 			var tagURL = '<?php bloginfo( 'url' );?>/tag/' + tagName;
@@ -199,8 +200,7 @@ var state = $.cookie("panelState");
 	 	var uc = uc + "_link";
 	 	var up = $('.' + uc).html(); 		
 	 	var curTagHash = window.location.hash;
-	 	<?php 
-	 		if(empty($_GET)) { ?> 			
+	 	<?php if(empty($_GET)) { ?> 			
 	 	    var noHash = curTagHash.replace(/^.*#/, '');
 			var hash_param = noHash.replace(/\s/g, '-');
 			var tagParamURL = up +"?tagP=" + hash_param;
@@ -321,29 +321,27 @@ $.history.init(function(hash){
 		var Hash = noHash.replace(/\s/g, '-');
 		var reLoadURL = '<?php bloginfo( 'url' ); ?>/tag/'+ Hash + ' .tagTable';
 
-		function reLoad(){
+		function reLoad(){		
+
             //$('.lightTable').remove();
 			$('.tagTable').detach();
-			reloadThemTags();
+			$('#tagThumbs').load(reLoadURL,rehideLoader);
+		    $('.tagTable').appendTo($('#ajaxTable'));
 			}
 			function reloadThemTags(){	
 			//rehideLoader();
 			//$('.loader').fadeIn('fast');			
-			$('#tagThumbs').load(reLoadURL,rehideLoader);
-		    $('.tagTable').appendTo($('#ajaxTable'));
-	
+
+
 			};
 			function rehideLoader(){
 			//$('.loader').fadeOut('fast');		
 			};
 		reLoad ();
-            // restore the state from hash
         }
     },
     { unescape: ",/" });
 </script>
-<?php
-	wp_footer();
-?>
+<?php wp_footer(); ?>
 </body>
 </html>

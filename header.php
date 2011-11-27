@@ -44,7 +44,7 @@
 
 <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/jquery.mousewheel.min.js" ></script>
 <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/iViewer.js" ></script>
-<script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/zScripts.js" ></script>
+
 <script type="text/javascript">
     var $ = jQuery;
       $(document).ready(function(){
@@ -188,4 +188,5 @@
 	</div>
 	<div id="tagThumbs"></div>
 	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-000.gif'></div>
+	<div class="tagTable" style="display:none">&nbsp;</div>
 	<div id="ajaxTable">
