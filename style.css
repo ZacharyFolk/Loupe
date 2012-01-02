@@ -412,6 +412,9 @@ ul#controls li.zoom {margin: 0 0 0 0px;}
 ul#controls li.zoom_out {}
 
 li#infoLink {width: 80px}
+
+ul#controls li.activeTagClass {color: #fff}
+
 /*ZOOM CONTROLS */
 
 a#in:link, a#in:visited { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus-darkTheme.png') no-repeat 0 0 transparent; cursor: pointer; height: 20px; width: 24px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}

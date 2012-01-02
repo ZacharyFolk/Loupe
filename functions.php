@@ -90,14 +90,6 @@ function twentyten_admin_header_style() {
 <?php
 }
 endif;
-
-
- 
-
- 
-
-
-
 /**
  * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis and twentyten_continue_reading_link().
  *
@@ -360,7 +352,7 @@ function my_init() {
 	
 	}
 
-	if (is_page('home')) {
+	 if (is_page('home')) {
 		wp_register_script('cycle', get_bloginfo('template_directory') . '/scripts/cycle.js', array('jquery'), '1.0',false);
 		wp_enqueue_script('cycle');
 		}
@@ -393,11 +385,20 @@ function my_init() {
 		
 		}
 	
-
-
 }
-add_action('wp_enqueue_scripts', 'my_init');
 
+add_action('wp_enqueue_scripts', 'my_init');
+add_action( 'admin_print_scripts-post-new.php', 'portfolio_admin_script', 11 );
+
+function portfolio_admin_script() {
+    global $post_type;
+    if( 'portfolio' == $post_type )
+	wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false' );
+    wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );
+    wp_enqueue_script( 'jquery_ui',  get_bloginfo('template_directory') . '/scripts/jquery-ui-1.8.13.custom.min.js' );
+	wp_enqueue_script( 'geo_search', get_bloginfo('template_directory') .  '/scripts/geo_autocomplete.js' );
+	
+}
 
 //deactivate WordPress function
 remove_shortcode('gallery', 'gallery_shortcode');
@@ -925,8 +926,6 @@ function post_type_tags_fix($request) {
 } 
 add_filter('request', 'post_type_tags_fix');
 
-
-
 // http://thinkvitamin.com/code/create-your-first-wordpress-custom-post-type/
 
 add_action('init', 'portfolio_register');
@@ -935,13 +934,13 @@ function portfolio_register() {
  
 	$labels = array(
 		'name' => _x('Photos', 'post type general name'),
-		'singular_name' => _x('Portfolio Item', 'post type singular name'),
+		'singular_name' => _x('Photos', 'post type singular name'),
 		'add_new' => _x('Add New', 'portfolio item'),
-		'add_new_item' => __('Add New Portfolio Item'),
-		'edit_item' => __('Edit Portfolio Item'),
-		'new_item' => __('New Portfolio Item'),
-		'view_item' => __('View Portfolio Item'),
-		'search_items' => __('Search Portfolio'),
+		'add_new_item' => __('Add New Photo'),
+		'edit_item' => __('Edit Photo'),
+		'new_item' => __('New Photo'),
+		'view_item' => __('View Photo'),
+		'search_items' => __('Search Photos'),
 		'not_found' =>  __('Nothing found'),
 		'not_found_in_trash' => __('Nothing found in Trash'),
 		'parent_item_colon' => ''
@@ -1046,12 +1045,10 @@ global $post;
 	
 
 $custom = get_post_custom($post->ID);
-
 add_action('save_post', 'save_details');
 
 function save_details(){
   global $post;
-
   update_post_meta($post->ID, "latitude", $_POST["latitude"]);
   update_post_meta($post->ID, "longitude", $_POST["longitude"]);
   update_post_meta($post->ID, "camera", $_POST["camera"]);

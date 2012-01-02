@@ -59,7 +59,7 @@
                            var object = this;
                            $("#in").click(function(){ object.zoom_by(1);}); 
                            $("#out").click(function(){ object.zoom_by(-1);}); 
-						   
+						    $('.loader').fadeIn('200');
 						
      //  $("#fit").click(function(){ object.fit();}); 
          //$("#orig").click(function(){  object.set_zoom(100); }); 
@@ -68,8 +68,8 @@
                        },
 					     onFinishLoad: function()
                     {
-                    	
-	$("#viewer img").fadeIn(400);
+                    $('.loader').fadeOut('200');	
+					$("#viewer img").fadeIn(400);
                     }
         //      onFinishLoad: function()
                   //      {
@@ -85,7 +85,11 @@
 	<?php } ?>
 <body>
 
-
+<noscript>
+ For full functionality of this site it is necessary to enable JavaScript.
+ Here are the <a href="http://www.enable-javascript.com/" target="_blank">
+ instructions how to enable JavaScript in your web browser</a>.
+</noscript>
 
 		<?php if (is_page('home') || is_page('tags') ) { ?>
 	<div id="header">

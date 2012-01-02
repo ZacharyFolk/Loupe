@@ -2,18 +2,28 @@
 
 ## A wordpress photography theme
 
-### v0.2 - Not ready for Prime Time
+### v0.3
+- info panel
+- mapping is back
+- more cookies and $.history
 
-#### v0.2 HIGHLIGHTS
-
-- made ajax tag list "smarter" with cookies so user choices would follow through the site
+### v0.2 
+- tag list cookies = tag thumbs are persistent
 - disabled mapping feature
-- dark header
+- dark theme
 - history.js for ajax navigation and permalinks
 
-##### v0.3 TO DOS
+#### To do
+B- fix two-up layout
+F- create triptych layout
+F- gallery layout
+F- print orders
+F- move to html5-boilerplate
+F- comments ?
+F- facebook ?
+F- flickr, +, picassa ???
+B- mouse wheel on single posts only zooms out
+B- fix recent posts
+B- move bottom ui out of firefox/chrome link bar
 
-- finish map feature
-- fix two-up layout
-- create triptych layout
-- create gallery layout
+
