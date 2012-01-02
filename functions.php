@@ -373,15 +373,7 @@ function my_init() {
 			
 		wp_register_style('admin_css', get_bloginfo('template_directory') . '/css/adminstuff.css');
 		wp_enqueue_style('admin_css');
-		
-		wp_register_style('ui_css', get_bloginfo('template_directory') . '/css/jquery-ui-1.8.13.custom.css');
-	    wp_enqueue_style('ui_css');		
-		
-		wp_register_script('ui',get_bloginfo('template_directory') . '/scripts/jquery-ui-1.8.13.custom.min.js', array('jquery'), '1.8',false);
-		wp_enqueue_script('ui');
-		
-		wp_register_script('auto',get_bloginfo('template_directory') . '/scripts/geo_autocomplete.js', array('ui'), '2.1',false);
-		wp_enqueue_script('auto');
+
 		
 		}
 	
@@ -393,10 +385,8 @@ add_action( 'admin_print_scripts-post-new.php', 'portfolio_admin_script', 11 );
 function portfolio_admin_script() {
     global $post_type;
     if( 'portfolio' == $post_type )
-	wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false' );
+	wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places' );
     wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );
-    wp_enqueue_script( 'jquery_ui',  get_bloginfo('template_directory') . '/scripts/jquery-ui-1.8.13.custom.min.js' );
-	wp_enqueue_script( 'geo_search', get_bloginfo('template_directory') .  '/scripts/geo_autocomplete.js' );
 	
 }
 
@@ -1020,6 +1010,11 @@ function map_meta() {
 
   ?>
 <div id="mapControls">
+	
+	<div class="latlong">
+		<p><label for="lat">Latitude, Longitude:</label><br />
+	  <input id="latlong"  name="latlong" value="<?php echo $latlong; ?>"></input></p>
+	</div>
 <div class="lat">
   <p><label for="lat">Latitude:</label><br />
   <input id="latitude"  name="latitude" value="<?php echo $latitude; ?>"></input></p>
@@ -1035,9 +1030,9 @@ if ($lat !== '') { ?>
   	<div class="cur1">Current lat : <?php echo $latitude; ?> long: <?php echo $longitude; ?></div>
  <? } ?>
  </div>
-   <input type="text" value="" id="searchbox" style=" width:98%;height:30px; font-size:15px; margin-left: 1%"> 
+   <input type="text" value="" id="searchTextField" style=" width:98%;height:30px; font-size:15px;"> 
  <div class="clearfix" id="mapFix">&nbsp;</div>
-  	<div id="map_canvas" style="width:98%; height:350px; margin-left: 10px;"></div>
+  	<div id="map_canvas" style="width:98%; height:350px;"></div>
   
   <?php
 }
@@ -1049,6 +1044,7 @@ add_action('save_post', 'save_details');
 
 function save_details(){
   global $post;
+  update_post_meta($post->ID, "latlong", $_POST["latlong"]);
   update_post_meta($post->ID, "latitude", $_POST["latitude"]);
   update_post_meta($post->ID, "longitude", $_POST["longitude"]);
   update_post_meta($post->ID, "camera", $_POST["camera"]);
