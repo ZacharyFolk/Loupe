@@ -1030,10 +1030,23 @@ if ($lat !== '') { ?>
   	<div class="cur1">Current lat : <?php echo $latitude; ?> long: <?php echo $longitude; ?></div>
  <? } ?>
  </div>
-   <input type="text" value="" id="searchTextField" style=" width:98%;height:30px; font-size:15px;"> 
+   <input type="text" value="" id="searchTextField" style=" width:98%;height:30px; font-size:15px;" onKeyPress="return disableEnterKey(event)"> 
  <div class="clearfix" id="mapFix">&nbsp;</div>
   	<div id="map_canvas" style="width:98%; height:350px;"></div>
-  
+<script language="JavaScript">
+
+function disableEnterKey(e)
+{
+     var key;     
+     if(window.event)
+          key = window.event.keyCode; //IE
+     else
+          key = e.which; //firefox     
+
+     return (key != 13);
+}
+
+</script>
   <?php
 }
 global $post;
