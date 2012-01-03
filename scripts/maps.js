@@ -28,6 +28,7 @@ function initialize() {
             map.fitBounds(place.geometry.viewport); 
             var huh = map.getCenter();
            document.getElementById("latlong").value = place.geometry.location;
+	       document.getElementById("latitude").value = huh.lat();
 	       document.getElementById("longitude").value = huh.lng();
           } else {
             map.setCenter(place.geometry.location);
@@ -73,7 +74,9 @@ function placeMarker(position,map){
         });
         map.panTo(position); 
         markersArray.push(marker);
-        document.getElementById("latlong").value = position.lat();
+       document.getElementById("latlong").value = position;
+       document.getElementById("latitude").value = position.lat();
+       document.getElementById("longitude").value = position.lng();
       }
 		      
 function addMarker(latLng) {
@@ -115,3 +118,4 @@ function addMarker(latLng) {
 
       }
       google.maps.event.addDomListener(window, 'load', initialize);
+

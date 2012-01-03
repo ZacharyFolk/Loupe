@@ -45,43 +45,7 @@
 <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/jquery.mousewheel.min.js" ></script>
 <script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/iViewer.js" ></script>
 
-<script type="text/javascript">
-    var $ = jQuery;
-      $(document).ready(function(){
-	//	var colors = $.cookie('colors');
-                  $("#viewer").iviewer(
-                       {
-                       src: "<?php echo get_first_attachment() ?>",    
-                       zoom: "fit",
-              
-                       initCallback: function ()
-                       {
-                           var object = this;
-                           $("#in").click(function(){ object.zoom_by(1);}); 
-                           $("#out").click(function(){ object.zoom_by(-1);}); 
-						    $('.loader').fadeIn('200');
-						
-     //  $("#fit").click(function(){ object.fit();}); 
-         //$("#orig").click(function(){  object.set_zoom(100); }); 
-		 // console.log(this.img_object.display_width); //works*
-				// console.log(object.img_object.display_width); //getting undefined.*
-                       },
-					     onFinishLoad: function()
-                    {
-                    $('.loader').fadeOut('200');	
-					$("#viewer img").fadeIn(400);
-                    }
-        //      onFinishLoad: function()
-                  //      {
-			//	$("#viewer").data('viewer').setCoords(-500,-500);
-                  //        this.setCoords(-0, -500);
-                  //      }
-//onMouseMove: function(object, coords) { },
-//onStartDrag: function(object, coords) { return false; }, //this image will not be dragged
-//onDrag: function(object, coords) { }
-                  });
-            });
-        </script>
+
 	<?php } ?>
 <body>
 

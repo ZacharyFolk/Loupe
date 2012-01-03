@@ -381,13 +381,14 @@ function my_init() {
 
 add_action('wp_enqueue_scripts', 'my_init');
 add_action( 'admin_print_scripts-post-new.php', 'portfolio_admin_script', 11 );
-
-function portfolio_admin_script() {
-    global $post_type;
-    if( 'portfolio' == $post_type )
-	wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places' );
-    wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );
+	function portfolio_admin_script() {
+	global $post;
+	global $post_type;
+	if((get_post_type($post->ID) == 'portfolio') || ('portfolio' == $post_type)) {
 	
+			wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places' );
+		    wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );
+	}	
 }
 
 //deactivate WordPress function
@@ -925,7 +926,7 @@ function portfolio_register() {
 	$labels = array(
 		'name' => _x('Photos', 'post type general name'),
 		'singular_name' => _x('Photos', 'post type singular name'),
-		'add_new' => _x('Add New', 'portfolio item'),
+		'add_new' => _x('Add New', 'photo'),
 		'add_new_item' => __('Add New Photo'),
 		'edit_item' => __('Edit Photo'),
 		'new_item' => __('New Photo'),
@@ -948,7 +949,7 @@ function portfolio_register() {
 		'hierarchical' => false,
 		'menu_position' => 4,
 		'taxonomies' => array('post_tag','category'),
-		'supports' => array('title','editor','comments','trackbacks','revisions','custom-fields','page-attributes','thumbnail', 'excerpt', 'tags')
+		'supports' => array('title','comments','trackbacks','revisions','custom-fields','page-attributes','thumbnail', 'excerpt', 'tags')
 	  ); 
  
 	register_post_type( 'portfolio' , $args );
@@ -1034,24 +1035,172 @@ if ($lat !== '') { ?>
  <div class="clearfix" id="mapFix">&nbsp;</div>
   	<div id="map_canvas" style="width:98%; height:350px;"></div>
 <script language="JavaScript">
-
 function disableEnterKey(e)
-{
-     var key;     
-     if(window.event)
-          key = window.event.keyCode; //IE
-     else
-          key = e.which; //firefox     
-
-     return (key != 13);
-}
-
+		{
+		     var key;     
+		     if(window.event)
+		          key = window.event.keyCode; //IE
+		     else
+		          key = e.which; //firefox     
+		     return (key != 13);
+		}
 </script>
   <?php
 }
+
+$prefix = 'sic_';
+ 
+$meta_box = array(
+	'id' => 'my-meta-box',
+	'title' => 'Before and Afters',
+	'page' => 'portfolio',
+	'context' => 'normal',
+	'priority' => 'high',
+	'fields' => array(
+		array(
+			'name' => 'Before',
+			'desc' => 'Select a Before Image',
+			'id' => 'upload_image',
+			'type' => 'text',
+			'std' => ''
+		),
+				array(
+			'name' => '',
+			'desc' => 'Select an After Image',
+			'id' => 'upload_image_button',
+			'type' => 'button',
+			'std' => 'Browse'
+		),
+	array(
+			'name' => 'After',
+			'desc' => 'Select an After Image',
+			'id' => 'upload_image2',
+			'type' => 'text',
+			'std' => ''
+		),
+	array(
+			'name' => '',
+			'desc' => '',
+			'id' => 'upload_image_button2',
+			'type' => 'button',
+			'std' => 'Browse'
+		),
+	)
+);
+ 
+add_action('admin_menu', 'mytheme_add_box');
+ 
+// Add meta box
+function mytheme_add_box() {
+	global $meta_box;
+ 
+	add_meta_box($meta_box['id'], $meta_box['title'], 'mytheme_show_box', $meta_box['page'], $meta_box['context'], $meta_box['priority']);
+}
+ 
+// Callback function to show fields in meta box
+function mytheme_show_box() {
+	global $meta_box, $post;
+ 
+	// Use nonce for verification
+	echo '<input type="hidden" name="mytheme_meta_box_nonce" value="', wp_create_nonce(basename(__FILE__)), '" />';
+ 
+	echo '<table class="form-table">';
+ 
+	foreach ($meta_box['fields'] as $field) {
+		// get current post meta data
+		$meta = get_post_meta($post->ID, $field['id'], true);
+ 
+		echo '<tr>',
+				'<th style="width:20%"><label for="', $field['id'], '">', $field['name'], '</label></th>',
+				'<td><img src="', $meta ? $meta : $field['std'], '" width="100"></td><td>';
+		switch ($field['type']) {
+ 
+ 
+ 
+ 
+//If Text		
+			case 'text':
+				echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $field['std'], '" size="30" style="width:97%" />',
+					'<br />', $field['desc'];
+				break;
+ 
+ 
+//If Text Area			
+			case 'textarea':
+				echo '<textarea name="', $field['id'], '" id="', $field['id'], '" cols="60" rows="4" style="width:97%">', $meta ? $meta : $field['std'], '</textarea>',
+					'<br />', $field['desc'];
+				break;
+ 
+ 
+//If Button	
+ 
+				case 'button':
+				echo '<input type="button" name="', $field['id'], '" id="', $field['id'], '"value="', $meta ? $meta : $field['std'], '" />';
+				break;
+		}
+		echo 	'<td>',
+			'</tr>';
+	}
+ 
+	echo '</table>';
+}
+ 
+add_action('save_post', 'mytheme_save_data');
+ 
+// Save data from meta box
+function mytheme_save_data($post_id) {
+	global $meta_box;
+ 
+	// verify nonce
+	if (!wp_verify_nonce($_POST['mytheme_meta_box_nonce'], basename(__FILE__))) {
+		return $post_id;
+	}
+ 
+	// check autosave
+	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+		return $post_id;
+	}
+ 
+	// check permissions
+	if ('page' == $_POST['post_type']) {
+		if (!current_user_can('edit_page', $post_id)) {
+			return $post_id;
+		}
+	} elseif (!current_user_can('edit_post', $post_id)) {
+		return $post_id;
+	}
+ 
+	foreach ($meta_box['fields'] as $field) {
+		$old = get_post_meta($post_id, $field['id'], true);
+		$new = $_POST[$field['id']];
+ 
+		if ($new && $new != $old) {
+			update_post_meta($post_id, $field['id'], $new);
+		} elseif ('' == $new && $old) {
+			delete_post_meta($post_id, $field['id'], $old);
+		}
+	}
+}
+ 
+function my_admin_scripts() {
+wp_enqueue_script('media-upload');
+wp_enqueue_script('thickbox');
+wp_register_script('my-upload', get_bloginfo('template_url') . '/scripts/uploadScript.js', array('jquery','media-upload','thickbox'));
+wp_enqueue_script('my-upload');
+}
+
+
+function my_admin_styles() {
+wp_enqueue_style('thickbox');
+}
+add_action('admin_print_scripts', 'my_admin_scripts');
+add_action('admin_print_styles', 'my_admin_styles');
+
+
+
+
 global $post;
 	
-
 $custom = get_post_custom($post->ID);
 add_action('save_post', 'save_details');
 
@@ -1064,4 +1213,5 @@ function save_details(){
   update_post_meta($post->ID, "film", $_POST["film"]);
 }
 
+?>
 
