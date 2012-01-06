@@ -345,7 +345,8 @@ function my_init() {
 		
 	//	wp_register_script('loupe', get_bloginfo('template_directory') .'/scripts/loupe.js', array('jquery'), '1.0',false);
 	//	wp_enqueue_script('loupe');
-	
+	wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false' );
+		    wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );
 		wp_register_script('history', get_bloginfo('template_directory') .'/scripts/history.js', array('jquery'), '1.0',false);
 		wp_enqueue_script('history');
 	
@@ -519,394 +520,8 @@ function z_gallery_shortcode($attr) {
 }
 
 
-// AUTOMATICALLY EXTRACT THE FIRST IMAGE FROM THE POST 
-/* http://bavotasan.com/tutorials/retrieve-the-first-image-from-a-wordpress-post/
-function getImage($num) {
-    global $more;
-    $more = 1;
-    $link = get_permalink();
-    $content = get_the_content();
-    $count = substr_count($content, '<img');
-    $start = 0;
-    for($i=1;$i<=$count;$i++) {
-        $imgBeg = strpos($content, '<img', $start);
-        $post = substr($content, $imgBeg);
-        $imgEnd = strpos($post, '>');
-        $postOutput = substr($post, 0, $imgEnd+1);
-        $postOutput = preg_replace('/width="([0-9]*)" height="([0-9]*)"/', '',$postOutput);;
-        $image[$i] = $postOutput;
-        $start=$imgEnd+1;
-    }
-    if(stristr($image[$num],'<img')) { echo '<a href="'.$link.'">'.$image[$num]."</a>"; }
-    $more = 0;
-}
-*/
-// Get URL of first image in a post
-//http://wordpress.org/support/topic/is-this-an-exploit-in-post-thumb-revisited
-
-function catch_that_image() {
-global $post, $posts;
-$first_img = '';
-ob_start();
-ob_end_clean();
-$output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
-$first_img = $matches [1] [0];
-// no image found display default image instead
-if(empty($first_img)){
-$first_img = "";
-}
-return $first_img;
-}
-
-
-
-function bm_extract_string($start, $end, $original) {
-$original = stristr($original, $start);
-$trimmed = stristr($original, $end);
-return substr($original, strlen($start), -strlen($trimmed));
-}
-
-function getFirstImage() {
-$content = get_the_content();
-$pic_string = bm_extract_string('src="','" ',$content);
-list($width, $height, $type, $attr) = getimagesize($pic_string);
-$link = get_permalink();
-$title = get_the_title($post->post_title);
-echo '<a href="'.$link.'" style="background:url('.$pic_string.'); display:block; width:'.$width.'px; height:'.$height.'px;" title="'.$title.'"></a>';
- $p = get_post($post_id);
-			$template = get_bloginfo('template_url');
-            echo "<li>";
-			echo $p->post_content;
-            echo "<a href='".get_permalink($post_id)."' title='". $p->post_title ."'>" . $p->post_title . "</a> ";
-			echo "<a href='".get_permalink($post_id)."' title='". $p->post_title ."'> <img src='".$template."/scripts/timthumb.php?src=";
-			echo favorite_image();
-			echo "&w=140&h=120&zc=1&q=80' /></a>";
-            wpfp_remove_favorite_link($post_id);
-            echo "</li>";
-			
-			}
-//return the first image, <img/> tag and all.
-function first_image($width=100,$height=100,$zoomcrop=1){
-	$timthumb_url = get_first_image($width, $height, $zoomcrop);
-	if(isset($timthumb_url)){
-		?>
-		<a href="<?php the_permalink()?>" class="thumbnail" title="Links to: <?php the_title()?>">
-			<img src="<?php echo $timthumb_url?>" alt="<?php the_title() ?>" class="thumbnail"/>
-		</a>
-		<?php
-	}
-}
-
-//return just the src for the first image whether that be in the content or an attachment
-function get_first_image($width=100,$height=100,$zoomcrop=1){
-	$tn_src = get_first_content_image();
-	if (!isset($tn_src)) //no image? try getting an attached image instead (native media galleries inserted into posts use attachments)
-		$tn_src = get_first_attachment();
-
-	if(isset($tn_src))
-		$timthumb_url = get_bloginfo('template_url').'/scripts/timthumb.php?src='.$tn_src.'&h='.$height.'&w='.$width.'&zc='.$zoomcrop;
-	else
-		unset($timthumb_url);
-
-	return $timthumb_url;
-}
-
-//return just the src for the first image buried in the post's textual content.
-function get_first_content_image() {
-	global $post, $posts;
-	$first_img = '';
-	$url = get_bloginfo('url');
-	ob_start();
-	ob_end_clean();
-	$output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
-	$first_img = $matches [1] [0];
-
-	$not_broken = @fopen("$first_img","r"); // checks if the image exists
-	if(empty($first_img) || !($not_broken)){ //Defines a default image
-		unset($first_img);
-	}else{
-		$first_img = str_replace($url, '', $first_img);
-	}
-	return $first_img;
-}
-
-//return just the src for the first image attachment
-function get_first_attachment(){
-	$querystr =
-	"
-		SELECT
-				wp_posts.post_excerpt AS 'imageTitle',
-					wp_posts.guid AS 'imageGuid'
-		FROM
-			wp_posts
-		WHERE
-				wp_posts.post_parent = ".get_the_ID()."
-			AND	wp_posts.post_type = \"attachment\"
-		ORDER BY \"menu_order\"
-		LIMIT 1
-	";
-	global $wpdb;
-	$url = get_bloginfo('url');
-	$post_item = $wpdb->get_row($querystr);
-	$first_attachment = $post_item->imageGuid;
-	$not_broken = @fopen("$first_attachment","r"); // checks if the image exists
-	if(empty($first_attachment) || !($not_broken)){ //Defines a default image
-		unset($first_attachment);
-	}else{
-		$first_attachment = str_replace($url, '', $first_attachment);
-	}
-	return $first_attachment;
-}
-
-/*
-// This is added in to remove image if it is added in post as well
-add_filter( 'the_content', 'remove_first_image' );
-
-// This is the function name
-function remove_first_image($content) {
-global $post, $posts;
-
-// This is the preg replace that removes the first image
-
-$content = preg_replace('/]+./',  ob_get_contents(),'',1);
-return $content;
-}
-
-*/
-
-// this is another attmept
-function grab_image_attachment() {
-$images =& get_children( 'post_type=attachment&post_mime_type=image' );
-
-$videos =& get_children( 'post_type=attachment&post_mime_type=video/mp4' );
-
-if ( empty($images) ) {
-	// no attachments here
-} else {
-	foreach ( $images as $attachment_id => $attachment ) {
-		echo wp_get_attachment_image( $attachment_id, 'full' );
-	}
-}
-
-//  If you don't need to handle an empty result:
-
-foreach ( (array) $videos as $attachment_id => $attachment ) {
-	echo wp_get_attachment_link( $attachment_id );
-}	
-}
-
-/* Define the custom box */
-
-// WP 3.0+
-// add_action('add_meta_boxes', 'myplugin_add_custom_box');
-
-// backwards compatible
-add_action('admin_init', 'myplugin_add_custom_box', 1);
-
-/* Do something with the data entered */
-add_action('save_post', 'myplugin_save_postdata');
-
-/* Adds a box to the main column on the Post and Page edit screens */
-function myplugin_add_custom_box() {
-    add_meta_box( 'myplugin_sectionid', __( 'My Post Section Title', 'myplugin_textdomain' ), 
-                'myplugin_inner_custom_box', 'post' );
-    add_meta_box( 'myplugin_sectionid', __( 'My Post Section Title', 'myplugin_textdomain' ), 
-                'myplugin_inner_custom_box', 'page' );
-}
-
-/* Prints the box content */
-function myplugin_inner_custom_box() {
-
-  // Use nonce for verification
-  wp_nonce_field( plugin_basename(__FILE__), 'myplugin_noncename' );
-
-  // The actual fields for data entry
-  echo '<label for="myplugin_new_field">' . __("Description for this field", 'myplugin_textdomain' ) . '</label> ';
-  echo '<input type="text" id= "myplugin_new_field" name="myplugin_new_field" value="whatever" size="25" />';
-}
-
-/* When the post is saved, saves our custom data */
-function myplugin_save_postdata( $post_id ) {
-
-  // verify this came from the our screen and with proper authorization,
-  // because save_post can be triggered at other times
-
-  if ( !wp_verify_nonce( $_POST['myplugin_noncename'], plugin_basename(__FILE__) )) {
-    return $post_id;
-  }
-
-  // verify if this is an auto save routine. If it is our form has not been submitted, so we dont want
-  // to do anything
-  if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
-    return $post_id;
-
-  
-  // Check permissions
-  if ( 'page' == $_POST['post_type'] ) {
-    if ( !current_user_can( 'edit_page', $post_id ) )
-      return $post_id;
-  } else {
-    if ( !current_user_can( 'edit_post', $post_id ) )
-      return $post_id;
-  }
-
-  // OK, we're authenticated: we need to find and save the data
-
-  $mydata = $_POST['myplugin_new_field'];
-
-  // Do something with $mydata 
-  // probably using add_post_meta(), update_post_meta(), or 
-  // a custom table (see Further Reading section below)
-
-   return $mydata;
-}
-
-// wordpress 3.1 remove admin bar
+// wordpress 3.1 remove admin bar on frontend
 add_filter( 'show_admin_bar', '__return_false' );
-
-// custom fields - http://www.deluxeblogtips.com/2010/04/how-to-create-meta-box-wordpress-post.html
-
-$meta_boxes = array(
-   
-    array(
-        'id' => 'story',
-        'title' => 'Description',
-        'pages' => array('post', 'page' , 'link'), // custom post type
-        'context' => 'normal',
-        'priority' => 'high',
-        'fields' => array(
-            array(
-                'name' => 'Describe the scene :',
-                'id' => $prefix . 'textarea',
-                'type' => 'textarea'
-                
-            )
-        )
-    ),
-	
-	
-	 array(
-        'id' => 'text-location',
-        'title' => 'Location Data',
-        'pages' => array('post', 'page', 'link'), // multiple post types
-        'context' => 'normal',
-        'priority' => 'high',
-        'fields' => array(
-            array(
-                'name' => 'Text Location',
-                'desc' => 'Enter location here',
-                'id' => $prefix . 'text',
-                'type' => 'text',
-                'std' => ''
-            )
-        )
-    )
-);
-foreach ($meta_boxes as $meta_box) {
-    $my_box = new My_meta_box($meta_box);
-}
-
-
-class My_meta_box {
-
-    protected $_meta_box;
-
-    // create meta box based on given data
-    function __construct($meta_box) {
-        $this->_meta_box = $meta_box;
-        add_action('admin_menu', array(&$this, 'add'));
-
-        add_action('save_post', array(&$this, 'save'));
-    }
-
-    /// Add meta box for multiple post types
-    function add() {
-        foreach ($this->_meta_box['pages'] as $page) {
-            add_meta_box($this->_meta_box['id'], $this->_meta_box['title'], array(&$this, 'show'), $page, $this->_meta_box['context'], $this->_meta_box['priority']);
-        }
-    }
-
-    // Callback function to show fields in meta box
-    function show() {
-        global $post;
-
-        // Use nonce for verification
-        echo '<input type="hidden" name="mytheme_meta_box_nonce" value="', wp_create_nonce(basename(__FILE__)), '" />';
-    
-        echo '<table class="form-table">';
-
-        foreach ($this->_meta_box['fields'] as $field) {
-            // get current post meta data
-            $meta = get_post_meta($post->ID, $field['id'], true);
-        
-            echo '<tr>',
-                    '<th style="width:20%"><label for="', $field['id'], '">', $field['name'], '</label></th>',
-                    '<td>';
-            switch ($field['type']) {
-                case 'text':
-                    echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $field['std'], '" size="30" style="width:97%" />',
-                        '<br />', $field['desc'];
-                    break;
-                case 'textarea':
-                    echo '<textarea name="', $field['id'], '" id="', $field['id'], '" cols="60" rows="4" style="width:97%">', $meta ? $meta : $field['std'], '</textarea>',
-                        '<br />', $field['desc'];
-                    break;
-                case 'select':
-                    echo '<select name="', $field['id'], '" id="', $field['id'], '">';
-                    foreach ($field['options'] as $option) {
-                        echo '<option', $meta == $option ? ' selected="selected"' : '', '>', $option, '</option>';
-                    }
-                    echo '</select>';
-                    break;
-                case 'radio':
-                    foreach ($field['options'] as $option) {
-                        echo '<input type="radio" name="', $field['id'], '" value="', $option['value'], '"', $meta == $option['value'] ? ' checked="checked"' : '', ' />', $option['name'];
-                    }
-                    break;
-                case 'checkbox':
-                    echo '<input type="checkbox" name="', $field['id'], '" id="', $field['id'], '"', $meta ? ' checked="checked"' : '', ' />';
-                    break;
-            }
-            echo     '<td>',
-                '</tr>';
-        }
-    
-        echo '</table>';
-    }
-
-    // Save data from meta box
-    function save($post_id) {
-        // verify nonce
-        if (!wp_verify_nonce($_POST['mytheme_meta_box_nonce'], basename(__FILE__))) {
-            return $post_id;
-        }
-
-        // check autosave
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return $post_id;
-        }
-
-        // check permissions
-        if ('page' == $_POST['post_type']) {
-            if (!current_user_can('edit_page', $post_id)) {
-                return $post_id;
-            }
-        } elseif (!current_user_can('edit_post', $post_id)) {
-            return $post_id;
-        }
-
-        foreach ($this->_meta_box['fields'] as $field) {
-            $old = get_post_meta($post_id, $field['id'], true);
-            $new = $_POST[$field['id']];
-    
-            if ($new && $new != $old) {
-                update_post_meta($post_id, $field['id'], $new);
-            } elseif ('' == $new && $old) {
-                delete_post_meta($post_id, $field['id'], $old);
-            }
-        }
-    }
-}
 
 //http://wordpress.stackexchange.com/questions/13237/custom-post-type-tag-archives-dont-work-for-basic-loop
 
@@ -919,14 +534,14 @@ add_filter('request', 'post_type_tags_fix');
 
 // http://thinkvitamin.com/code/create-your-first-wordpress-custom-post-type/
 
-add_action('init', 'portfolio_register');
+add_action('init', 'photo_register');
  
-function portfolio_register() {
+function photo_register() {
  
 	$labels = array(
-		'name' => _x('Photos', 'post type general name'),
-		'singular_name' => _x('Photos', 'post type singular name'),
-		'add_new' => _x('Add New', 'photo'),
+		'name' => _x('My Photos', 'post type general name'),
+		'singular_name' => _x('Photo', 'post type singular name'),
+		'add_new' => _x('Add New', 'photo item'),
 		'add_new_item' => __('Add New Photo'),
 		'edit_item' => __('Edit Photo'),
 		'new_item' => __('New Photo'),
@@ -952,39 +567,21 @@ function portfolio_register() {
 		'supports' => array('title','comments','trackbacks','revisions','custom-fields','page-attributes','thumbnail', 'excerpt', 'tags')
 	  ); 
  
-	register_post_type( 'portfolio' , $args );
-	
-	function register_post_type_archives( $post_type, $base_path = '' ) {
-    global $wp_rewrite;
-    if ( !$base_path ) {
-        $base_path = $post_type;
-    }
-    $rules = $wp_rewrite->generate_rewrite_rules($base_path);
-    $rules[$base_path.'/?$'] = 'index.php?paged=1';
-    foreach ( $rules as $regex=>$redirect ) {
-        if ( strpos($redirect, 'attachment=') == FALSE ) {
-            $redirect .= '&post_type='.$post_type;
-            if (  0 < preg_match_all('@\$([0-9])@', $redirect, $matches) ) {
-                for ( $i=0 ; $i < count($matches[0]) ; $i++ ) {
-                    $redirect = str_replace($matches[0][$i], '$matches['.$matches[1][$i].']', $redirect);
-                }
-            }
-        }
-        add_rewrite_rule($regex, $redirect, 'top');
-    }
-}
-	
-	register_post_type_archives('portfolio');
+	register_post_type( 'photo' , $args );
+	register_taxonomy("Photos", array("photo"), array("hierarchical" => true, "label" => "Photos", "singular_label" => "Photo", "rewrite" => true));
+
 	
 }
 
 
 
 add_action("admin_init", "admin_init");
- 
+add_action('save_post', 'save_details');
+
 function admin_init(){ // add_meta_box( $id, $title, $callback, $page, $context, $priority ); 
-  add_meta_box("media", "Media Type", "media", "portfolio", "side", "high");
-  add_meta_box("map_meta", "Mapping Info", "map_meta", "portfolio", "normal", "high");
+  add_meta_box("media", "Media Type", "media", "photo", "side", "high");
+  add_meta_box("map_meta", "Mapping Info", "map_meta", "photo", "normal", "high");
+  add_meta_box("photo_meta", "Add a photograph", "photo_meta", "photo", "normal", "high");
 }
  
 function media(){
@@ -1002,7 +599,29 @@ function media(){
   
   <?php
 }
- 
+
+function photo_meta(){
+  global $post;
+  $custom = get_post_custom($post->ID);
+  $single_photo = $custom["single_photo"][0];
+  ?>
+  
+  <div id="singleUpload">
+  	<div class="sUcallback"> 
+  		<img src="<?php echo $single_photo; ?>" width="200" /> 		
+  	</div>
+  	<div class="sUinput">
+  		<input id="single_photo" name="single_photo" value="<?php echo $single_photo; ?>" />
+  	</div>
+  	<div class="sUbutton">
+  	<input type="button" value="Upload" name="upload" id="upload_image_button" />
+  	</div>
+  </div>
+  
+  <?php
+}
+
+
 function map_meta() {
   global $post;
   $custom = get_post_custom($post->ID);
@@ -1048,147 +667,14 @@ function disableEnterKey(e)
   <?php
 }
 
-$prefix = 'sic_';
- 
-$meta_box = array(
-	'id' => 'my-meta-box',
-	'title' => 'Before and Afters',
-	'page' => 'portfolio',
-	'context' => 'normal',
-	'priority' => 'high',
-	'fields' => array(
-		array(
-			'name' => 'Before',
-			'desc' => 'Select a Before Image',
-			'id' => 'upload_image',
-			'type' => 'text',
-			'std' => ''
-		),
-				array(
-			'name' => '',
-			'desc' => 'Select an After Image',
-			'id' => 'upload_image_button',
-			'type' => 'button',
-			'std' => 'Browse'
-		),
-	array(
-			'name' => 'After',
-			'desc' => 'Select an After Image',
-			'id' => 'upload_image2',
-			'type' => 'text',
-			'std' => ''
-		),
-	array(
-			'name' => '',
-			'desc' => '',
-			'id' => 'upload_image_button2',
-			'type' => 'button',
-			'std' => 'Browse'
-		),
-	)
-);
- 
-add_action('admin_menu', 'mytheme_add_box');
- 
-// Add meta box
-function mytheme_add_box() {
-	global $meta_box;
- 
-	add_meta_box($meta_box['id'], $meta_box['title'], 'mytheme_show_box', $meta_box['page'], $meta_box['context'], $meta_box['priority']);
-}
- 
-// Callback function to show fields in meta box
-function mytheme_show_box() {
-	global $meta_box, $post;
- 
-	// Use nonce for verification
-	echo '<input type="hidden" name="mytheme_meta_box_nonce" value="', wp_create_nonce(basename(__FILE__)), '" />';
- 
-	echo '<table class="form-table">';
- 
-	foreach ($meta_box['fields'] as $field) {
-		// get current post meta data
-		$meta = get_post_meta($post->ID, $field['id'], true);
- 
-		echo '<tr>',
-				'<th style="width:20%"><label for="', $field['id'], '">', $field['name'], '</label></th>',
-				'<td><img src="', $meta ? $meta : $field['std'], '" width="100"></td><td>';
-		switch ($field['type']) {
- 
- 
- 
- 
-//If Text		
-			case 'text':
-				echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $field['std'], '" size="30" style="width:97%" />',
-					'<br />', $field['desc'];
-				break;
- 
- 
-//If Text Area			
-			case 'textarea':
-				echo '<textarea name="', $field['id'], '" id="', $field['id'], '" cols="60" rows="4" style="width:97%">', $meta ? $meta : $field['std'], '</textarea>',
-					'<br />', $field['desc'];
-				break;
- 
- 
-//If Button	
- 
-				case 'button':
-				echo '<input type="button" name="', $field['id'], '" id="', $field['id'], '"value="', $meta ? $meta : $field['std'], '" />';
-				break;
-		}
-		echo 	'<td>',
-			'</tr>';
-	}
- 
-	echo '</table>';
-}
- 
-add_action('save_post', 'mytheme_save_data');
- 
-// Save data from meta box
-function mytheme_save_data($post_id) {
-	global $meta_box;
- 
-	// verify nonce
-	if (!wp_verify_nonce($_POST['mytheme_meta_box_nonce'], basename(__FILE__))) {
-		return $post_id;
-	}
- 
-	// check autosave
-	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-		return $post_id;
-	}
- 
-	// check permissions
-	if ('page' == $_POST['post_type']) {
-		if (!current_user_can('edit_page', $post_id)) {
-			return $post_id;
-		}
-	} elseif (!current_user_can('edit_post', $post_id)) {
-		return $post_id;
-	}
- 
-	foreach ($meta_box['fields'] as $field) {
-		$old = get_post_meta($post_id, $field['id'], true);
-		$new = $_POST[$field['id']];
- 
-		if ($new && $new != $old) {
-			update_post_meta($post_id, $field['id'], $new);
-		} elseif ('' == $new && $old) {
-			delete_post_meta($post_id, $field['id'], $old);
-		}
-	}
-}
- 
 function my_admin_scripts() {
 wp_enqueue_script('media-upload');
 wp_enqueue_script('thickbox');
 wp_register_script('my-upload', get_bloginfo('template_url') . '/scripts/uploadScript.js', array('jquery','media-upload','thickbox'));
 wp_enqueue_script('my-upload');
+wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places' );
+wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );			
 }
-
 
 function my_admin_styles() {
 wp_enqueue_style('thickbox');
@@ -1199,19 +685,52 @@ add_action('admin_print_styles', 'my_admin_styles');
 
 
 
-global $post;
-	
-$custom = get_post_custom($post->ID);
-add_action('save_post', 'save_details');
+function save_details($post_id){
+    global $post;
+      update_post_meta($post_id, "single_photo", $_POST["single_photo"]);
+	  update_post_meta($post_id, "latlong", $_POST["latlong"]);
+	  update_post_meta($post_id, "latitude", $_POST["latitude"]);
+	  update_post_meta($post_id, "longitude", $_POST["longitude"]);
+	  update_post_meta($post_id, "camera", $_POST["camera"]);
+	  update_post_meta($post_id, "film", $_POST["film"]);
+   
+}
 
-function save_details(){
-  global $post;
+
+  /*
+  update_post_meta($post->ID, "single_photo", $_POST["single_photo"]);
   update_post_meta($post->ID, "latlong", $_POST["latlong"]);
   update_post_meta($post->ID, "latitude", $_POST["latitude"]);
   update_post_meta($post->ID, "longitude", $_POST["longitude"]);
   update_post_meta($post->ID, "camera", $_POST["camera"]);
   update_post_meta($post->ID, "film", $_POST["film"]);
 }
-
+*/
+//return just the src for the first image attachment // used for tag thumbs v3
+function get_first_attachment(){
+	$querystr =
+	"
+	SELECT
+	wp_posts.post_excerpt AS 'imageTitle',
+	wp_posts.guid AS 'imageGuid'
+	FROM
+	wp_posts
+	WHERE
+	wp_posts.post_parent = ".get_the_ID()."
+	AND wp_posts.post_type = \"attachment\"
+	ORDER BY \"menu_order\"
+	LIMIT 1
+	";
+	global $wpdb;
+	$url = get_bloginfo('url');
+	$post_item = $wpdb->get_row($querystr);
+	$first_attachment = $post_item->imageGuid;
+	$not_broken = @fopen("$first_attachment","r"); // checks if the image exists
+	if(empty($first_attachment) || !($not_broken)){ //Defines a default image
+	unset($first_attachment);
+	}else{
+	$first_attachment = str_replace($url, '', $first_attachment);
+	}
+	return $first_attachment;
+	}
 ?>
-
