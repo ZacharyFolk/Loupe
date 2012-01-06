@@ -1,12 +1,23 @@
 function initialize() {
   		var map;
   		var markersArray = [];
-  		var vlat;
-  		var vlong;
+  		var lat_default = 46.852678248531156;
+  		var lng_default = -121.75941467285156;
+  		var lat_element = document.getElementById('latitude');  		
+  		var lat_value = lat_element.value;
+  		console.log(lat_value);
+  		var lng_element = document.getElementById('longitude');
+        var lng_value = lng_element.value;
+        if ( lat_value ) {
+        	lat_map = lat_value; 
+        } else { lat_map = lat_default; }
+        if ( lng_value ) {
+        	lng_map = lng_value; 
+        } else { lng_map = lng_default; }
         var mapOptions = {
-          center: new google.maps.LatLng(-33.8688, 151.2195),
+          center: new google.maps.LatLng(lat_map, lng_map),
           zoom: 13,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          mapTypeId: google.maps.MapTypeId.SATELLITE
         };
         var map = new google.maps.Map(document.getElementById('map_canvas'),
           mapOptions);
