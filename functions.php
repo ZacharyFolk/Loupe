@@ -686,6 +686,9 @@ add_action('admin_print_styles', 'my_admin_styles');
 
 
 function save_details($post_id){
+	if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+	
+	
     global $post;
       update_post_meta($post_id, "single_photo", $_POST["single_photo"]);
 	  update_post_meta($post_id, "latlong", $_POST["latlong"]);
