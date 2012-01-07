@@ -90,51 +90,8 @@ function twentyten_admin_header_style() {
 <?php
 }
 endif;
-/**
- * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis and twentyten_continue_reading_link().
- *
- * To override this in a child theme, remove the filter and add your own
- * function tied to the excerpt_more filter hook.
- *
- * @since Twenty Ten 1.0
- * @return string An ellipsis
- */
-function twentyten_auto_excerpt_more( $more ) {
-	return ' &hellip;' . twentyten_continue_reading_link();
-}
-add_filter( 'excerpt_more', 'twentyten_auto_excerpt_more' );
 
-/**
- * Adds a pretty "Continue Reading" link to custom post excerpts.
- *
- * To override this link in a child theme, remove the filter and add your own
- * function tied to the get_the_excerpt filter hook.
- *
- * @since Twenty Ten 1.0
- * @return string Excerpt with a pretty "Continue Reading" link
- */
-function twentyten_custom_excerpt_more( $output ) {
-	if ( has_excerpt() && ! is_attachment() ) {
-		$output .= twentyten_continue_reading_link();
-	}
-	return $output;
-}
-add_filter( 'get_the_excerpt', 'twentyten_custom_excerpt_more' );
 
-/**
- * Remove inline styles printed when the gallery shortcode is used.
- *
- * Galleries are styled by the theme in Twenty Ten's style.css.
- *
- * @since Twenty Ten 1.0
- * @return string The gallery style filter, with the styles themselves removed.
- */
-function twentyten_remove_gallery_css( $css ) {
-	return preg_replace( "#<style type='text/css'>(.*?)</style>#s", '', $css );
-}
-add_filter( 'gallery_style', 'twentyten_remove_gallery_css' );
-
-if ( ! function_exists( 'twentyten_comment' ) ) :
 /**
  * Template for comments and pingbacks.
  *
@@ -186,7 +143,6 @@ function twentyten_comment( $comment, $args, $depth ) {
 			break;
 	endswitch;
 }
-endif;
 
 /**
  * Register widgetized areas, including two sidebars and four widget-ready columns in the footer.
@@ -267,43 +223,6 @@ function twentyten_widgets_init() {
 /** Register sidebars by running twentyten_widgets_init() on the widgets_init hook. */
 add_action( 'widgets_init', 'twentyten_widgets_init' );
 
-/**
- * Removes the default styles that are packaged with the Recent Comments widget.
- *
- * To override this in a child theme, remove the filter and optionally add your own
- * function tied to the widgets_init action hook.
- *
- * @since Twenty Ten 1.0
- */
-function twentyten_remove_recent_comments_style() {
-	global $wp_widget_factory;
-	remove_action( 'wp_head', array( $wp_widget_factory->widgets['WP_Widget_Recent_Comments'], 'recent_comments_style' ) );
-}
-add_action( 'widgets_init', 'twentyten_remove_recent_comments_style' );
-
-if ( ! function_exists( 'twentyten_posted_on' ) ) :
-/**
- * Prints HTML with meta information for the current post—date/time and author.
- *
- * @since Twenty Ten 1.0
- */
-function twentyten_posted_on() {
-	printf( __( '<span class="%1$s">Posted on</span> %2$s <span class="meta-sep">by</span> %3$s', 'twentyten' ),
-		'meta-prep meta-prep-author',
-		sprintf( '<a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a>',
-			get_permalink(),
-			esc_attr( get_the_time() ),
-			get_the_date()
-		),
-		sprintf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>',
-			get_author_posts_url( get_the_author_meta( 'ID' ) ),
-			sprintf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ),
-			get_the_author()
-		)
-	);
-}
-endif;
-
 if ( ! function_exists( 'loupe_posted_in' ) ) :
 /**
  * Prints HTML with meta information for the current post (category, tags and permalink).
@@ -349,33 +268,11 @@ function my_init() {
 		    wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );
 		wp_register_script('history', get_bloginfo('template_directory') .'/scripts/history.js', array('jquery'), '1.0',false);
 		wp_enqueue_script('history');
-	
-	
 	}
 
 	 if (is_page('home')) {
 		wp_register_script('cycle', get_bloginfo('template_directory') . '/scripts/cycle.js', array('jquery'), '1.0',false);
 		wp_enqueue_script('cycle');
-		}
-	
-	
-    if (is_admin()) {
-    	// move below this } when ready for maps 
-		wp_register_script('Gmaps', 'http://maps.google.com/maps/api/js?sensor=false', false, '3.0', false);
-		wp_enqueue_script('Gmaps');
-		
-		
-        wp_register_style('admin_js', get_bloginfo('template_directory') . '/admin.js');
-		wp_enqueue_script('admin_js');
-
-		wp_register_script('Zmaps', get_bloginfo('template_directory') .'/scripts/maps.js', array('Gmaps'), '1.0', true);
-		wp_enqueue_script('Zmaps');
-		
-			
-		wp_register_style('admin_css', get_bloginfo('template_directory') . '/css/adminstuff.css');
-		wp_enqueue_style('admin_css');
-
-		
 		}
 	
 }
@@ -693,8 +590,6 @@ add_action('admin_print_scripts', 'my_admin_scripts');
 add_action('admin_print_styles', 'my_admin_styles');
 
 
-
-
 function save_details($post_id){
 	if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 	
@@ -709,16 +604,6 @@ function save_details($post_id){
    
 }
 
-
-  /*
-  update_post_meta($post->ID, "single_photo", $_POST["single_photo"]);
-  update_post_meta($post->ID, "latlong", $_POST["latlong"]);
-  update_post_meta($post->ID, "latitude", $_POST["latitude"]);
-  update_post_meta($post->ID, "longitude", $_POST["longitude"]);
-  update_post_meta($post->ID, "camera", $_POST["camera"]);
-  update_post_meta($post->ID, "film", $_POST["film"]);
-}
-*/
 //return just the src for the first image attachment // used for tag thumbs v3
 function get_first_attachment(){
 	$querystr =
