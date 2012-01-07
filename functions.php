@@ -580,8 +580,9 @@ add_action('save_post', 'save_details');
 
 function admin_init(){ // add_meta_box( $id, $title, $callback, $page, $context, $priority ); 
   add_meta_box("media", "Media Type", "media", "photo", "side", "high");
-  add_meta_box("map_meta", "Mapping Info", "map_meta", "photo", "normal", "high");
   add_meta_box("photo_meta", "Add a photograph", "photo_meta", "photo", "normal", "high");
+  add_meta_box("map_meta", "Map It", "map_meta", "photo", "normal", "high");
+
 }
  
 function media(){
@@ -606,7 +607,7 @@ function photo_meta(){
   $single_photo = $custom["single_photo"][0];
   ?>
   
-  <div id="singleUpload">
+  <div id="singleUpload" class="clearfix">
   	<div class="sUcallback"> 
   		<img src="<?php echo $single_photo; ?>" width="200" /> 		
   	</div>
@@ -629,30 +630,37 @@ function map_meta() {
   $longitude = $custom["longitude"][0];
 
   ?>
-<div id="mapControls">
-	
-	<div class="latlong">
-		<p><label for="lat">Latitude, Longitude:</label><br />
-	  <input id="latlong"  name="latlong" value="<?php echo $latlong; ?>"></input></p>
-	</div>
-<div class="lat">
-  <p><label for="lat">Latitude:</label><br />
-  <input id="latitude"  name="latitude" value="<?php echo $latitude; ?>"></input></p>
- </div>
- <div class="lng">
-  <p><label>Longitude:</label><br />
-  <input id="longitude" name="longitude" value="<?php echo $longitude; ?>" ></input></p>
- </div>
 
+   <input type="text" value="" id="searchTextField" style=" width:98%;height:30px; font-size:15px;" onKeyPress="return disableEnterKey(event)"> 
+   <div class="clearfix">&nbsp;</div>
+ <div class="clearfix" id="mapFix">
+  	<div id="map_canvas" style="width:98%; height:350px;"></div>
+  	</div>
+  	<div id="mapControls">
+			<!--//
+	<div class="latlong">
+	 <p><label for="lat">Latitude, Longitude:</label><br />
+	  <input id="latlong"  name="latlong" value="<?php echo $latlong; ?>"></input></p> 
+	</div>
+		-->
+	<div class="lat">
+	  <p><label for="lat">Latitude:</label>
+	  <input id="latitude"  name="latitude" value="<?php echo $latitude; ?>"></input></p>
+	</div>
+	
+	<div class="lng">
+	  <p><label>Longitude:</label>
+	  <input id="longitude" name="longitude" value="<?php echo $longitude; ?>" ></input></p>
+	</div>
+<!--
   	<?php
   	$lat = get_post_meta($post->ID, 'latitude', true);
 if ($lat !== '') { ?>
   	<div class="cur1">Current lat : <?php echo $latitude; ?> long: <?php echo $longitude; ?></div>
  <? } ?>
+-->
  </div>
-   <input type="text" value="" id="searchTextField" style=" width:98%;height:30px; font-size:15px;" onKeyPress="return disableEnterKey(event)"> 
- <div class="clearfix" id="mapFix">&nbsp;</div>
-  	<div id="map_canvas" style="width:98%; height:350px;"></div>
+ 
 <script language="JavaScript">
 function disableEnterKey(e)
 		{
@@ -677,6 +685,8 @@ wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scrip
 }
 
 function my_admin_styles() {
+wp_register_style('admin-style', get_bloginfo('template_url') . '/css/adminstuff.css');
+wp_enqueue_style('admin-style');
 wp_enqueue_style('thickbox');
 }
 add_action('admin_print_scripts', 'my_admin_scripts');
