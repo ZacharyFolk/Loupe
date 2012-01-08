@@ -106,6 +106,5 @@ echo get_post_meta($post->ID, 'upload_image', true);
             });
         </script>
         
-        
 </div> 
 <?php get_footer(); ?>
