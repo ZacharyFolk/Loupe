@@ -175,6 +175,7 @@ background-color:rgba(15,0,0,0.7);
 #masthead a:link, #masthead a:visited {color: #9EA5B5}
 #masthead a:hover {color: #D3DCF2  }
 
+#masthead div.activeTagClass a:link, #masthead div.activeTagClass a:visited {color: #FFF  }
 h1#site-title {font-size: 18px; text-transform: uppercase;  margin:5px 0 0 15px; letter-spacing: .1em; width: 220px;float: left;}
 h1#site-title a:link, h1#site-title a:visited {color: #D3DCF2}
 
@@ -436,7 +437,7 @@ a:hover span.openClose {width: 24px; height: 20px; display: block; background: u
 
 /* INFO PANEL */
 
-#infoPanel {width: 260px; float: right; display: none;
+#infoPanel {width: 510px; float: right; display: none;
 /*background: url("images/raster.png") repeat scroll 0 0; */
 background-color: #e0e0e0;  padding: 20px; margin: 0px 5px 0 0; position: fixed; right: 0px; border: 1px dashed #999; top: 40px; z-index: 999;  }
 
