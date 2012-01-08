@@ -1,17 +1,8 @@
 <?php
 /**
  *
- * @since Twenty Ten 1.0
+ * @since The Loupe 0.1
  * The Loupe functions and definitions
- * function my_init = safe loading of all of the scripts
- * function z_gallery_shortcode = custom output for [gallery] shorcode to work
- * with the jQuery gallery
- */
-/**
- * Set the content width based on the theme's design and stylesheet.
- *
- * Used to set the width of images and content. Should be equal to the width the theme
- * is designed for, generally via the style.css stylesheet.
  */
 
 
@@ -21,19 +12,7 @@ if ( ! isset( $content_width ) )
 add_action( 'after_setup_theme', 'loupe_setup' );
 
 if ( ! function_exists( 'loupe_setup' ) ):
-/**
 
- * @uses add_theme_support() To add support for post thumbnails and automatic feed links.
- * @uses register_nav_menus() To add support for navigation menus.
- * @uses add_custom_background() To add support for a custom background.
- * @uses add_editor_style() To style the visual editor.
- * @uses load_theme_textdomain() For translation/localization support.
- * @uses add_custom_image_header() To add support for a custom header.
- * @uses register_default_headers() To register the default custom header images provided with the theme.
- * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
- *
- * @since Twenty Ten 1.0
- */
 function loupe_setup() {
 
 	// This theme styles the visual editor with editor-style.css to match the theme style.
@@ -45,214 +24,11 @@ function loupe_setup() {
 	// Add default posts and comments RSS feed links to head
 	add_theme_support( 'automatic-feed-links' );
 
-	// Make theme available for translation
-	// Translations can be filed in the /languages/ directory
-	//load_theme_textdomain( 'twentyten', TEMPLATEPATH . '/languages' );
-
-//	$locale = get_locale();
-//	$locale_file = TEMPLATEPATH . "/languages/$locale.php";
-//	if ( is_readable( $locale_file ) )
-//		require_once( $locale_file );
-
-	// This theme uses wp_nav_menu() in one location.
-	register_nav_menus( array(
-		'primary' => __( 'Primary Navigation', 'twentyten' ),
-	) );
-
-	// This theme allows users to set a custom background
-	add_custom_background();
-
 
 }
 endif;
 
-if ( ! function_exists( 'twentyten_admin_header_style' ) ) :
-/**
- * Styles the header image displayed on the Appearance > Header admin panel.
- *
- * Referenced via add_custom_image_header() in twentyten_setup().
- *
- * @since Twenty Ten 1.0
- */
-function twentyten_admin_header_style() {
-?>
-<style type="text/css">
-/* Shows the same border as on front end */
-#headimg {
-	border-bottom: 1px solid #000;
-	border-top: 4px solid #000;
-}
-/* If NO_HEADER_TEXT is false, you would style the text with these selectors:
-	#headimg #name { }
-	#headimg #desc { }
-*/
-</style>
-<?php
-}
-endif;
 
-
-/**
- * Template for comments and pingbacks.
- *
- * To override this walker in a child theme without modifying the comments template
- * simply create your own twentyten_comment(), and that function will be used instead.
- *
- * Used as a callback by wp_list_comments() for displaying the comments.
- *
- * @since Twenty Ten 1.0
- */
-function twentyten_comment( $comment, $args, $depth ) {
-	$GLOBALS['comment'] = $comment;
-	switch ( $comment->comment_type ) :
-		case '' :
-	?>
-	<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
-		<div id="comment-<?php comment_ID(); ?>">
-		<div class="comment-author vcard">
-			<?php echo get_avatar( $comment, 40 ); ?>
-			<?php printf( __( '%s <span class="says">says:</span>', 'twentyten' ), sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ) ); ?>
-		</div><!-- .comment-author .vcard -->
-		<?php if ( $comment->comment_approved == '0' ) : ?>
-			<em><?php _e( 'Your comment is awaiting moderation.', 'twentyten' ); ?></em>
-			<br />
-		<?php endif; ?>
-
-		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
-			<?php
-				/* translators: 1: date, 2: time */
-				printf( __( '%1$s at %2$s', 'twentyten' ), get_comment_date(),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)', 'twentyten' ), ' ' );
-			?>
-		</div><!-- .comment-meta .commentmetadata -->
-
-		<div class="comment-body"><?php comment_text(); ?></div>
-
-		<div class="reply">
-			<?php comment_reply_link( array_merge( $args, array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
-		</div><!-- .reply -->
-	</div><!-- #comment-##  -->
-
-	<?php
-			break;
-		case 'pingback'  :
-		case 'trackback' :
-	?>
-	<li class="post pingback">
-		<p><?php _e( 'Pingback:', 'twentyten' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __('(Edit)', 'twentyten'), ' ' ); ?></p>
-	<?php
-			break;
-	endswitch;
-}
-
-/**
- * Register widgetized areas, including two sidebars and four widget-ready columns in the footer.
- *
- * To override twentyten_widgets_init() in a child theme, remove the action hook and add your own
- * function tied to the init hook.
- *
- * @since Twenty Ten 1.0
- * @uses register_sidebar
- */
-function twentyten_widgets_init() {
-	// Area 1, located at the top of the sidebar.
-	register_sidebar( array(
-		'name' => __( 'Primary Widget Area', 'twentyten' ),
-		'id' => 'primary-widget-area',
-		'description' => __( 'The primary widget area', 'twentyten' ),
-		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => '</li>',
-		'before_title' => '<h3 class="widget-title">',
-		'after_title' => '</h3>',
-	) );
-
-	// Area 2, located below the Primary Widget Area in the sidebar. Empty by default.
-	register_sidebar( array(
-		'name' => __( 'Secondary Widget Area', 'twentyten' ),
-		'id' => 'secondary-widget-area',
-		'description' => __( 'The secondary widget area', 'twentyten' ),
-		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => '</li>',
-		'before_title' => '<h3 class="widget-title">',
-		'after_title' => '</h3>',
-	) );
-
-	// Area 3, located in the footer. Empty by default.
-	register_sidebar( array(
-		'name' => __( 'First Footer Widget Area', 'twentyten' ),
-		'id' => 'first-footer-widget-area',
-		'description' => __( 'The first footer widget area', 'twentyten' ),
-		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => '</li>',
-		'before_title' => '<h3 class="widget-title">',
-		'after_title' => '</h3>',
-	) );
-
-	// Area 4, located in the footer. Empty by default.
-	register_sidebar( array(
-		'name' => __( 'Second Footer Widget Area', 'twentyten' ),
-		'id' => 'second-footer-widget-area',
-		'description' => __( 'The second footer widget area', 'twentyten' ),
-		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => '</li>',
-		'before_title' => '<h3 class="widget-title">',
-		'after_title' => '</h3>',
-	) );
-
-	// Area 5, located in the footer. Empty by default.
-	register_sidebar( array(
-		'name' => __( 'Third Footer Widget Area', 'twentyten' ),
-		'id' => 'third-footer-widget-area',
-		'description' => __( 'The third footer widget area', 'twentyten' ),
-		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => '</li>',
-		'before_title' => '<h3 class="widget-title">',
-		'after_title' => '</h3>',
-	) );
-
-	// Area 6, located in the footer. Empty by default.
-	register_sidebar( array(
-		'name' => __( 'Fourth Footer Widget Area', 'twentyten' ),
-		'id' => 'fourth-footer-widget-area',
-		'description' => __( 'The fourth footer widget area', 'twentyten' ),
-		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => '</li>',
-		'before_title' => '<h3 class="widget-title">',
-		'after_title' => '</h3>',
-	) );
-}
-/** Register sidebars by running twentyten_widgets_init() on the widgets_init hook. */
-add_action( 'widgets_init', 'twentyten_widgets_init' );
-
-if ( ! function_exists( 'loupe_posted_in' ) ) :
-/**
- * Prints HTML with meta information for the current post (category, tags and permalink).
- *
- * @since Twenty Ten 1.0
- */
-function loupe_posted_in() {
-	// Retrieves tag list of current post, separated by commas.
-	// $tag_list = get_the_tag_list( '', ' | ' );
-	//if ( $tag_list ) {
-		//$posted_in = __( 'This entry was posted in %1$s and tagged %2$s. ', 'loupe' );
-	// } 
-/*	 if ( is_object_in_taxonomy( get_post_type(), 'category' ) ) {
-		$posted_in = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
-	} else {
-		$posted_in = __( 'Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
-	}
-	// Prints the string, replacing the placeholders.
-	printf(
-		$posted_in,
-		get_the_category_list( ' | ' ),
-		$tag_list,
-		get_permalink(),
-		the_title_attribute( 'echo=0' )
-	);
-	*/
-}
-
-
-endif;
 //load jQuery and scripts
 function my_init() {
 	if (!is_admin()) {
@@ -307,8 +83,6 @@ function drop_tags()
     }
     echo "</select></div>";
 }
-
-
 
 function z_gallery_shortcode($attr) {
 	global $post, $wp_locale;
@@ -466,35 +240,27 @@ function photo_register() {
  
 	register_post_type( 'photo' , $args );
 	register_taxonomy("Photos", array("photo"), array("hierarchical" => true, "label" => "Photos", "singular_label" => "Photo", "rewrite" => true));
-
-	
 }
 
-
-
-add_action("admin_init", "admin_init");
-add_action('save_post', 'save_details');
+	add_action("admin_init", "admin_init");
+	add_action('save_post', 'save_details');
 
 function admin_init(){ // add_meta_box( $id, $title, $callback, $page, $context, $priority ); 
-  add_meta_box("media", "Media Type", "media", "photo", "side", "high");
-  add_meta_box("photo_meta", "Add a photograph", "photo_meta", "photo", "normal", "high");
-  add_meta_box("map_meta", "Map It", "map_meta", "photo", "normal", "high");
-
-}
+	  add_meta_box("media", "Media Type", "media", "photo", "side", "high");
+	  add_meta_box("photo_meta", "Add a photograph", "photo_meta", "photo", "normal", "high");
+	  add_meta_box("map_meta", "Map It", "map_meta", "photo", "normal", "high");
+	}
  
 function media(){
   global $post;
   $custom = get_post_custom($post->ID);
   $film = $custom["film"][0];
-  $camera = $custom["camera"][0];
+  $camera = $custom["camera"][0]; ?>
  
-  ?>
   <label>Camera:</label>
   <input name="camera" value="<?php echo $camera; ?>" />
-  
-    <label>Film:</label>
-  <input name="film" value="<?php echo $film; ?>" />
-  
+  <label>Film:</label>
+  <input name="film" value="<?php echo $film; ?>" /> 
   <?php
 }
 
@@ -502,23 +268,23 @@ function photo_meta(){
   global $post;
   $custom = get_post_custom($post->ID);
   $single_photo = $custom["single_photo"][0];
+  $exif = wp_read_image_metadata( $single_photo ); 
+  
   ?>
   
   <div id="singleUpload" class="clearfix">
-  	<div class="sUcallback"> 
-  		<img src="<?php echo $single_photo; ?>" width="200" /> 		
-  	</div>
-  	<div class="sUinput">
-  		<input id="single_photo" name="single_photo" value="<?php echo $single_photo; ?>" />
-  	</div>
-  	<div class="sUbutton">
-  	<input type="button" value="Upload" name="upload" id="upload_image_button" />
-  	</div>
-  </div>
-  
-  <?php
-}
+	  	<div class="sUcallback"> 
+	  		<img src="<?php echo $single_photo; ?>" width="200" /> 		
+	  	</div>
+	  	<div class="sUinput">	  
+	  		<input id="single_photo" name="single_photo" value="<?php echo $single_photo; ?>" />
+	  	</div>
+	  	<div class="sUbutton">
+	  	<input type="button" value="Upload" name="upload" id="upload_image_button" />
+	  	</div>
 
+	  </div>  
+<?php }
 
 function map_meta() {
   global $post;
@@ -530,78 +296,51 @@ function map_meta() {
 
    <input type="text" value="" id="searchTextField" style=" width:98%;height:30px; font-size:15px;" onKeyPress="return disableEnterKey(event)"> 
    <div class="clearfix">&nbsp;</div>
- <div class="clearfix" id="mapFix">
-  	<div id="map_canvas" style="width:98%; height:350px;"></div>
-  	</div>
+   <div class="clearfix" id="mapFix">
+	   <div id="map_canvas" style="width:98%; height:350px;"></div>
+   </div>
   	<div id="mapControls">
-			<!--//
-	<div class="latlong">
-	 <p><label for="lat">Latitude, Longitude:</label><br />
-	  <input id="latlong"  name="latlong" value="<?php echo $latlong; ?>"></input></p> 
-	</div>
-		-->
 	<div class="lat">
 	  <p><label for="lat">Latitude:</label>
 	  <input id="latitude"  name="latitude" value="<?php echo $latitude; ?>"></input></p>
 	</div>
-	
 	<div class="lng">
 	  <p><label>Longitude:</label>
 	  <input id="longitude" name="longitude" value="<?php echo $longitude; ?>" ></input></p>
 	</div>
-<!--
-  	<?php
-  	$lat = get_post_meta($post->ID, 'latitude', true);
-if ($lat !== '') { ?>
-  	<div class="cur1">Current lat : <?php echo $latitude; ?> long: <?php echo $longitude; ?></div>
- <? } ?>
--->
  </div>
- 
-<script language="JavaScript">
-function disableEnterKey(e)
-		{
-		     var key;     
-		     if(window.event)
-		          key = window.event.keyCode; //IE
-		     else
-		          key = e.which; //firefox     
-		     return (key != 13);
-		}
-</script>
   <?php
 }
-
 function my_admin_scripts() {
-wp_enqueue_script('media-upload');
-wp_enqueue_script('thickbox');
-wp_register_script('my-upload', get_bloginfo('template_url') . '/scripts/uploadScript.js', array('jquery','media-upload','thickbox'));
-wp_enqueue_script('my-upload');
-wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places' );
-wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );			
+	wp_enqueue_script('media-upload');
+	wp_enqueue_script('thickbox');
+	wp_register_script('my-upload', get_bloginfo('template_url') . '/scripts/uploadScript.js', array('jquery','media-upload','thickbox'));
+	wp_enqueue_script('my-upload');
+	wp_register_script('exif', get_bloginfo('template_url') . '/scripts/exifGrab.js', array('jquery'));
+	wp_enqueue_script('exif');
+	wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places' );
+	wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );			
 }
 
 function my_admin_styles() {
-wp_register_style('admin-style', get_bloginfo('template_url') . '/css/adminstuff.css');
-wp_enqueue_style('admin-style');
-wp_enqueue_style('thickbox');
-}
-add_action('admin_print_scripts', 'my_admin_scripts');
-add_action('admin_print_styles', 'my_admin_styles');
+	wp_register_style('admin-style', get_bloginfo('template_url') . '/css/adminstuff.css');
+	wp_enqueue_style('admin-style');
+	wp_enqueue_style('thickbox');
+	}
+
+	add_action('admin_print_scripts', 'my_admin_scripts');
+	add_action('admin_print_styles', 'my_admin_styles');
 
 
 function save_details($post_id){
 	if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-	
-	
     global $post;
       update_post_meta($post_id, "single_photo", $_POST["single_photo"]);
 	  update_post_meta($post_id, "latlong", $_POST["latlong"]);
 	  update_post_meta($post_id, "latitude", $_POST["latitude"]);
 	  update_post_meta($post_id, "longitude", $_POST["longitude"]);
 	  update_post_meta($post_id, "camera", $_POST["camera"]);
-	  update_post_meta($post_id, "film", $_POST["film"]);
-   
+	  update_post_meta($post_id, "film", $_POST["film"]); 
 }
 
 //return just the src for the first image attachment // used for tag thumbs v3
