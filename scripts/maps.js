@@ -130,3 +130,15 @@ function addMarker(latLng) {
       }
       google.maps.event.addDomListener(window, 'load', initialize);
 
+// Disable enter for search box
+
+function disableEnterKey(e)
+		{
+		     var key;     
+		     if(window.event)
+		          key = window.event.keyCode; //IE
+		     else
+		          key = e.which; //firefox     
+		     return (key != 13);
+		}
+		
