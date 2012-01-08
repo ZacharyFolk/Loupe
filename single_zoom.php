@@ -64,7 +64,7 @@ echo get_post_meta($post->ID, 'upload_image', true);
 #viewer img {width: 800px}
 .imgContainer{margin: 0 auto; width: 800px}</style>
 <div class="imgContainer">
-<img src="<?php echo get_post_meta($post->ID, 'upload_image', true); ?>" />
+<img src="<?php echo get_post_meta($post->ID, 'single_photo', true); ?>" />
 </div>
 </noscript>
 
@@ -74,9 +74,9 @@ echo get_post_meta($post->ID, 'upload_image', true);
 	//	var colors = $.cookie('colors');
                   $("#viewer").iviewer(
                        {
-                       src: "<?php echo get_post_meta($post->ID, 'upload_image', true); ?>",    
+                       src: "<?php echo get_post_meta($post->ID, 'single_photo', true); ?>",    
                        zoom: "fit",
-              
+    
                        initCallback: function ()
                        {
                            var object = this;
