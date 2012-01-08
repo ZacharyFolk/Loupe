@@ -69,31 +69,38 @@ add_filter( 'wp_title', 'loupe_filter_wp_title', 10, 2 );
 
 
 
-//load jQuery and scripts
-function my_init() {
+//load scripts
+//wp_register_script( $handle, $src, $deps, $ver, $in_footer );
+ 
+function load_scripts() {
+	
 	if (!is_admin()) {
 		//wp_deregister_script('jquery');
 		//wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js', false, '1.3.2');
 		wp_enqueue_script('jquery');
-		wp_register_script('cookie',get_bloginfo('template_directory') . '/scripts/cookie.js', array('jquery'), '1.0',false);
-		wp_enqueue_script('cookie');
 		
-	//	wp_register_script('loupe', get_bloginfo('template_directory') .'/scripts/loupe.js', array('jquery'), '1.0',false);
-	//	wp_enqueue_script('loupe');
-	wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false' );
-		    wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );
-		wp_register_script('history', get_bloginfo('template_directory') .'/scripts/history.js', array('jquery'), '1.0',false);
+		wp_register_script('cookie',get_bloginfo('template_directory') . '/scripts/cookie.js', array('jquery'), '1.0',true);
+		wp_enqueue_script('cookie');
+
+		wp_register_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false', true );
+		wp_enqueue_script ('Gmaps');
+		
+	 	wp_register_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js', array('Gmaps'), '1.0', true );
+		wp_enqueue_script ('maps_scripts');
+		
+		wp_register_script('history', get_bloginfo('template_directory') .'/scripts/history.js', array('jquery'), '1.0',true);
 		wp_enqueue_script('history');
 	}
 
 	 if (is_page('home')) {
-		wp_register_script('cycle', get_bloginfo('template_directory') . '/scripts/cycle.js', array('jquery'), '1.0',false);
+		wp_register_script('cycle', get_bloginfo('template_directory') . '/scripts/cycle.js', array('jquery'), '1.0',true);
 		wp_enqueue_script('cycle');
 		}
 	
 }
 
-add_action('wp_enqueue_scripts', 'my_init');
+add_action('wp_enqueue_scripts', 'load_scripts');
+
 add_action( 'admin_print_scripts-post-new.php', 'portfolio_admin_script', 11 );
 	function portfolio_admin_script() {
 	global $post;
