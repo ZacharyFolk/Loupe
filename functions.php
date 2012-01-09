@@ -97,7 +97,7 @@ function load_scripts() {
 	}
 
 	if ( is_page ( 'home' ) ) {
-		wp_register_script( 'cycle', get_bloginfo('template_directory' ) . '/scripts/cycle.js', array( 'jquery' ), '1.0',true );
+		wp_register_script( 'cycle', get_template_directory_uri('/scripts/cycle.js' ), array( 'jquery' ), '1.0', true );
 		wp_enqueue_script( 'cycle' );
 	}	
 }
@@ -257,16 +257,16 @@ add_action('init', 'photo_register');
 function photo_register() {
  
 	$labels = array(
-		'name' => _x('My Photos', 'post type general name'),
-		'singular_name' => _x('Photo', 'post type singular name'),
-		'add_new' => _x('Add New', 'photo item'),
-		'add_new_item' => __('Add New Photo'),
-		'edit_item' => __('Edit Photo'),
-		'new_item' => __('New Photo'),
-		'view_item' => __('View Photo'),
-		'search_items' => __('Search Photos'),
-		'not_found' =>  __('Nothing found'),
-		'not_found_in_trash' => __('Nothing found in Trash'),
+		'name' => _x( 'My Photos', 'post type general name' ),
+		'singular_name' => _x( 'Photo', 'post type singular name' ),
+		'add_new' => _x( 'Add New', 'photo item' ),
+		'add_new_item' => __( 'Add New Photo' ),
+		'edit_item' => __( 'Edit Photo' ),
+		'new_item' => __( 'New Photo' ),
+		'view_item' => __( 'View Photo' ),
+		'search_items' => __( 'Search Photos' ),
+		'not_found' =>  __( 'Nothing found' ),
+		'not_found_in_trash' => __( 'Nothing found in Trash' ),
 		'parent_item_colon' => ''
 	);
 	
@@ -281,21 +281,21 @@ function photo_register() {
 		'capability_type' => 'post',
 		'hierarchical' => false,
 		'menu_position' => 4,
-		'taxonomies' => array('post_tag','category'),
-		'supports' => array('title','comments','trackbacks','revisions','custom-fields','page-attributes','thumbnail', 'excerpt', 'tags')
-	  ); 
+		'taxonomies' => array( 'post_tag', 'category' ),
+		'supports' => array( 'title', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'page-attributes', 'thumbnail', 'excerpt', 'tags' )
+		); 
  
 	register_post_type( 'photo' , $args );
-	register_taxonomy("Photos", array("photo"), array("hierarchical" => true, "label" => "Photos", "singular_label" => "Photo", "rewrite" => true));
+	register_taxonomy( 'Photos', array( 'photo' ), array( 'hierarchical' => true, 'label' => 'Photos', 'singular_label' => 'Photo', 'rewrite' => true ) );
 }
 
-	add_action("admin_init", "admin_init");
-	add_action('save_post', 'save_details');
+	add_action( 'admin_init', 'admin_init' );
+	add_action( 'save_post', 'save_details' );
 
 function admin_init(){ // add_meta_box( $id, $title, $callback, $page, $context, $priority ); 
-	  add_meta_box("media", "Media Type", "media", "photo", "side", "high");
-	  add_meta_box("photo_meta", "Add a photograph", "photo_meta", "photo", "normal", "high");
-	  add_meta_box("map_meta", "Map It", "map_meta", "photo", "normal", "high");
+	  add_meta_box( 'media', 'Media Type', 'media', 'photo', 'side', 'high' );
+	  add_meta_box( 'photo_meta', 'Add a photograph', 'photo_meta', 'photo', 'normal', 'high' );
+	  add_meta_box( 'map_meta', 'Map It', 'map_meta', 'photo', 'normal', 'high' );
 	}
  
 function media(){
@@ -303,91 +303,85 @@ function media(){
   $custom = get_post_custom($post->ID);
   $film = $custom["film"][0];
   $camera = $custom["camera"][0]; ?>
- 
   <label>Camera:</label>
   <input name="camera" value="<?php echo $camera; ?>" />
   <label>Film:</label>
   <input name="film" value="<?php echo $film; ?>" /> 
-  <?php
-}
+  <?php }
 
 function photo_meta(){
-  global $post;
-  $custom = get_post_custom($post->ID);
-  $single_photo = $custom["single_photo"][0];
-  $exif = wp_read_image_metadata( $single_photo ); 
-  
-  ?>
-  
-  <div id="singleUpload" class="clearfix">
-	  	<div class="sUcallback"> 
+	global $post;
+	$custom = get_post_custom( $post->ID );
+	$single_photo = $custom["single_photo"][0];
+	$exif = wp_read_image_metadata( $single_photo ); ?>
+	<div id="singleUpload" class="clearfix">
+		<div class="sUcallback"> 
 	  		<img src="<?php echo $single_photo; ?>" width="200" /> 		
 	  	</div>
 	  	<div class="sUinput">	  
 	  		<input id="single_photo" name="single_photo" value="<?php echo $single_photo; ?>" />
 	  	</div>
 	  	<div class="sUbutton">
-	  	<input type="button" value="Upload" name="upload" id="upload_image_button" />
+	  		<input type="button" value="Upload" name="upload" id="upload_image_button" />
 	  	</div>
-
-	  </div>  
+	</div>  
 <?php }
 
 function map_meta() {
   global $post;
-  $custom = get_post_custom($post->ID);
+  $custom = get_post_custom( $post->ID );
   $latitude = $custom["latitude"][0];
   $longitude = $custom["longitude"][0];
-
   ?>
 
-   <input type="text" value="" id="searchTextField" style=" width:98%;height:30px; font-size:15px;" onKeyPress="return disableEnterKey(event)"> 
-   <div class="clearfix">&nbsp;</div>
-   <div class="clearfix" id="mapFix">
-	   <div id="map_canvas" style="width:98%; height:350px;"></div>
-   </div>
-  	<div id="mapControls">
-	<div class="lat">
-	  <p><label for="lat">Latitude:</label>
-	  <input id="latitude"  name="latitude" value="<?php echo $latitude; ?>"></input></p>
+   <input type="text" value="" id="searchTextField" style="width:98%; height:30px; font-size:15px;" onKeyPress="return disableEnterKey(event)" />
+	<div class="clearfix">&nbsp;</div>
+	<div class="clearfix" id="mapFix">
+		<div id="map_canvas" style="width:98%; height:350px;"></div>
 	</div>
-	<div class="lng">
-	  <p><label>Longitude:</label>
-	  <input id="longitude" name="longitude" value="<?php echo $longitude; ?>" ></input></p>
-	</div>
- </div>
-  <?php
-}
+	
+	<div id="mapControls">
+		<div class="lat">
+		  <p><label for="lat">Latitude:</label>
+		  <input id="latitude"  name="latitude" value="<?php echo $latitude; ?>"></input></p>
+		</div>
+		<div class="lng">
+		  <p><label>Longitude:</label>
+		  <input id="longitude" name="longitude" value="<?php echo $longitude; ?>" ></input></p>
+		</div>
+ 	</div>
+<?php }
+
 function my_admin_scripts() {
-	wp_enqueue_script('media-upload');
-	wp_enqueue_script('thickbox');
-	wp_register_script('my-upload', get_bloginfo('template_url') . '/scripts/uploadScript.js', array('jquery','media-upload','thickbox'));
-	wp_enqueue_script('my-upload');
-	wp_register_script('exif', get_bloginfo('template_url') . '/scripts/exifGrab.js', array('jquery'));
-	wp_enqueue_script('exif');
+	wp_enqueue_script( 'media-upload' );
+	wp_enqueue_script( 'thickbox' );
+	wp_register_script( 'my-upload', get_bloginfo( 'template_url' ) . '/scripts/uploadScript.js', array( 'jquery', 'media-upload', 'thickbox' ) );
+	wp_enqueue_script( 'my-upload' );
+	//wp_register_script( 'exif', get_template_directory_uri( '/scripts/exifGrab.js' ), array( 'jquery' ) );
+	//wp_enqueue_script( 'exif' );
 	wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places' );
-	wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );			
+	wp_enqueue_script( 'maps_scripts',  get_template_directory_uri('/scripts/maps.js') );			
 }
 
 function my_admin_styles() {
-	wp_register_style('admin-style', get_bloginfo('template_url') . '/css/adminstuff.css');
-	wp_enqueue_style('admin-style');
-	wp_enqueue_style('thickbox');
+	wp_register_style( 'admin-style', get_template_directory_uri( '/css/adminstuff.css' ) );
+	wp_enqueue_style( 'admin-style' );
+	wp_enqueue_style( 'thickbox' );
 	}
 
-	add_action('admin_print_scripts', 'my_admin_scripts');
-	add_action('admin_print_styles', 'my_admin_styles');
+	add_action( 'admin_print_scripts', 'my_admin_scripts' );
+	add_action( 'admin_print_styles', 'my_admin_styles' );
 
 
-function save_details($post_id){
+function save_details( $post_id ){
 	if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-    global $post;
-      update_post_meta($post_id, "single_photo", $_POST["single_photo"]);
-	  update_post_meta($post_id, "latlong", $_POST["latlong"]);
-	  update_post_meta($post_id, "latitude", $_POST["latitude"]);
-	  update_post_meta($post_id, "longitude", $_POST["longitude"]);
-	  update_post_meta($post_id, "camera", $_POST["camera"]);
-	  update_post_meta($post_id, "film", $_POST["film"]); 
+	global $post;
+	update_post_meta($post_id, "single_photo", $_POST["single_photo"]);
+	update_post_meta($post_id, "latlong", $_POST["latlong"]);
+	update_post_meta($post_id, "latitude", $_POST["latitude"]);
+	update_post_meta($post_id, "longitude", $_POST["longitude"]);
+	update_post_meta($post_id, "camera", $_POST["camera"]);
+	update_post_meta($post_id, "film", $_POST["film"]); 
 }
 
 //return just the src for the first image attachment // used for tag thumbs v3
@@ -406,14 +400,14 @@ function get_first_attachment(){
 	LIMIT 1
 	";
 	global $wpdb;
-	$url = get_bloginfo('url');
-	$post_item = $wpdb->get_row($querystr);
+	$url = get_bloginfo( 'url' );
+	$post_item = $wpdb->get_row( $querystr );
 	$first_attachment = $post_item->imageGuid;
 	$not_broken = @fopen("$first_attachment","r"); // checks if the image exists
-	if(empty($first_attachment) || !($not_broken)){ //Defines a default image
-	unset($first_attachment);
+	if( empty( $first_attachment ) || !( $not_broken ) ){ //Defines a default image
+	unset( $first_attachment );
 	}else{
-	$first_attachment = str_replace($url, '', $first_attachment);
+	$first_attachment = str_replace( $url, '', $first_attachment );
 	}
 	return $first_attachment;
 	}
