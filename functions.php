@@ -71,44 +71,45 @@ add_filter( 'wp_title', 'loupe_filter_wp_title', 10, 2 );
 
 //load scripts
 //wp_register_script( $handle, $src, $deps, $ver, $in_footer );
- 
-function load_scripts() {
-	
-	if (!is_admin()) {
-		//wp_deregister_script('jquery');
-		//wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js', false, '1.3.2');
-		wp_enqueue_script('jquery');
-		
-		wp_register_script('cookie',get_bloginfo('template_directory') . '/scripts/cookie.js', array('jquery'), '1.0',true);
-		wp_enqueue_script('cookie');
 
-		wp_register_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false', true );
-		wp_enqueue_script ('Gmaps');
+add_action( 'wp_enqueue_scripts', 'load_scripts' );
+
+function load_scripts() {
 		
-	 	wp_register_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js', array('Gmaps'), '1.0', true );
-		wp_enqueue_script ('maps_scripts');
+	if ( ! is_admin() ) {				
+		wp_register_script( 'modernizr', get_template_directory_uri ( '/scripts/modernizr-latest.js' ), false);
+		wp_enqueue_script( 'modernizr' );
+				
+		wp_register_script( 'cookie', get_template_directory_uri ( '/scripts/cookie.js' ), array('jquery'), false, true );
+		wp_enqueue_script( 'cookie' );
+
+		wp_register_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false', array(), false, true );
+		wp_enqueue_script ( 'Gmaps' );
 		
-		wp_register_script('history', get_bloginfo('template_directory') .'/scripts/history.js', array('jquery'), '1.0',true);
-		wp_enqueue_script('history');
+		wp_register_script( 'plugins', get_template_directory_uri( '/scripts/plugins.js' ), array(), false, true );
+		wp_enqueue_script( 'plugins' );
+		
+	 	wp_register_script( 'maps_scripts',  get_template_directory_uri( '/scripts/maps.js' ), array( 'Gmaps' ), false, false );
+		wp_enqueue_script ( 'maps_scripts' );
+		
+		wp_register_script( 'history', get_template_directory_uri( '/scripts/history.js' ), array( 'jquery' ), '1.0', true );
+		wp_enqueue_script( 'history' );				
 	}
 
-	 if (is_page('home')) {
-		wp_register_script('cycle', get_bloginfo('template_directory') . '/scripts/cycle.js', array('jquery'), '1.0',true);
-		wp_enqueue_script('cycle');
-		}
-	
+	if ( is_page ( 'home' ) ) {
+		wp_register_script( 'cycle', get_bloginfo('template_directory' ) . '/scripts/cycle.js', array( 'jquery' ), '1.0',true );
+		wp_enqueue_script( 'cycle' );
+	}	
 }
 
-add_action('wp_enqueue_scripts', 'load_scripts');
-
 add_action( 'admin_print_scripts-post-new.php', 'portfolio_admin_script', 11 );
-	function portfolio_admin_script() {
+
+function portfolio_admin_script() {
 	global $post;
 	global $post_type;
 	if((get_post_type($post->ID) == 'portfolio') || ('portfolio' == $post_type)) {
-	
-			wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places' );
-		    wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );
+		wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places' );
+		wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );
 	}	
 }
 
@@ -123,8 +124,7 @@ function drop_tags()
     echo "<div id=\"dropTags\"><select>";
     echo "<option>Tags</option>\n";
     foreach (get_the_tags() as $tag)
-    {
-		
+    {	
         echo "<option class=\"".$tag->slug."\">".$tag->name."</option>\n";
 	
     }
@@ -145,10 +145,10 @@ function z_gallery_shortcode($attr) {
 	if ( isset( $attr['orderby'] ) ) {
 		$attr['orderby'] = sanitize_sql_orderby( $attr['orderby'] );
 		if ( !$attr['orderby'] )
-			unset( $attr['orderby'] );
+		unset( $attr['orderby'] );
 	}
 
-	extract(shortcode_atts(array(
+	extract(shortcode_atts( array (
 		'order'      => 'ASC',
 		'orderby'    => 'menu_order ID',
 		'id'         => $post->ID,
@@ -159,31 +159,31 @@ function z_gallery_shortcode($attr) {
 		'size'       => 'thumbnail',
 		'include'    => '',
 		'exclude'    => ''
-	), $attr));
+	), $attr) );
 
-	$id = intval($id);
+	$id = intval( $id );
 	if ( 'RAND' == $order )
 		$orderby = 'none';
 
-	if ( !empty($include) ) {
+	if ( !empty( $include ) ) {
 		$include = preg_replace( '/[^0-9,]+/', '', $include );
-		$_attachments = get_posts( array('include' => $include, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+		$_attachments = get_posts( array('include' => $include, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby ) );
 		$attachments = array();
 		foreach ( $_attachments as $key => $val ) {
 			$attachments[$val->ID] = $_attachments[$key];
 		}
-	} elseif ( !empty($exclude) ) {
+	} elseif ( !empty( $exclude ) ) {
 		$exclude = preg_replace( '/[^0-9,]+/', '', $exclude );
-		$attachments = get_children( array('post_parent' => $id, 'exclude' => $exclude, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+		$attachments = get_children( array( 'post_parent' => $id, 'exclude' => $exclude, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby ) );
 	} else {
 		$attachments = get_children( array('post_parent' => $id, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
 	}
-	if ( empty($attachments) )
+	if ( empty( $attachments ) )
 		return '';
 	if ( is_feed() ) {
 		$output = "\n";
 		foreach ( $attachments as $att_id => $attachment )
-			$output .= wp_get_attachment_link($att_id, $size, true) . "\n";
+			$output .= wp_get_attachment_link( $att_id, $size, true ) . "\n";
 		return $output;
 	}
 	$itemtag = tag_escape($itemtag);
@@ -192,7 +192,7 @@ function z_gallery_shortcode($attr) {
 	$itemwidth = $columns > 0 ? floor(100/$columns) : 100;
 	$float = is_rtl() ? 'right' : 'left';
 	$selector = "gallery-{$instance}";
-	$output = apply_filters('gallery_style', "
+	$output = apply_filters( 'gallery_style', "
 		<style type='text/css'>
 			#{$selector} {
 				margin: auto;
@@ -214,7 +214,7 @@ function z_gallery_shortcode($attr) {
 
 	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
-		$link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false) : wp_get_attachment_link($id, $size, true, false);
+		$link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false) : wp_get_attachment_link( $id, $size, true, false );
 
 		$output .= "<{$itemtag} class='gallery-item'>";
 		$output .= "
