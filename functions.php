@@ -74,50 +74,63 @@ add_filter( 'wp_title', 'loupe_filter_wp_title', 10, 2 );
 
 add_action( 'wp_enqueue_scripts', 'load_scripts' );
 
-function load_scripts() {
-		
+function load_scripts() {		
 	if ( ! is_admin() ) {				
-		wp_register_script( 'modernizr', get_template_directory_uri ( '/scripts/modernizr-latest.js' ), false);
-		wp_enqueue_script( 'modernizr' );
-				
-		wp_register_script( 'cookie', get_template_directory_uri ( '/scripts/cookie.js' ), array('jquery'), false, true );
+		wp_register_script( 'modernizr', get_template_directory_uri() .  '/scripts/modernizr-latest.js', false);
+		wp_enqueue_script( 'modernizr' );				
+		wp_register_script( 'cookie', get_template_directory_uri() . '/scripts/cookie.js', array('jquery'), false, true );
 		wp_enqueue_script( 'cookie' );
-
 		wp_register_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false', array(), false, true );
-		wp_enqueue_script ( 'Gmaps' );
-		
-		wp_register_script( 'plugins', get_template_directory_uri( '/scripts/plugins.js' ), array(), false, true );
-		wp_enqueue_script( 'plugins' );
-		
-	 	wp_register_script( 'maps_scripts',  get_template_directory_uri( '/scripts/maps.js' ), array( 'Gmaps' ), false, false );
-		wp_enqueue_script ( 'maps_scripts' );
-		
-		wp_register_script( 'history', get_template_directory_uri( '/scripts/history.js' ), array( 'jquery' ), '1.0', true );
+		wp_enqueue_script ( 'Gmaps' );		
+		wp_register_script( 'plugins', get_template_directory_uri() . '/scripts/plugins.js', array(), false, true );
+		wp_enqueue_script( 'plugins' );		
+	 	wp_register_script( 'maps_scripts',  get_template_directory_uri() . '/scripts/maps.js', array( 'Gmaps' ), false, false );
+		wp_enqueue_script ( 'maps_scripts' );		
+		wp_register_script( 'history', get_template_directory_uri() . '/scripts/history.js', array( 'jquery' ), '1.0', true );
 		wp_enqueue_script( 'history' );				
 	}
-
 	if ( is_page ( 'home' ) ) {
-		wp_register_script( 'cycle', get_template_directory_uri('/scripts/cycle.js' ), array( 'jquery' ), '1.0', true );
+		wp_register_script( 'cycle', get_template_directory_uri() . '/scripts/cycle.js', array( 'jquery' ), '1.0', true );
 		wp_enqueue_script( 'cycle' );
 	}	
 }
 
 add_action( 'admin_print_scripts-post-new.php', 'portfolio_admin_script', 11 );
 
+function my_admin_scripts() {
+	wp_enqueue_script( 'media-upload' );
+	wp_enqueue_script( 'thickbox' );
+	wp_register_script( 'my-upload', get_template_directory_uri( '/scripts/uploadScript.js' ), array( 'jquery', 'media-upload', 'thickbox' ) );
+	wp_enqueue_script( 'my-upload' );
+	//wp_register_script( 'exif', get_template_directory_uri( '/scripts/exifGrab.js' ), array( 'jquery' ) );
+	//wp_enqueue_script( 'exif' );
+	wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places' );
+	wp_enqueue_script( 'maps_scripts', get_template_directory_uri('/scripts/maps.js' ) );			
+}
+
+function my_admin_styles() {
+	wp_register_style( 'admin-style', get_template_directory_uri( '/css/adminstuff.css' ) );
+	wp_enqueue_style( 'admin-style' );
+	wp_enqueue_style( 'thickbox' );
+	}
+
+	add_action( 'admin_print_scripts', 'my_admin_scripts' );
+	add_action( 'admin_print_styles', 'my_admin_styles' );
+
 function portfolio_admin_script() {
 	global $post;
 	global $post_type;
 	if((get_post_type($post->ID) == 'portfolio') || ('portfolio' == $post_type)) {
 		wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places' );
-		wp_enqueue_script( 'maps_scripts',  get_bloginfo('template_directory') . '/scripts/maps.js' );
+		wp_enqueue_script( 'maps_scripts',  get_template_directory_uri( '/scripts/maps.js' ) );
 	}	
 }
 
 //deactivate WordPress function
-remove_shortcode('gallery', 'gallery_shortcode');
+remove_shortcode( 'gallery', 'gallery_shortcode' );
 
 //activate own function
-add_shortcode('gallery', 'z_gallery_shortcode');
+add_shortcode( 'gallery', 'z_gallery_shortcode' );
 
 function drop_tags()
 {
@@ -237,7 +250,6 @@ function z_gallery_shortcode($attr) {
 	return $output;
 }
 
-
 // wordpress 3.1 remove admin bar on frontend
 add_filter( 'show_admin_bar', '__return_false' );
 
@@ -248,14 +260,13 @@ function post_type_tags_fix($request) {
     $request['post_type'] = 'any';
     return $request;
 } 
-add_filter('request', 'post_type_tags_fix');
+add_filter( 'request', 'post_type_tags_fix' );
 
 // http://thinkvitamin.com/code/create-your-first-wordpress-custom-post-type/
 
-add_action('init', 'photo_register');
+add_action( 'init', 'photo_register' );
  
 function photo_register() {
- 
 	$labels = array(
 		'name' => _x( 'My Photos', 'post type general name' ),
 		'singular_name' => _x( 'Photo', 'post type singular name' ),
@@ -299,15 +310,15 @@ function admin_init(){ // add_meta_box( $id, $title, $callback, $page, $context,
 	}
  
 function media(){
-  global $post;
-  $custom = get_post_custom($post->ID);
-  $film = $custom["film"][0];
-  $camera = $custom["camera"][0]; ?>
-  <label>Camera:</label>
-  <input name="camera" value="<?php echo $camera; ?>" />
-  <label>Film:</label>
-  <input name="film" value="<?php echo $film; ?>" /> 
-  <?php }
+	global $post;
+	$custom = get_post_custom($post->ID);
+	$film = $custom["film"][0];
+	$camera = $custom["camera"][0]; ?>
+	<label>Camera:</label>
+	<input name="camera" value="<?php echo $camera; ?>" />
+	<label>Film:</label>
+	<input name="film" value="<?php echo $film; ?>" /> 
+<?php }
 
 function photo_meta(){
 	global $post;
@@ -351,27 +362,6 @@ function map_meta() {
 		</div>
  	</div>
 <?php }
-
-function my_admin_scripts() {
-	wp_enqueue_script( 'media-upload' );
-	wp_enqueue_script( 'thickbox' );
-	wp_register_script( 'my-upload', get_bloginfo( 'template_url' ) . '/scripts/uploadScript.js', array( 'jquery', 'media-upload', 'thickbox' ) );
-	wp_enqueue_script( 'my-upload' );
-	//wp_register_script( 'exif', get_template_directory_uri( '/scripts/exifGrab.js' ), array( 'jquery' ) );
-	//wp_enqueue_script( 'exif' );
-	wp_enqueue_script( 'Gmaps', 'http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places' );
-	wp_enqueue_script( 'maps_scripts',  get_template_directory_uri('/scripts/maps.js') );			
-}
-
-function my_admin_styles() {
-	wp_register_style( 'admin-style', get_template_directory_uri( '/css/adminstuff.css' ) );
-	wp_enqueue_style( 'admin-style' );
-	wp_enqueue_style( 'thickbox' );
-	}
-
-	add_action( 'admin_print_scripts', 'my_admin_scripts' );
-	add_action( 'admin_print_styles', 'my_admin_styles' );
-
 
 function save_details( $post_id ){
 	if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
