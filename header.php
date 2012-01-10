@@ -19,14 +19,9 @@
 		#wrap {display:table;height:100%}
 	</style>
 <![endif]-->
-	<?php if (is_single() ) { ?>
 
-<script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/jquery.mousewheel.min.js" ></script>
-<script type="text/javascript" src="<?php bloginfo('template_url');?>/scripts/iViewer.js" ></script>
-
-
-	<?php } ?>
 <body>
+
 
 <noscript>
  For full functionality of this site it is necessary to enable JavaScript.

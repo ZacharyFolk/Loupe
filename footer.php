@@ -27,10 +27,11 @@
 //	wpfp_link();  ?> 
    
 <?php // endwhile; // end of the loop. ?>
- <div class="fb"> 
+<!--//
+<div class="fb"> 
 <iframe src="http://www.facebook.com/plugins/like.php?href=<?php the_permalink(); ?>&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:35px;" allowTransparency="true"></iframe>
 </div>
-
+//-->
 	</div><!-- #footer -->
 
 </div><!-- #wrapper -->
@@ -43,87 +44,89 @@
 var $ = jQuery;
 
 $(document).ready(function(){
+	
+	initialize();
 
-	var imgCtrl = $('#controls');
+	var imgCtrl = $( '#controls');
 	var panel = $('.thumbBox');
 	var button = $('.all');
-	var initialState = "collapsed";
-	var activeClass = "active";
-	var visibleText = "hide recent posts";
-	var hiddenText = "show recent posts";
+	var initialState = 'collapsed';
+	var activeClass = 'active';
+	var visibleText = 'hide recent posts';
+	var hiddenText = 'show recent posts';
 	var triangle = $('.tagLink span');
 	var infoTri = $('#infoLink span');
-	var closed = "close";
-	var opened = "open";	
+	var closed = 'close';
+	var opened = 'open';	
 	var tags = $('#tagList');	
-	var tagPanelState = $.cookie("tagPanel");
-	var tagPanelHistory = $.cookie("lastTag");
+	var tagPanelState = $.cookie('tagPanel');
+	var tagPanelHistory = $.cookie('lastTag');
 	var tagButton = $('.tagLink');
 	var tagThumbs = $('.tagTable');
 	var tagImage = $('.tagImgBox a');
-	var tagThumbState = $.cookie("tagThumbPanel");
+	var tagThumbState = $.cookie('tagThumbPanel');
 	var info = $('#infoPanel');	
-	var infoPanelState = $.cookie("infoPanel");
+	var infoPanelState = $.cookie('infoPanel');
 	var infoButton = $('#infoLink');
 	var main = $('#ajaxTable');
-	var tagBump = ("tagged");
-	var tagTeamBump = ("tagTeam");
-	var activeTags = "activeTagClass";
+	var tagBump = ('tagged');
+	var tagTeamBump = ('tagTeam');
+	var activeTags = 'activeTagClass';
 	<?php $id = $_GET['tagP']; ?>
-	var tagParam = "<?php echo $id; ?>";
-	var state = $.cookie("panelState");
+	var tagParam = '<?php echo $id; ?>';
+	var state = $.cookie('panelState');
 
-	if($.cookie("panelState") == undefined) {
-		$.cookie("panelState", initialState);
+	if($.cookie('panelState') == undefined) {
+		$.cookie('panelState', initialState);
 		}
 	
 	if(state == "collapsed") {
 			panel.hide();
-			button.text(hiddenText);
-			button.addClass(activeClass);
+			button.text( hiddenText );
+			button.addClass( activeClass );
 		}
 		
 	button.click(function(){
-			if($.cookie("panelState") == "expanded") {
-				$.cookie("panelState", "collapsed");
-				button.text(hiddenText);
-				button.addClass(activeClass);
+			if($.cookie( "panelState" ) == "expanded" ) {
+				$.cookie( "panelState", "collapsed" );
+				button.text( hiddenText );
+				button.addClass( activeClass );
 			} else {
-				$.cookie("panelState", "expanded");
-				button.text(visibleText);
-				button.removeClass(activeClass);
+				$.cookie( "panelState", "expanded" );
+				button.text( visibleText );
+				button.removeClass( activeClass );
 			}
-			panel.slideToggle("slow");
+			panel.slideToggle( "slow" );
 			return false;
 	});		
 
 // tags 
 
-	if($.cookie("tagPanel") == undefined){
-		$.cookie("tagPanel", initialState);
-		triangle.addClass(closed);
-		triangle.removeClass(opened);
+	if( $.cookie( "tagPanel" ) == undefined ){
+		$.cookie( "tagPanel", initialState );
+		triangle.addClass( closed );
+		triangle.removeClass( opened );
 	};
 	
-	if($.cookie("lastTag") == undefined){
-		$.cookie("lastTag", initialState);
+	if( $.cookie( "lastTag" ) == undefined ){
+		$.cookie( "lastTag", initialState);
 	};
 	
-	if(tagPanelState == "collapsed"){
+	if( tagPanelState == "collapsed" ){
 		tags.hide();
-		info.removeClass(tagBump);
-		triangle.removeClass(opened);
-		triangle.addClass(closed);
+		info.removeClass( tagBump );
+		triangle.removeClass( opened );
+		triangle.addClass( closed );
 	};
 
-	if(tagPanelState == "expanded"){
+	if(tagPanelState == "expanded" ){
 		tags.show();
-		info.addClass(tagBump);
-		triangle.removeClass(closed);
-		triangle.addClass(opened);
-		main.addClass(tagBump);
+		info.addClass( tagBump );
+		triangle.removeClass( closed );
+		triangle.addClass( opened );
+		main.addClass( tagBump );
 
-		var reLoadTagURL = '<?php bloginfo( 'url' ); ?>/tag/'+ tagParam + ' .tagTable';
+		var reLoadTagURL = "<?php bloginfo('url'); ?>/tag/" + tagParam + " .tagTable";
 
 		function reLoadOpenTags(){
             //$('.lightTable').remove();
@@ -133,32 +136,32 @@ $(document).ready(function(){
 			function reloadThemOpenTags(){	
 			//rehideLoader();
 			//$('.loader').fadeIn('fast');			
-			$('#tagThumbs').load(reLoadTagURL,rehideTagLoader);
+			$('#tagThumbs').load( reLoadTagURL,rehideTagLoader );
 		    $('.tagTable').appendTo($('#ajaxTable'));
 	
 			};
 			function rehideTagLoader(){
 			//$('.loader').fadeOut('fast');		
 			};
-		reLoadOpenTags ();
+		reLoadOpenTags();
 		}
 
 	tagButton.click(function(){		
-			if($.cookie("tagPanel") == "expanded") {
+			if( $.cookie("tagPanel") == "expanded") {
 				$.cookie("tagPanel", "collapsed");			
-				triangle.removeClass(opened);
-				triangle.addClass(closed);
+				triangle.removeClass( opened );
+				triangle.addClass( closed );
 				$('.tagTable').remove();
-				info.removeClass(tagTeamBump);			
+				info.removeClass( tagTeamBump );			
 			} else {
-				$.cookie("tagPanel", "expanded");			
-				triangle.addClass(opened);
-				triangle.removeClass(closed);
+				$.cookie( "tagPanel", "expanded" );			
+				triangle.addClass( opened );
+				triangle.removeClass( closed );
 				
-			}	tagButton.toggleClass(activeTags);
-				tags.slideToggle("fast");	
-				info.toggleClass(tagBump);
-				tagThumbs.slideToggle("fast");	
+			}	tagButton.toggleClass( activeTags );
+				tags.slideToggle('fast');	
+				info.toggleClass( tagBump );
+				tagThumbs.slideToggle( 'fast' );	
 				return false;
 			});
 
@@ -170,8 +173,8 @@ $(document).ready(function(){
 			$('.tagTable').show();
 			info.addClass(tagTeamBump);
 			var tagName = $(this).attr("id");
-			var tagURL = '<?php bloginfo( 'url' );?>/tag/' + tagName;
-			var toLoad = '<?php bloginfo( 'url' ); ?>/tag/'+ tagName + ' .tagTable';	
+			var tagURL = '<?php bloginfo('url');?>/tag/' + tagName;
+			var toLoad = '<?php bloginfo('url'); ?>/tag/'+ tagName + ' .tagTable';	
 			$.cookie("lastTag",tagName);
          //  $('.lightTable').hide();			
 			function loadThemTags(){	
@@ -227,129 +230,73 @@ $(document).ready(function(){
 	 	
 // info
 	
-	if ($.cookie("infoPanel") == undefined){
-		$.cookie("infoPanel", initialState);
-		infoTri.addClass(closed);
-		infoTri.removeClass(opened);
+	if ( $.cookie( 'infoPanel' ) == undefined ){
+		$.cookie( 'infoPanel', initialState );
+		infoTri.addClass( closed );
+		infoTri.removeClass( opened );
 	};
 	
-	if(infoPanelState == "collapsed"){
+	if( infoPanelState == 'collapsed' ){
 		info.hide();
-		infoTri.removeClass(opened);
-		infoTri.addClass(closed);
+		infoTri.removeClass( opened );
+		infoTri.addClass( closed );
 	};
 		
-	if(infoPanelState == "expanded"){
+	if( infoPanelState == 'expanded' ){
 		info.show();
 		infoTri.removeClass(closed);
 		infoTri.addClass(opened);
 		infoButton.addClass(activeTags);
 	};
 	
-	infoButton.click(function(){
-			if($.cookie("infoPanel") == "expanded") {
-				$.cookie("infoPanel", "collapsed");
-				infoButton.removeClass(activeTags);
-				infoTri.removeClass(opened);
-				infoTri.addClass(closed);
+	infoButton.click( function(){
+			if( $.cookie( 'infoPanel' ) == 'expanded' ) {
+				$.cookie( 'infoPanel', 'collapsed' );
+				infoButton.removeClass( activeTags );
+				infoTri.removeClass( opened );
+				infoTri.addClass( closed );
 			} else {
-				$.cookie("infoPanel", "expanded");
-				infoButton.addClass(activeTags);
-				infoTri.addClass(opened);
-				infoTri.removeClass(closed);
+				$.cookie( 'infoPanel', 'expanded' );
+				infoButton.addClass( activeTags );
+				infoTri.addClass( opened );
+				infoTri.removeClass( closed );
 			}
-			info.slideToggle("fast");
+			info.slideToggle('fast');
 			return false;
-	});	
-	
-				
-/*	var recPanel = $('ul#recentPosts');
-	var tagPanel = $('ul#recentTags');
-	var postButton = $('h2.postTrigger');
-	var tagButton = $('h2.tagTrigger');
-	var initialState = "collapsed";
-	var activeClass = "active";
-	var visibleText = "HIDE RECENT POSTS";
-	var hiddenText = "VIEW RECENT POSTS";
-	var visibleTagText = "HIDE TOP TEN TAGS";
-	var hiddenTagText = "SHOW TOP TEN TAGS";
-
-	if($.cookie("postPanelState") == undefined) {
-		$.cookie("postPanelState", initialState);
-		}
-	var state = $.cookie("postPanelState");
-		/* if(state == "collapsed") {
-			recPanel.hide('fast'); 
-			postButton.text(hiddenText);
-			postButton.removeClass(activeClass);
-		}
-		postButton.click(function(){
-			if($.cookie("postPanelState") == "expanded") {
-				$.cookie("postPanelState", "collapsed");
-				postButton.text(hiddenText);
-				postButton.removeClass(activeClass);
-			} else {
-				$.cookie("postPanelState", "expanded");
-				postButton.text(visibleText);
-				postButton.addClass(activeClass);
-			}
-		/*	recPanel.slideToggle("fast");
-			return false;
-		});
-			 */
-	/*	var state = $.cookie("tagPanelState");
-		if(state == "collapsed") {
-			tagPanel.hide('fast');
-			tagButton.text(hiddenTagText);
-			tagButton.removeClass(activeClass);
-		}
-		tagButton.click(function(){
-			if($.cookie("tagPanelState") == "expanded") {
-				$.cookie("tagPanelState", "collapsed");
-				tagButton.text(hiddenTagText);
-				tagButton.removeClass(activeClass);
-			} else {
-				$.cookie("tagPanelState", "expanded");
-				tagButton.text(visibleTagText);
-				tagButton.addClass(activeClass);
-			}
-			tagPanel.slideToggle("fast");
-			return false;
-		});
-		*/		
-			
-});	
+	});			
 
 
-$.history.init(function(hash){
-        if(hash == "") {
-            // remove
-        } else {
-		var tagHash = window.location.hash;
-		var noHash = tagHash.replace(/^.*#/, '');
-		var Hash = noHash.replace(/\s/g, '-');
-		var reLoadURL = '<?php bloginfo( 'url' ); ?>/tag/'+ Hash + ' .tagTable';
-
-		function reLoad(){		
-
-            //$('.lightTable').remove();
-			$('.tagTable').detach();
-			$('#tagThumbs').load(reLoadURL,rehideLoader);
-		    $('.tagTable').appendTo($('#ajaxTable'));
-			}
-			function reloadThemTags(){	
-			//rehideLoader();
-			//$('.loader').fadeIn('fast');			
-
-
-			};
-			function rehideLoader(){
-			//$('.loader').fadeOut('fast');		
-			};
-		reLoad ();
-        }
-    },
-    { unescape: ",/" });
+// MOVE THIS
+	$.history.init(function(hash){
+		        if(hash == '') {
+		            // remove
+		        } else {
+				var tagHash = window.location.hash;
+				var noHash = tagHash.replace(/^.*#/, '');
+				var Hash = noHash.replace(/\s/g, '-');
+				var reLoadURL = '<?php bloginfo( 'url' ); ?>/tag/'+ Hash + ' .tagTable';
+		
+				function reLoad(){		
+		
+		            //$('.lightTable').remove();
+					$('.tagTable').detach();
+					$('#tagThumbs').load(reLoadURL,rehideLoader);
+				    $('.tagTable').appendTo($('#ajaxTable'));
+					}
+					function reloadThemTags(){	
+					//rehideLoader();
+					//$('.loader').fadeIn('fast');			
+		
+		
+					};
+					function rehideLoader(){
+					//$('.loader').fadeOut('fast');		
+					};
+				reLoad ();
+		        }
+		    },
+		    { unescape: ',/' });	
+});			    
 </script>
 <?php wp_footer(); ?>
 </body>
