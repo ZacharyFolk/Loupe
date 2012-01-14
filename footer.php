@@ -21,7 +21,9 @@
 <?php } ?>
 -->
 	<div id="footer" role="contentinfo">
-		&copy; 2012 Zachary Folk Photography | Powered by Wordpress and Loupe Photoblog theme
+		<p>
+		&copy; <?php echo date("Y"); ?> Zachary Folk Photography | <a href="http://wordpress.org/" title="Semantic Personal Publishing Platform" rel="generator">Proudly powered by WordPress </a> and the Loupe 
+		</p>
 <!--//
 	<?php if (! is_home()){ ?>
 	 <div class="all">Show Recent Posts</div>
@@ -310,7 +312,8 @@ $(document).ready(function(){
 		        }
 		    },
 		    { unescape: ',/' });	
-});			    
+});		
+ 
 </script>
 <?php wp_footer(); ?>
 </body>

@@ -143,10 +143,12 @@ function load_scripts() {
 	if ( ! is_admin() ) {				
 		wp_register_script( 'modernizr', get_template_directory_uri() .  '/scripts/modernizr-latest.js', false);
 		wp_enqueue_script( 'modernizr' );
+		wp_register_script( 'ui', get_template_directory_uri() . '/scripts/jqueryui.js', array( 'jquery' ), false, true );
+		wp_enqueue_script( 'ui' );
+		wp_register_script( 'wheel', get_template_directory_uri() . '/scripts/jquery.mousewheel.min.js', array( 'ui' ), false, true );
+		wp_enqueue_script( 'wheel' );	
 		wp_register_script( 'viewer', get_template_directory_uri() . '/scripts/iViewer.js', array( 'jquery' ), false, true );
-		wp_enqueue_script( 'viewer' );
-		wp_register_script( 'wheel', get_template_directory_uri() . '/scripts/jquery.mousewheel.min.js', array( 'jquery' ), false, true );
-		wp_enqueue_script( 'wheel' );							
+		wp_enqueue_script( 'viewer' );						
 		wp_register_script( 'cookie', get_template_directory_uri() . '/scripts/cookie.js', array('jquery'), false, true );
 		wp_enqueue_script( 'cookie' );
 	/*	wp_register_script( 'Gmaps', 'http://maps.googleapis.com/maps/api/js?key=AIzaSyAO4akxImeh2-g3XNOpcSYgKZXiOeR6220&sensor=true', array(), false, true );

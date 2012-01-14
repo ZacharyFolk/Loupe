@@ -77,28 +77,28 @@ echo get_post_meta($post->ID, 'upload_image', true);
     var $ = jQuery;
       $(document).ready(function(){
 	//	var colors = $.cookie('colors');
-                  $("#viewer").iviewer(
-                       {
-                       src: "<?php echo get_post_meta($post->ID, 'single_photo', true); ?>",    
-                       zoom: "fit",
-    
-                       initCallback: function ()
-                       {
-                           var object = this;
-                           $("#in").click(function(){ object.zoom_by(1);}); 
-                           $("#out").click(function(){ object.zoom_by(-1);}); 
+                  var iv1 = $("#viewer").iviewer({
+                      src: "<?php echo get_post_meta($post->ID, 'single_photo', true); ?>",
+                      update_on_resize: true,    
+                      onMouseMove: function(coords) { },
+                      onStartDrag: function(coords) { return true; }, //this image will not be dragged
+                      onDrag: function(coords) { },
+					  onFinishLoad: function()
+	                    {
+	                    $('.loader').fadeOut('200');	
+						$("#viewer img").fadeIn(400);
+	                    }
+                  		});
+                      
+                           $("#in").click(function(){ iv1.iviewer('zoom_by', 1);}); 
+                           $("#out").click(function(){ iv1.iviewer('zoom_by', -1); });  
 						    $('.loader').fadeIn('200');
 						
      //  $("#fit").click(function(){ object.fit();}); 
          //$("#orig").click(function(){  object.set_zoom(100); }); 
 		 // console.log(this.img_object.display_width); //works*
 				// console.log(object.img_object.display_width); //getting undefined.*
-                       },
-					     onFinishLoad: function()
-                    {
-                    $('.loader').fadeOut('200');	
-					$("#viewer img").fadeIn(400);
-                    }
+                   
         //      onFinishLoad: function()
                   //      {
 			//	$("#viewer").data('viewer').setCoords(-500,-500);
@@ -107,7 +107,7 @@ echo get_post_meta($post->ID, 'upload_image', true);
 //onMouseMove: function(object, coords) { },
 //onStartDrag: function(object, coords) { return false; }, //this image will not be dragged
 //onDrag: function(object, coords) { }
-                  });
+                 
             });
         </script>
         
