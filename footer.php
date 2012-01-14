@@ -6,6 +6,7 @@
  */
 ?>
 </div><!-- #main -->
+<!--//
 <?php if ( ! is_home()){ ?>
 <div class="thumbBox" >
 	<?php
@@ -18,10 +19,14 @@
 	<?php endwhile; ?>
 </div>
 <?php } ?>
+-->
 	<div id="footer" role="contentinfo">
+		&copy; 2012 Zachary Folk Photography | Powered by Wordpress and Loupe Photoblog theme
+<!--//
 	<?php if (! is_home()){ ?>
 	 <div class="all">Show Recent Posts</div>
 	<?php } ?>
+-->
 	<?php //if ( have_posts() ) while ( have_posts() ) : the_post();
 	
 //	wpfp_link();  ?> 
@@ -258,6 +263,7 @@ $(document).ready(function(){
 			} else {
 				$.cookie( 'infoPanel', 'expanded' );
 				infoButton.addClass( activeTags );
+			    google.maps.event.trigger(map, 'resize');  
 				infoTri.addClass( opened );
 				infoTri.removeClass( closed );
 			}

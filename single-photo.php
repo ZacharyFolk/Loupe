@@ -1,5 +1,8 @@
-<?php
-get_header(); ?>		
+<?php get_header(); ?>		
+<div id="tagThumbs"></div>
+	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-000.gif'></div>
+	<div class="tagTable" style="display:none">&nbsp;</div>
+	<div id="ajaxTable">
 
 <?php if ( have_posts() ) :  while ( have_posts() ) : the_post(); ?>	
 <div id="infoPanel">
@@ -20,7 +23,6 @@ if ($lat !== '') {
       	var lng = "<?php echo $long;?>";
       	var myLatlng = new google.maps.LatLng(lat,lng);
       function initialize() {
-
        	//console.log(latlng);
       	//wtf i cant load ltnlng in as variable or i get a blue screen
         var mapOptions = {
@@ -35,13 +37,7 @@ if ($lat !== '') {
 		    title:"Hello World!"
 		});
 		marker.setMap(map);
-		
       }
-      
-      
-	
-
-
     </script>
 
 <div id="map_canvas" style="width:100%; height:300px"></div>

@@ -66,16 +66,178 @@ a img {
 .clearfix, .container {display:block;}
 .clear {clear:both;}
 
+/* FONTS  
+----------------------------------- */
+
+.afs-ubuntu { font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif; ;}
+
+.afs-dejavu-serif { font-family: "DejaVu Serif", Rockwell, serif; font-size: 1.002em;}
+
+.afs-ubuntu { font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif; font-size: 1.000em;}
+
+.afs-andale-mono { font-family: "Andale Mono", Menlo, Courier New, Courier, Mono, monospace; font-size: 1.022em;}
+
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('fonts/Ubuntu-B-webfont.eot');
+  src: local('☺'), url('fonts/Ubuntu-B-webfont.woff') format('woff'), url('fonts/Ubuntu-B-webfont.ttf') format('truetype'), url('fonts/Ubuntu-B-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('fonts/Ubuntu-BI-webfont.eot');
+  src: local('☺'), url('fonts/Ubuntu-BI-webfont.woff') format('woff'), url('fonts/Ubuntu-BI-webfont.ttf') format('truetype'), url('fonts/Ubuntu-BI-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 700;
+  font-style: italic;
+}
+
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('fonts/Ubuntu-I-webfont.eot');
+  src: local('☺'), url('fonts/Ubuntu-I-webfont.woff') format('woff'), url('fonts/Ubuntu-I-webfont.ttf') format('truetype'), url('fonts/Ubuntu-I-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 400;
+  font-style: italic;
+}
+
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('fonts/Ubuntu-R-webfont.eot');
+  src: local('☺'), url('fonts/Ubuntu-R-webfont.woff') format('woff'), url('fonts/Ubuntu-R-webfont.ttf') format('truetype'), url('fonts/Ubuntu-R-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+
+@font-face {
+  font-family: 'DejaVu Serif';
+  src: url('fonts/DejaVuSerif-Bold-webfont.eot');
+  src: local('☺'), url('fonts/DejaVuSerif-Bold-webfont.woff') format('woff'), url('fonts/DejaVuSerif-Bold-webfont.ttf') format('truetype'), url('fonts/DejaVuSerif-Bold-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'DejaVu Serif';
+  src: url('fonts/DejaVuSerif-BoldItalic-webfont.eot');
+  src: local('☺'), url('fonts/DejaVuSerif-BoldItalic-webfont.woff') format('woff'), url('fonts/DejaVuSerif-BoldItalic-webfont.ttf') format('truetype'), url('fonts/DejaVuSerif-BoldItalic-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 700;
+  font-style: italic;
+}
+
+
+@font-face {
+  font-family: 'DejaVu Serif';
+  src: url('fonts/DejaVuSerif-webfont.eot');
+  src: local('☺'), url('fonts/DejaVuSerif-webfont.woff') format('woff'), url('fonts/DejaVuSerif-webfont.ttf') format('truetype'), url('fonts/DejaVuSerif-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'DejaVu Serif';
+  src: url('fonts/DejaVuSerifCondensed-Italic-webfont.eot');
+  src: local('☺'), url('fonts/DejaVuSerifCondensed-Italic-webfont.woff') format('woff'), url('fonts/DejaVuSerifCondensed-Italic-webfont.ttf') format('truetype'), url('fonts/DejaVuSerifCondensed-Italic-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 400;
+  font-style: italic;
+}
+
+
+@font-face {
+  font-family: 'DejaVu Serif';
+  src: url('fonts/DejaVuSerifCondensed-Bold-webfont.eot');
+  src: local('☺'), url('fonts/DejaVuSerifCondensed-Bold-webfont.woff') format('woff'), url('fonts/DejaVuSerifCondensed-Bold-webfont.ttf') format('truetype'), url('fonts/DejaVuSerifCondensed-Bold-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'DejaVu Serif';
+  src: url('fonts/DejaVuSerifCondensed-BoldItalic-webfont.eot');
+  src: local('☺'), url('fonts/DejaVuSerifCondensed-BoldItalic-webfont.woff') format('woff'), url('fonts/DejaVuSerifCondensed-BoldItalic-webfont.ttf') format('truetype'), url('fonts/DejaVuSerifCondensed-BoldItalic-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 700;
+  font-style: italic;
+}
+
+
+@font-face {
+  font-family: 'DejaVu Serif';
+  src: url('fonts/DejaVuSerif-Italic-webfont.eot');
+  src: local('☺'), url('fonts/DejaVuSerif-Italic-webfont.woff') format('woff'), url('fonts/DejaVuSerif-Italic-webfont.ttf') format('truetype'), url('fonts/DejaVuSerif-Italic-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 400;
+  font-style: italic;
+}
+
+
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('fonts/Ubuntu-B-webfont.eot');
+  src: local('☺'), url('fonts/Ubuntu-B-webfont.woff') format('woff'), url('fonts/Ubuntu-B-webfont.ttf') format('truetype'), url('fonts/Ubuntu-B-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('fonts/Ubuntu-BI-webfont.eot');
+  src: local('☺'), url('fonts/Ubuntu-BI-webfont.woff') format('woff'), url('fonts/Ubuntu-BI-webfont.ttf') format('truetype'), url('fonts/Ubuntu-BI-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 700;
+  font-style: italic;
+}
+
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('fonts/Ubuntu-I-webfont.eot');
+  src: local('☺'), url('fonts/Ubuntu-I-webfont.woff') format('woff'), url('fonts/Ubuntu-I-webfont.ttf') format('truetype'), url('fonts/Ubuntu-I-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 400;
+  font-style: italic;
+}
+
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('fonts/Ubuntu-R-webfont.eot');
+  src: local('☺'), url('fonts/Ubuntu-R-webfont.woff') format('woff'), url('fonts/Ubuntu-R-webfont.ttf') format('truetype'), url('fonts/Ubuntu-R-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+
+@font-face {
+  font-family: 'Andale Mono';
+  src: url('fonts/AndaleMono-webfont.eot');
+  src: local('☺'), url('fonts/AndaleMono-webfont.woff') format('woff'), url('fonts/AndaleMono-webfont.ttf') format('truetype'), url('fonts/AndaleMono-webfont.svg#webfontX4pGz9fc') format('svg');
+  font-weight: 400;
+  font-style: normal;
+}
 
 
 
 /* =Layout
 -------------------------------------------------------------- */
-
+/*
 body {font-family: Baskerville, "Times New Roman", Times,serif;
 background: url('images/fpbg.gif') repeat #000;
-
 }
+*/
+
+body {font-family: Baskerville, "Times New Roman", Times,serif;
+background: url('images/paper-0.png') repeat #000; background-attachment: fixed;
+}
+
 body.black {background-color: #000}
 
 
@@ -162,12 +324,12 @@ body.black  a:hover{color: #CFCFCF; text-decoration: underline}
 **/
 
 
-#header {position: fixed; top: 0; left: 0; width: 100%; height: 40px;  border-bottom: 3px solid #000; 
+#header {position: fixed; top: 0; left: 0; width: 100%; height: 45px;  border-bottom: 3px solid #000; 
 /* background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; 
 background-image: url('images/fpbg.gif');
 background-repeat: repeat*/
 
-background-color:rgba(15,0,0,0.7);
+background-color:rgba(15,0,0,0.9);
 
  z-index: 1003; /*filter:alpha(opacity=60); opacity:0.6;*/}
 
@@ -437,9 +599,10 @@ a:hover span.openClose {width: 24px; height: 20px; display: block; background: u
 
 /* INFO PANEL */
 
-#infoPanel {width: 510px; float: right; display: none;
+#infoPanel {width: 510px; float: right; 
 /*background: url("images/raster.png") repeat scroll 0 0; */
-background-color: #e0e0e0;  padding: 20px; margin: 0px 5px 0 0; position: fixed; right: 0px; border: 1px dashed #999; top: 40px; z-index: 999;  }
+background: url('images/paper-2.png') repeat #e0e0e0;  padding: 20px; margin: 0px 5px 0 0; 
+position: fixed; right: 0px; border: 1px dashed #999; top: 40px; z-index: 999;  }
 
 .theInfoTagList {float: left; width: 100%; margin: 5px 0;}
 .theInfoTagList p {float: left;}
@@ -455,7 +618,12 @@ background-color: #e0e0e0;  padding: 20px; margin: 0px 5px 0 0; position: fixed;
 .thumbBox {background: url("images/raster.png") repeat scroll 0 0 transparent; z-index: 1000; height: 81px; padding: 10px 0; width: 100%; position: fixed; bottom: 30px; border: 1px solid #000; }
 .thumbBox img {margin: 0 0 0 10px; border-top: 1px solid #000}
 
-#footer {width: 100%; height: 30px; border-top: 1px solid #2F2F2F; background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; position: fixed; bottom: 0px; left: 0px; z-index: 1000; filter:alpha(opacity=90); opacity:0.9; }
+#footer {width: 100%; border-top: 1px solid #2F2F2F;
+height: 45px;  background-color:rgba(15,0,0,0.9);
+
+position: fixed; bottom: 0px; left: 0px;
+z-index: 1000; filter:alpha(opacity=90); opacity:0.9; 
+}
 
 .footerContainer {width:1000px; margin: 0 auto}	
 
@@ -476,5 +644,18 @@ a.box_fff:hover {width: 10px; height: 10px; display: block; background: #0F0F0F;
 .fb {width: 310px; float: right; margin: 3px 10px 0 0 }
 
 
+/******* Single Posts ***************/
 
-
+.postContainer {width: 1000px; margin: 60px auto 0; }
+.leftContent {width: 600px; float: left; background: url('images/paper-1.png') repeat; }
+.post {padding: 20px 20px 40px;}
+.post h1 {font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif; text-transform: uppercase; font-size: 22px; color: #1D1111}
+.entry-meta {font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif; font-size: 11px; margin-bottom: 10px; color: #3B3B3B;}
+.entry-content {font-family: "DejaVu Serif", Rockwell, serif; font-size: 13px; line-height: 20px;}
+.entry-content p {margin: 10px 0}
+#sidebar {width: 300px; float: left; margin-left: 25px; background: url('images/paper-1.png') repeat; padding: 10px 20px 40px;}
+.widgetTitle {font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif; text-transform: uppercase; font-size: 20px; color: #1D1111; margin: 10px 0 5px}
+#sidebar ul {margin-left: 4px;}
+#sidebar ul li {margin: 2px 0; }
+#sidebar ul li a:link, #sidebar ul li a:visited {}
+#sidebar ul li a:hover {}
