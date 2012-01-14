@@ -24,9 +24,74 @@ function loupe_setup() {
 	// Add default posts and comments RSS feed links to head
 	add_theme_support( 'automatic-feed-links' );
 
-
 }
 endif;
+
+/**
+ * Removes the default styles that are packaged with the Recent Comments widget.
+ *
+ * To override this in a child theme, remove the filter and optionally add your own
+ * function tied to the widgets_init action hook.
+ *
+ * @since Twenty Ten 1.0
+ */
+function loupe_remove_recent_comments_style() {
+	global $wp_widget_factory;
+	remove_action( 'wp_head', array( $wp_widget_factory->widgets['WP_Widget_Recent_Comments'], 'recent_comments_style' ) );
+}
+add_action( 'widgets_init', 'loupe_remove_recent_comments_style' );
+
+if ( ! function_exists( 'loupe_posted_on' ) ) :
+/**
+ * Prints HTML with meta information for the current post—date/time and author.
+ *
+ * @since Twenty Ten 1.0
+ */
+function loupe_posted_on() {
+	printf( __( '<span class="%1$s">Posted on</span> %2$s <span class="meta-sep">by</span> %3$s', 'loupe' ),
+		'meta-prep meta-prep-author',
+		sprintf( '<a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a>',
+			get_permalink(),
+			esc_attr( get_the_time() ),
+			get_the_date()
+		),
+		sprintf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>',
+			get_author_posts_url( get_the_author_meta( 'ID' ) ),
+			sprintf( esc_attr__( 'View all posts by %s', 'loupe' ), get_the_author() ),
+			get_the_author()
+		)
+	);
+}
+endif;
+
+if ( ! function_exists( 'loupe_posted_in' ) ) :
+/**
+ * Prints HTML with meta information for the current post (category, tags and permalink).
+ *
+ * @since Twenty Ten 1.0
+ */
+function loupe_posted_in() {
+	// Retrieves tag list of current post, separated by commas.
+	$tag_list = get_the_tag_list( '', ', ' );
+	if ( $tag_list ) {
+		$posted_in = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'loupe' );
+	} elseif ( is_object_in_taxonomy( get_post_type(), 'category' ) ) {
+		$posted_in = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'loupe' );
+	} else {
+		$posted_in = __( 'Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'loupe' );
+	}
+	// Prints the string, replacing the placeholders.
+	printf(
+		$posted_in,
+		get_the_category_list( ', ' ),
+		$tag_list,
+		get_permalink(),
+		the_title_attribute( 'echo=0' )
+	);
+}
+endif;
+
+
 
 function loupe_filter_wp_title( $title, $separator ) {
 	// Don't affect wp_title() calls in feeds.
@@ -109,8 +174,6 @@ function load_scripts() {
 	 * */
 }
 
-add_action( 'admin_print_scripts-post-new.php', 'portfolio_admin_script', 11 );
-
 function my_admin_scripts() {
 	wp_enqueue_script( 'media-upload' );
 	wp_enqueue_script( 'thickbox' );
@@ -146,6 +209,20 @@ remove_shortcode( 'gallery', 'gallery_shortcode' );
 
 //activate own function
 add_shortcode( 'gallery', 'z_gallery_shortcode' );
+
+//************** Register sidebars and widgetized areas.
+
+function loupe_widgets_init() {
+	 register_sidebar(array(
+    'name' => __('Primary Sidebar (Posts)', 'loupe'),
+    'id' => 'sidebar-1',
+	'before_widget' =>'',
+	'after_widget' => '',
+	'before_title' => '<div class="widgetTitle">',
+	'after_title' => '</div>',
+	));
+	}
+add_action( 'widgets_init', 'loupe_widgets_init' );
 
 function drop_tags()
 {
@@ -329,10 +406,17 @@ function media(){
 	$custom = get_post_custom($post->ID);
 	$film = $custom["film"][0];
 	$camera = $custom["camera"][0]; ?>
-	<label>Camera:</label>
-	<input name="camera" value="<?php echo $camera; ?>" />
-	<label>Film:</label>
-	<input name="film" value="<?php echo $film; ?>" /> 
+	<div style="width: 100%" class="clearfix">
+		<div class="mediaRow">
+		<label>Camera:</label>
+		<input name="camera" value="<?php echo $camera; ?>" />
+		</div>
+		
+		<div class="mediaRow">
+		<label>Film:</label>
+		<input name="film" value="<?php echo $film; ?>" />
+		</div>
+	</div>
 <?php }
 
 function photo_meta(){
