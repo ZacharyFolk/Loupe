@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+<?php
+/**
+ * @package WordPress
+ * @subpackage Loupe
+ * @since Loupe 1.0
+ */
+?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
@@ -21,8 +27,6 @@
 <![endif]-->
 
 <body>
-
-
 <noscript>
  For full functionality of this site it is necessary to enable JavaScript.
  Here are the <a href="http://www.enable-javascript.com/" target="_blank">
@@ -128,7 +132,4 @@
 							echo $tagListHTML;
 	?>
 	</div>
-	<div id="tagThumbs"></div>
-	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-000.gif'></div>
-	<div class="tagTable" style="display:none">&nbsp;</div>
-	<div id="ajaxTable">
+	

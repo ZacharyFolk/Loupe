@@ -27,3 +27,7 @@ ul.ui-autocomplete {width: 500px!important}
 .sUbutton {width: 100px; float: left;}
 .sUbutton input {font-size: 10px; margin-top:-1px; text-transform: uppercase; width: 100px;}
 .sUbutton input:hover {background: #999; color: #fff}
+
+.mediaRow {width: 100%; float: left; margin: 0 0 10px 0; }
+.mediaRow label {width: 60px; float: left;}
+.mediaRow input {float: left; width: 140px;}

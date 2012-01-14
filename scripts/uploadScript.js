@@ -8,6 +8,8 @@ jQuery('#upload_image_button').click(function() {
 		}
 
 	 tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true');
+	 
+	 // put the exif query in here
 	 return false;
 	});
 
