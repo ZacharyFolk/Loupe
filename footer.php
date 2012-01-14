@@ -242,13 +242,15 @@ $(document).ready(function(){
 	};
 	
 	if( infoPanelState == 'collapsed' ){
-		info.hide();
+		//info.hide();
+		info.addClass ('infoClose');
 		infoTri.removeClass( opened );
 		infoTri.addClass( closed );
 	};
 		
 	if( infoPanelState == 'expanded' ){
-		info.show();
+		//info.show();
+		info.addClass ('infoOpen');
 		infoTri.removeClass(closed);
 		infoTri.addClass(opened);
 		infoButton.addClass(activeTags);
@@ -258,16 +260,22 @@ $(document).ready(function(){
 			if( $.cookie( 'infoPanel' ) == 'expanded' ) {
 				$.cookie( 'infoPanel', 'collapsed' );
 				infoButton.removeClass( activeTags );
+				//google.maps.event.trigger(map, 'resize');  
+			    info.removeClass ('infoOpen');
+			    info.addClass ('infoClose');				
 				infoTri.removeClass( opened );
 				infoTri.addClass( closed );
 			} else {
 				$.cookie( 'infoPanel', 'expanded' );
 				infoButton.addClass( activeTags );
-			    google.maps.event.trigger(map, 'resize');  
+			   // google.maps.event.trigger(map, 'resize');
+			    info.removeClass ('infoClose');
+			    info.addClass ('infoOpen');
+				infoTri.removeClass( closed ); 
 				infoTri.addClass( opened );
-				infoTri.removeClass( closed );
+
 			}
-			info.slideToggle('fast');
+			//info.slideToggle('fast');
 			return false;
 	});			
 

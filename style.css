@@ -603,7 +603,8 @@ a:hover span.openClose {width: 24px; height: 20px; display: block; background: u
 /*background: url("images/raster.png") repeat scroll 0 0; */
 background: url('images/paper-2.png') repeat #e0e0e0;  padding: 20px; margin: 0px 5px 0 0; 
 position: fixed; right: 0px; border: 1px dashed #999; top: 40px; z-index: 999;  }
-
+#infoPanel.infoClose {margin-right: -2500px;}
+#infoPanel.infoOpen {margin-right: 0px;}
 .theInfoTagList {float: left; width: 100%; margin: 5px 0;}
 .theInfoTagList p {float: left;}
 #infoTags {}
