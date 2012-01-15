@@ -1,4 +1,81 @@
-<?php get_header(); ?>		
+<?php get_header(); ?>
+<?php // watermark
+	/*
+	$SourceFile = get_post_meta($post->ID, 'single_photo', true);
+	$DestinationFile = '/home/adminwt/folkphotography.com/temp/photo_wm.jpg';		
+	$WaterMarkText = ' - Zachary Folk';
+	
+	watermarkImage ($SourceFile, $WaterMarkText, $DestinationFile);
+	
+	function watermarkImage ($SourceFile, $WaterMarkText, $DestinationFile) {
+		   list($width, $height) = getimagesize($SourceFile);
+		   $image_p = imagecreatetruecolor($width, $height);
+		   $image = imagecreatefromjpeg($SourceFile);
+		   imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width, $height);
+		   $black = imagecolorallocate($image_p, 0, 0, 0);
+		   $font = '/home/adminwt/folkphotography.com/wp-content/themes/Loupe/fonts/SpecialElite.ttf';
+		   
+		   if ( $width > 600 ) { 
+		   		$font_size = 20;
+		   }
+		   if ( $width < 600 ) { 
+		   		$font_size = 10;
+		   }
+		   $pos_w = $width - 100;
+		   $pos_h = $height - 50;
+		   imagettftext($image_p, $font_size, 0, 100, $pos_h, $black, $font, $WaterMarkText);
+			   if ($DestinationFile<>'') {
+			      imagejpeg ($image_p, $DestinationFile, 100);
+			   } else {
+			      header('Content-Type: image/jpeg');
+			      imagejpeg($image_p, null, 100);
+			   };
+		   imagedestroy($image);
+		   imagedestroy($image_p);
+		};
+		
+		function colorPalette($imageFile, $numColors, $granularity = 5) 
+		{ 
+		   $granularity = max(1, abs((int)$granularity)); 
+		   $colors = array(); 
+		   $size = @getimagesize($imageFile); 
+		   if($size === false) 
+		   { 
+		      user_error("Unable to get image size data"); 
+		      return false; 
+		   } 
+		   $img = @imagecreatefromjpeg($imageFile); 
+		   if(!$img) 
+		   { 
+		      user_error("Unable to open image file"); 
+		      return false; 
+		   } 
+		   for($x = 0; $x < $size[0]; $x += $granularity) 
+		   { 
+		      for($y = 0; $y < $size[1]; $y += $granularity) 
+		      { 
+		         $thisColor = imagecolorat($img, $x, $y); 
+		         $rgb = imagecolorsforindex($img, $thisColor); 
+		         $red = round(round(($rgb['red'] / 0x33)) * 0x33); 
+		         $green = round(round(($rgb['green'] / 0x33)) * 0x33); 
+		         $blue = round(round(($rgb['blue'] / 0x33)) * 0x33); 
+		         $thisRGB = sprintf('%02X%02X%02X', $red, $green, $blue); 
+		         if(array_key_exists($thisRGB, $colors)) 
+		         { 
+		            $colors[$thisRGB]++; 
+		         } 
+		         else 
+		         { 
+		            $colors[$thisRGB] = 1; 
+		         } 
+		      } 
+		   } 
+		   arsort($colors); 
+		   return array_slice(array_keys($colors), 0, $numColors); 
+		} 
+
+*/
+?>
 <div id="tagThumbs"></div>
 	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-000.gif'></div>
 	<div class="tagTable" style="display:none">&nbsp;</div>
@@ -6,7 +83,19 @@
 
 <?php if ( have_posts() ) :  while ( have_posts() ) : the_post(); ?>	
 <div id="infoPanel">
-<div class="title"><?php the_title(); ?></div>
+<div class="title"><?php the_title(); 
+//test color palette
+/*
+print_r($colors);
+$palette = colorPalette($SourceFile, 10, 4); 
+echo "<table>\n"; 
+foreach($palette as $color) 
+{ 
+   echo "<tr><td style='background-color:#$color;width:2em;'>&nbsp;</td><td>#$color</td></tr>\n"; 
+} 
+echo "</table>\n";
+*/
+?></div>
 <div class="theInfoTagList">
 <p>Tagged with : <?php the_tags('<ul id="infoTags" ><li>','</li><li>','</li></ul>'); ?></p>
 </div>
