@@ -498,7 +498,8 @@ function media(){
 		</div>
 		
 		
-<?php printExifData(); ?>
+<?php 
+if (isset($single_photo)) printExifData(); ?>
 
 	</div>
 	
