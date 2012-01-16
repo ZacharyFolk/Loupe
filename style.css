@@ -469,18 +469,20 @@ a {text-decoration: none}
 
 /* add various bumps for when panel is toggled */
 
-.tagged {top: 74px!important; }
-.tagTeam {top: 178px!important;}
+.tagged {top: 82px!important; }
+.tagTeam {top: 184px!important;}
 .loader {position: absolute; top: 40%; left: 50%; background: url('images/ajax-loader-000.gif'); display: none; width: 32px; height: 32px;}
 
-.tagTable {background: url("images/raster.png") repeat scroll 0 0 transparent; z-index: 1000; height: 81px; padding: 10px 0; width: 100%; position: fixed; top: 73px; border: 1px solid #000; }
+.tagTable {background: url("images/raster.png") repeat scroll 0 0 transparent; z-index: 1000; height: 81px; padding: 10px 0; width: 100%; position: fixed; top: 82px; border: 1px solid #000; }
 .tagTable img {margin: 0 0 0 10px; border-top: 1px solid #000; float: left;}
 
 #tagTableOuter{width: 100%; position: absolute; top: 54px;}
-#tagList {background: url("images/raster.png") repeat scroll 0 0; background-color:rgba(239,239,239,0.8);   width: 100%; z-index: 1002; position: fixed; top: 42px; left: 0px;  border-bottom: 1px solid #000; line-height: 31px; display: none
+
+/*#tagList {background: url("images/raster.png") repeat scroll 0 0; background-color:rgba(239,239,239,0.8);   width: 100%; z-index: 1002; position: fixed; top: 42px; left: 0px;  border-bottom: 1px solid #000; line-height: 31px; display: none
+}*/
+
+#tagList {background-color:rgba(255,255,255,0.6);   width: 100%; z-index: 1002; position: fixed; top: 42px; left: 0px;  border-bottom: 1px solid #000; line-height: 40px; display: none
 }
-
-
 
 .activeTagTable {padding: 30px 0 0 0;}
 .tag-links {position: absolute; right: 92px; top: 5px;  z-index: 1002; }
