@@ -184,8 +184,8 @@ function my_admin_scripts() {
 	wp_enqueue_script( 'image_upload' );
 	wp_enqueue_script( 'maps_scripts', get_template_directory_uri() . '/scripts/maps.js' );
 	wp_enqueue_script( 'maps_scripts' );
-	//wp_register_script( 'exif', get_template_directory_uri( '/scripts/exifGrab.js' ), array( 'jquery' ) );
-	//wp_enqueue_script( 'exif' );			
+	wp_register_script( 'exif', get_template_directory_uri() .  '/scripts/exifGrab.js', array( 'jquery' ) );
+	wp_enqueue_script( 'exif' );			
 }
 
 function my_admin_styles() {
@@ -419,16 +419,117 @@ function media(){
 		<input name="film" value="<?php echo $film; ?>" />
 		</div>
 	</div>
+	<script type="text/javascript">
+		
+jQuery(document).ready(function($){
+$(".cbImg").click(function() {
+alert("Taken with a " + $(this).exif("Make") + " " + $(this).exif("Model") + " on " + $(this).exif("DateTimeOriginal"));
+// exif(strTagName) returns a string with value for the tag [strTagName]
+});
+});
+	</script>
 <?php }
 
 function photo_meta(){
 	global $post;
 	$custom = get_post_custom( $post->ID );
 	$single_photo = $custom["single_photo"][0];
-	$exif = wp_read_image_metadata( $single_photo ); ?>
+	//$exif = wp_read_image_metadata( $single_photo ); ?>
 	<div id="singleUpload" class="clearfix">
 		<div class="sUcallback"> 
-	  		<img src="<?php echo $single_photo; ?>" width="200" /> 		
+	  		<img src="<?php echo $single_photo; ?>" width="200" exif="true" class="cbImg"/> 
+	  	<?php
+/*	  	
+$info = exif_read_data( $single_photo );
+echo 'Image was taken at: ' . $info['DateTimeOriginal'] . '<br />';
+echo 'Fstop : ' . $info['FNumber'] . '<br />';
+echo 'Make : ' . $info['Make'] . '<br />';
+echo 'Model : ' . $info['Model'] . '<br />';
+echo 'Shutter Speed : ' . $info['ShutterSpeedValue'] . '<br />';
+echo 'Aperture : ' . $info['ApertureFNumber'] . '<br />';
+echo '<br />ISO : ' . $info['ISOSpeedRatings'];
+*/
+?>
+<?php
+function printExifData() {
+	global $post;
+	$custom = get_post_custom( $post->ID );
+	$single_photo = $custom["single_photo"][0];
+	$exif = read_exif_data( $single_photo );	
+		while(list($k,$v)=each($exif)) {	
+		if($k=="DateTimeOriginal") {
+			$datetime = $v;
+			list($fulldate, $fulltime) = explode(' ', $datetime, 2);
+			list($year, $monthnum, $day) = explode(':', $fulldate, 3);
+			list($hour, $minute, $second) = explode(':', $fulltime, 3);
+			$num[0] = "/01/";
+			$num[1] = "/02/";
+			$num[2] = "/03/";
+			$num[3] = "/04/";
+			$num[4] = "/05/";
+			$num[5] = "/06/";
+			$num[6] = "/07/";
+			$num[7] = "/08/";
+			$num[8] = "/09/";
+			$num[9] = "/10/";
+			$num[10] = "/11/";
+			$num[11] = "/12/";
+			$alpha[0] = "January";
+			$alpha[1] = "February";
+			$alpha[2] = "March";
+			$alpha[3] = "April";
+			$alpha[4] = "May";
+			$alpha[5] = "June";
+			$alpha[6] = "July";
+			$alpha[7] = "August";
+			$alpha[8] = "September";
+			$alpha[9] = "October";
+			$alpha[10] = "November";
+			$alpha[11] = "December";
+			$month = preg_replace($num, $alpha, $monthnum);
+				if ($hour >=13) {
+				$cleanhour = $hour -12; 
+				}
+			echo "Taken: $day $month $year at $cleanhour:$minute "; 
+				if ($hour >=13) { echo "PM"; } else { echo "AM"; } echo "<br>\n"; 
+			}
+			if($k=="Make") { echo "Camera: "; if($v!="Canon") { echo "$v ";} }
+			if($k=="Model") { echo "$v<br>\n"; }
+			if($k=="ExposureTime") { $exposure = $v;
+			if($exposure != "")
+			{
+			$exposure2 = split("/",$exposure);
+			if(count($exposure2) == 2)
+			{
+			$exposure = round($exposure2[0]/$exposure2[1],2);
+			if($exposure < 1) $exposure = '1/'.round($exposure2[1]/$exposure2[0],0);
+			}
+			$exposure = "$lang_exposure $exposure";
+			}
+			echo "Shutter Speed: $exposure sec<br>\n"; }
+			if($k=="FNumber") { $fstop = $v;
+			if($fstop != "")
+			{
+			$fstop = split("/",$fstop);
+			if(count($fstop) == 2) $fstop = round($fstop[0]/$fstop[1],2);
+			$focal = "$lang_focal $fstop";
+			}
+			echo "Aperture: f/$fstop<br>\n"; }
+			if($k=="ISOSpeedRatings") { echo "ISO Speed: $v<br>\n"; }
+			if($k=="FocalLength") { $focal = $v;
+			if($focal != "")
+			{
+			$focal = split("/",$focal);
+			if(count($focal) == 2) $focal = round($focal[0]/$focal[1],2);
+			$focal = "$lang_focal $focal mm";
+			}
+		echo "Focal Length: $focal<br>\n"; }
+		}
+	} 
+
+printExifData();
+?>
+			
 	  	</div>
 	  	<div class="sUinput">	  
 	  		<input id="single_photo" name="single_photo" value="<?php echo $single_photo; ?>" />
