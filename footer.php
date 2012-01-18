@@ -52,7 +52,7 @@ var $ = jQuery;
 
 $(document).ready(function(){
 	
-	initialize();
+	
 
 	var imgCtrl = $( '#controls');
 	var panel = $('.thumbBox');
