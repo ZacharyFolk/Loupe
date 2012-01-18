@@ -108,6 +108,7 @@ if ($lat !== '') {
       src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBw1DpJdlyFiMUhy9yu1zThIK9AFa5zGac&sensor=true">
     </script>
     <script type="text/javascript">
+    	
         var lat = "<?php echo $lat;?>"; 
       	var lng = "<?php echo $long;?>";
       	var myLatlng = new google.maps.LatLng(lat,lng);
@@ -165,6 +166,7 @@ echo get_post_meta($post->ID, 'upload_image', true);
 <script type="text/javascript">
     var $ = jQuery;
       $(document).ready(function(){
+      	initialize();
 	//	var colors = $.cookie('colors');
                   var iv1 = $("#viewer").iviewer({
                       src: "<?php echo get_post_meta($post->ID, 'single_photo', true); ?>",
