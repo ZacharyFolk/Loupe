@@ -484,8 +484,9 @@ function media(){
 	global $post;
 	$custom = get_post_custom($post->ID);
 	$film = $custom["film"][0];
-	$camera = $custom["camera"][0]; ?>
-	
+	$camera = $custom["camera"][0]; 
+	$single_photo = $custom["single_photo"][0];?>
+		
 	<div style="width: 100%" class="clearfix">
 		<div class="mediaRow">
 		<label>Camera:</label>
@@ -499,7 +500,8 @@ function media(){
 		
 		
 <?php 
-if (isset($single_photo)) printExifData(); ?>
+
+if ( $single_photo ) { printExifData(); } ?>
 
 	</div>
 	
@@ -548,6 +550,7 @@ function map_meta() {
 	</div>
 	
 	<div id="mapControls">
+		
 		<div class="lat">
 		  <p><label for="lat">Latitude:</label>
 		  <input id="latitude"  name="latitude" value="<?php echo $latitude; ?>"></input></p>
@@ -557,6 +560,17 @@ function map_meta() {
 		  <input id="longitude" name="longitude" value="<?php echo $longitude; ?>" ></input></p>
 		</div>
  	</div>
+	 <script language="JavaScript">
+			function disableEnterKey(e)
+			{
+			var key;
+			if(window.event)
+			key = window.event.keyCode; //IE
+			else
+			key = e.which; //firefox
+			return (key != 13);
+			}
+	</script>
 <?php }
 
 function save_details( $post_id ){
@@ -564,7 +578,7 @@ function save_details( $post_id ){
 	global $post;
 	update_post_meta($post_id, "single_photo", $_POST["single_photo"]);
 	update_post_meta($post_id, "isFeatured", $_POST["isFeatured"]);
-	update_post_meta($post_id, "latlong", $_POST["latlong"]);
+	//update_post_meta($post_id, "latlong", $_POST["latlong"]);
 	update_post_meta($post_id, "latitude", $_POST["latitude"]);
 	update_post_meta($post_id, "longitude", $_POST["longitude"]);
 	update_post_meta($post_id, "camera", $_POST["camera"]);
