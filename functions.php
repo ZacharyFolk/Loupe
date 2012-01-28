@@ -476,6 +476,7 @@ function photo_register() {
 
 function admin_init(){ // add_meta_box( $id, $title, $callback, $page, $context, $priority ); 
 	  add_meta_box( 'media', 'Media Type', 'media', 'photo', 'side', 'high' );
+	  add_meta_box( 'photowords', 'Words', 'photowords', 'photo', 'normal', 'high' );
 	  add_meta_box( 'photo_meta', 'Add a photograph', 'photo_meta', 'photo', 'normal', 'high' );
 	  add_meta_box( 'map_meta', 'Map It', 'map_meta', 'photo', 'normal', 'high' );
 	}
@@ -536,6 +537,22 @@ function photo_meta(){
 	</div>  
 <?php }
 
+
+function photowords(){
+	global $post;
+	$custom = get_post_custom($post->ID);
+	$photowords = $custom["photowords"][0];
+?>	
+	<div style="width: 100%" >
+		<div class="photoText">
+		<textarea name="photowords" value="<?php echo $photowords; ?>" style="width: 100%">
+			<?php echo $photowords; ?>
+		</textarea>
+		</div>
+	
+<?php }
+
+
 function map_meta() {
   global $post;
   $custom = get_post_custom( $post->ID );
@@ -578,6 +595,7 @@ function save_details( $post_id ){
 	global $post;
 	update_post_meta($post_id, "single_photo", $_POST["single_photo"]);
 	update_post_meta($post_id, "isFeatured", $_POST["isFeatured"]);
+	update_post_meta($post_id, "photowords", $_POST["photowords"]); 
 	//update_post_meta($post_id, "latlong", $_POST["latlong"]);
 	update_post_meta($post_id, "latitude", $_POST["latitude"]);
 	update_post_meta($post_id, "longitude", $_POST["longitude"]);
