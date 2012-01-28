@@ -166,9 +166,9 @@ echo get_post_meta($post->ID, 'upload_image', true);
 <script type="text/javascript">
     var $ = jQuery;
       $(document).ready(function(){
-      	initialize();
+     // 	initialize();
 	//	var colors = $.cookie('colors');
-                  var iv1 = $("#viewer").iviewer({
+                  	  iv1 = $("#viewer").iviewer({
                       src: "<?php echo get_post_meta($post->ID, 'single_photo', true); ?>",
                       update_on_resize: true,    
                       onMouseMove: function(coords) { },
@@ -203,4 +203,5 @@ echo get_post_meta($post->ID, 'upload_image', true);
         </script>
         
 </div> 
+<?php include('rcMenu.php'); ?>
 <?php get_footer(); ?>

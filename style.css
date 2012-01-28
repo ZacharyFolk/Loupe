@@ -314,7 +314,7 @@ body.black  a:hover{color: #CFCFCF; text-decoration: underline}
 
 .lightTable {width:1000px; margin: 0px auto 0 auto}
 
-.floater {float: left; margin-top: 80px}
+.floater {float: left; margin-top: 100px}
 .hidden {display: none}
 
 /** HEADER 
@@ -470,6 +470,7 @@ a {text-decoration: none}
 /* add various bumps for when panel is toggled */
 
 .tagged {top: 82px!important; }
+
 .tagTeam {top: 184px!important;}
 .loader {position: absolute; top: 40%; left: 50%; background: url('images/ajax-loader-000.gif'); display: none; width: 32px; height: 32px;}
 
@@ -502,13 +503,22 @@ ul.post_tags li a {}
 #tagImgBox li {cursor: pointer;}
 
 
-
-
-
 /*
 ul.post_tags li.count-1 {font-size: 12px}
 ul.post_tags li.count-2 {font-size: 22px}
 */
+
+/*** RC Menu ***/
+
+.rcmenu{border:1px solid #aaa;position:absolute;background:#fff;	
+display:none;font-size:0.75em;}
+
+.rcmenu .first_li span{width:100px;display:block;padding:5px 10px;cursor:pointer}
+.rcmenu .inner_li{display:none;margin-left:120px;position:absolute;border:1px solid #aaa; border-left:1px solid #ccc;margin-top:-28px;background:#fff;}
+.rcmenu .sep_li{border-top: 1px ridge #aaa;margin:5px 0}
+.rcmenu .fill_title{ font-size:11px;font-weight:bold;/height:15px;/overflow:hidden;word-wrap:break-word;}
+       
+       
 /******************************* FONTS ********************/
 #slide
 {
