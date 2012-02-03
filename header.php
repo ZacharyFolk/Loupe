@@ -42,9 +42,7 @@
 					</span>
 				 </h1>
 				 <div class="sep">|</div>
-				 <div class="tagLink">
-				<a href="?tags">tags </a><span class="close"></span>
-				</div>
+			
 		</div><!-- #masthead -->
 
 	</div><!-- #header -->		
@@ -114,22 +112,22 @@
 	  <!--    <a id="fit" href="#">100%</a>
 	 <a id="orig" href="#">orig</a> -->
 	</ul>
-    <?php } ?>
+
 	<div id="tagList">
 	<?php $tagArgs = array(
-						'orderby' => 'name',
-						'order' => 'ASC',
-						'number' => 50,
-						);
-						$theTags = get_tags( $tagArgs );
-						$tagListHTML = '<ul class="post_tags">';
-							foreach ($theTags as $theTag){
-							$tagLink = get_tag_link($theTag->term_id);		
-							$tagListHTML .= "<li class='count-{$theTag->count}' id='{$theTag->slug}'><a href='#{$theTag->name}' title='{$theTag->name} Tag' class='{$theTag->slug}'>{$theTag->name}</a></li>
-							<li> | </li>";
-								}
-							$tagListHTML .= '</ul>';
-							echo $tagListHTML;
+			'orderby' => 'name',
+			'order' => 'ASC',
+			'number' => 50,
+			);
+				$theTags = get_tags( $tagArgs );
+				$tagListHTML = '<ul class="post_tags">';
+						foreach ($theTags as $theTag){
+						$tagLink = get_tag_link($theTag->term_id);		
+						$tagListHTML .= "<li class='count-{$theTag->count}' id='{$theTag->slug}'><a href='#{$theTag->name}' title='{$theTag->name} Tag' class='{$theTag->slug}'>{$theTag->name}</a></li>
+						<li> | </li>";
+			}
+			    $tagListHTML .= '</ul>';
+				echo $tagListHTML;
 	?>
 	</div>
-	
+	    <?php } ?>
