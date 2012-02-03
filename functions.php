@@ -603,6 +603,44 @@ function save_details( $post_id ){
 	update_post_meta($post_id, "film", $_POST["film"]); 
 }
 
+add_action("manage_posts_custom_column",  "photo_custom_columns");
+add_filter("manage_edit-photo_columns", "photo_edit_columns");
+ 
+function photo_edit_columns($columns){
+  $columns = array(
+    "cb" => "<input type=\"checkbox\" />",
+    "title" => "Photo Title",
+    "photo" => "Photo",
+    "tags" => "Tags",
+    "categories" => "Categories",
+    "featured" => "Featured?",
+    "date" => "Date"
+  );
+ 
+  return $columns;
+}
+function photo_custom_columns($column){
+  global $post;
+ 
+  switch ($column) {
+  	
+    case "photo":
+	$custom = get_post_custom();
+    $phoVar = $custom["single_photo"][0];
+	echo '<img src="' . $phoVar . '" width="100" />'; 
+    break; 
+	
+	case "featured":
+	$featured = get_post_meta($post->ID, 'isFeatured', true);
+	if ($featured == 1) {
+	echo "Yes";
+	}
+	break;
+  
+  }
+}
+
+
 //return just the src for the first image attachment // used for tag thumbs v3
 function get_first_attachment(){
 	$querystr =
