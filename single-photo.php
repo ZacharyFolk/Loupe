@@ -97,7 +97,13 @@ echo "</table>\n";
 */
 ?></div>
 <div class="theInfoTagList">
-<p>Tagged with : <?php the_tags('<ul id="infoTags" ><li>','</li><li>','</li></ul>'); ?></p>
+<?php $photoTxt = get_post_meta($post->ID, 'photowords', true); 
+		if ($photoTxt){
+			echo "<p>" . $photoTxt . "</p>";
+		}
+	?>
+
+<?php the_tags('<ul id="infoTags" ><li>Tagged with : </li> <li>','</li><li>','</li></ul>'); ?>
 </div>
 <?php 
 $lat = get_post_meta($post->ID, 'latitude', true);
@@ -128,6 +134,7 @@ if ($lat !== '') {
 		});
 		marker.setMap(map);
       }
+
     </script>
 
 <div id="map_canvas" style="width:100%; height:300px"></div>
@@ -166,7 +173,9 @@ echo get_post_meta($post->ID, 'upload_image', true);
 <script type="text/javascript">
     var $ = jQuery;
       $(document).ready(function(){
-     // 	initialize();
+      	<?php if ($lat !== '') { ?>
+    	initialize();
+    	<?php } ?>
 	//	var colors = $.cookie('colors');
                   	  iv1 = $("#viewer").iviewer({
                       src: "<?php echo get_post_meta($post->ID, 'single_photo', true); ?>",
