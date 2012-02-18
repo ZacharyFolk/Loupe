@@ -151,6 +151,8 @@ function load_scripts() {
 		wp_enqueue_script( 'viewer' );						
 		wp_register_script( 'cookie', get_template_directory_uri() . '/scripts/cookie.js', array('jquery'), false, true );
 		wp_enqueue_script( 'cookie' );
+		wp_register_script( 'cycle', get_template_directory_uri() . '/scripts/cycle.js', array( 'jquery' ), '1.0', true );
+		wp_enqueue_script( 'cycle' );
 	/*	wp_register_script( 'Gmaps', 'http://maps.googleapis.com/maps/api/js?key=AIzaSyAO4akxImeh2-g3XNOpcSYgKZXiOeR6220&sensor=true', array(), false, true );
 		wp_enqueue_script ( 'Gmaps' );	
 	 	wp_register_script( 'maps_front',  get_template_directory_uri() . '/scripts/mapFront.js', array( 'Gmaps' ), false, false );
@@ -640,6 +642,19 @@ function photo_custom_columns($column){
   }
 }
 
+// for category archives
+add_filter('pre_get_posts', 'query_post_type');
+function query_post_type($query) {
+  if(is_category() || is_tag()) {
+    $post_type = get_query_var('post_type');
+	if($post_type)
+	    $post_type = $post_type;
+	else
+	    $post_type = array('post','photo'); // replace cpt to your custom post type
+    $query->set('post_type',$post_type);
+	return $query;
+    }
+}
 
 //return just the src for the first image attachment // used for tag thumbs v3
 function get_first_attachment(){
