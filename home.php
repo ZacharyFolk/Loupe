@@ -6,11 +6,10 @@ get_header(); ?>
 	<div class="lightTable">
 		<div class="floater">			
 			<div id="leftBlock">
-				<div id="featured" class="pics"> 
-					
+				<div id="featured" class="pics"> 					
 					<?php 
 					$args = array( 'post_type' => 'photo',
-					'posts_per_page' => 20);								 
+					'posts_per_page' => 50);								 
 					$the_query = new WP_Query($args);
 					while ($the_query->have_posts()) : $the_query->the_post();
 						$featured = get_post_meta($post->ID, 'isFeatured', true);
@@ -24,13 +23,12 @@ get_header(); ?>
 							</div>							
 						<?php } endwhile; ?>
 				</div> <!-- featured -->
-			</div>		
-			
+			</div>					
 			<div id="rightBlock">
 				<ul id="thumbNav">
 					<?php
 					$args = array('post_type' => 'photo',
-					'posts_per_page' => 20);									 
+					'posts_per_page' => 50);									 
 					$the_query = new WP_Query($args);
 					while ($the_query->have_posts()) : $the_query->the_post();
 					$featured = get_post_meta($post->ID, 'isFeatured', true);
