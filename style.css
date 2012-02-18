@@ -69,7 +69,6 @@ a img {
 /* FONTS  
 ----------------------------------- */
 
-.afs-ubuntu { font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif; ;}
 
 .afs-dejavu-serif { font-family: "DejaVu Serif", Rockwell, serif; font-size: 1.002em;}
 
@@ -234,8 +233,9 @@ background: url('images/fpbg.gif') repeat #000;
 }
 */
 
-body {font-family: Baskerville, "Times New Roman", Times,serif;
-background: url('images/paper-0.png') repeat #000; background-attachment: fixed;
+body { /*font-family: Baskerville, "Times New Roman", Times,serif;*/
+	font-family: "DejaVu Serif", Rockwell, serif; font-size: 1.002em;
+	background: url('images/paper-0.png') repeat #000; background-attachment: fixed;
 }
 
 body.black {background-color: #000}
@@ -304,8 +304,8 @@ body.cfff .featuredSlide {background-color: #FFFFFF;color: #000000; border: 1px 
 	
 /* Set Links */
 
-a:link, a:visited {color: #000}
-a:hover{color: #2F2F2F; text-decoration: underline}
+a:link, a:visited {color: #B29C6C}
+a:hover{color: #EDDFC2; text-decoration: underline}
 
 
 body.black a:link,body.black  a:visited {color: #9F9F9F}
@@ -329,22 +329,21 @@ body.black  a:hover{color: #CFCFCF; text-decoration: underline}
 background-image: url('images/fpbg.gif');
 background-repeat: repeat*/
 
-background-color:rgba(15,0,0,0.9);
+background-color:rgba( 15,0,0,0.7 );
 
  z-index: 1003; /*filter:alpha(opacity=60); opacity:0.6;*/}
 
 #masthead {margin: 7px 0 0 0}
-#masthead a:link, #masthead a:visited {color: #9EA5B5}
-#masthead a:hover {color: #D3DCF2  }
-
+#masthead a:link, #masthead a:visited, #controls a:link, #controls a:visited {color: #9EA5B5}
+#masthead a:hover, #controls a:hover {color: #D3DCF2  }
 #masthead div.activeTagClass a:link, #masthead div.activeTagClass a:visited {color: #FFF  }
-h1#site-title {font-size: 18px; text-transform: uppercase;  margin:5px 0 0 15px; letter-spacing: .1em; width: 220px;float: left;}
+h1#site-title {font-size: 18px; text-transform: uppercase;  margin:5px 0 0 15px; letter-spacing: .1em; width: 220px;float: left; font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif; }
 h1#site-title a:link, h1#site-title a:visited {color: #D3DCF2}
 
-.sep {margin: 0 6px; width: 20px; line-height: 24px; float: left; text-align: center;}
-.tagLink {width: 81px; float: left; font-size: 18px; margin: 3px 0 0 6px; letter-spacing: .1em; text-transform:uppercase; cursor: pointer; line-height: 20px;}
-.editLink {float: left; font-size: 16px; margin: 6px 0 0 6px; letter-spacing: .1em; 
-text-transform:uppercase; cursor: pointer}
+
+.tagLink { }
+.galleryLink { }
+.editLink {position: fixed; left: 20px;}
 .imageTitle {position: absolute; top: 4px; left: 200px; width: 300px; z-index: 1002}
 .caption {float: left; margin: 2px 0 0 21px}
 .blinky {}
@@ -410,7 +409,7 @@ ul#recentPosts li.recentThumbs {float: left; margin: 0 0 0 4px}
 
 ul#thumbNav {margin: 10px 0 10px}
 ul#thumbNav a {width: 81px; height: 81px; display: block}
-ul#thumbNav li.recentThumbs {float: left; margin: 0 8px 0 0px}
+ul#thumbNav li.recentThumbs {float: left; margin: 4px 4px 0 0px}
 ul#thumbNav li.recentThumbs a:link, ul#thumbNav li.recentThumbs a:visited {opacity:0.9;filter:alpha(opacity=90);border: 1px solid #2B2A2A;}
 ul#thumbNav li.recentThumbs a:hover {opacity:1;filter:alpha(opacity=100);border: 1px solid #3A3A3A; }
 
@@ -431,6 +430,22 @@ http://www.jakpsatweb.cz/css/priklady/vertical-align-valid-solution-en.html*/
 
 
 /**** SINGLE **/
+
+/***** TOP NAV ************/
+
+#singleNav {letter-spacing: .1em; text-transform:uppercase;  line-height: 24px; }
+#singleNav li {cursor: pointer; float: left; margin:2px 20px 2px 0; }
+.sep {margin: 0 6px; width: 20px; line-height: 24px; float: left; text-align: center;}
+
+#singleNav a , #infoLink a{float:left; }
+
+.close {width: 24px; height: 20px; display: block; background: url('images/openClose_000_2.png') no-repeat  1px 0px transparent; cursor: pointer; float: left; margin: 2px 0 0 4px; }
+
+.open {width: 24px; height: 20px; display: block; background: url('images/openClose_000_2.png') no-repeat  1px -20px transparent; cursor: pointer; float: left; margin: 2px 0 0 4px; }
+
+
+a:hover span.openClose {width: 24px; height: 20px; display: block; background: url('images/openClose_000_2.png') no-repeat  1px -20px transparent; cursor: pointer; float: left; margin: 0px 0 0 0; }
+
 
 #viewer img {cursor: move; display: none;}
 
@@ -466,24 +481,12 @@ a {text-decoration: none}
 /************** TAGS ********************/
 
 #ajaxTable {width: 99%; margin: 30px auto 0; }
-
-/* add various bumps for when panel is toggled */
-
-.tagged {top: 82px!important; }
-
-.tagTeam {top: 184px!important;}
 .loader {position: absolute; top: 40%; left: 50%; background: url('images/ajax-loader-000.gif'); display: none; width: 32px; height: 32px;}
 
 .tagTable {background: url("images/raster.png") repeat scroll 0 0 transparent; z-index: 1000; height: 81px; padding: 10px 0; width: 100%; position: fixed; top: 82px; border: 1px solid #000; }
 .tagTable img {margin: 0 0 0 10px; border-top: 1px solid #000; float: left;}
 
 #tagTableOuter{width: 100%; position: absolute; top: 54px;}
-
-/*#tagList {background: url("images/raster.png") repeat scroll 0 0; background-color:rgba(239,239,239,0.8);   width: 100%; z-index: 1002; position: fixed; top: 42px; left: 0px;  border-bottom: 1px solid #000; line-height: 31px; display: none
-}*/
-
-#tagList {background-color:rgba(255,255,255,0.6);   width: 100%; z-index: 1002; position: fixed; top: 42px; left: 0px;  border-bottom: 1px solid #000; line-height: 40px; display: none
-}
 
 .activeTagTable {padding: 30px 0 0 0;}
 .tag-links {position: absolute; right: 92px; top: 5px;  z-index: 1002; }
@@ -508,17 +511,39 @@ ul.post_tags li.count-1 {font-size: 12px}
 ul.post_tags li.count-2 {font-size: 22px}
 */
 
+
+/*#tagList {background: url("images/raster.png") repeat scroll 0 0; background-color:rgba(239,239,239,0.8);   width: 100%; z-index: 1002; position: fixed; top: 42px; left: 0px;  border-bottom: 1px solid #000; line-height: 31px; display: none
+}*/
+
+#tagList {background-color:rgba( 40,20,10,0.7 );   width: 100%; z-index: 1002; position: fixed; top: 89px; left: 0px;  border-bottom: 1px solid #000; line-height: 40px; display: none
+}
+
+
+
+
+/**** Categories ***/
+
+#catList{background-color:rgba( 25,0,0,0.7 );   width: 100%; z-index: 1002; position: fixed; top: 48px; left: 0px;  border-bottom: 1px solid #000; line-height: 40px; list-style:none;   }
+
+#catList ul, #catList li  { display: inline}
+#catList li {margin-left: 10px}
+#catList li a {}
 /*** RC Menu ***/
 
 .rcmenu{border:1px solid #aaa;position:absolute;background:#fff;	
 display:none;font-size:0.75em;}
 
-.rcmenu .first_li span{width:100px;display:block;padding:5px 10px;cursor:pointer}
+.rcmenu .first_li span{display:block;padding:5px 20px;cursor:pointer} /*width:160px;*/
 .rcmenu .inner_li{display:none;margin-left:120px;position:absolute;border:1px solid #aaa; border-left:1px solid #ccc;margin-top:-28px;background:#fff;}
 .rcmenu .sep_li{border-top: 1px ridge #aaa;margin:5px 0}
 .rcmenu .fill_title{ font-size:11px;font-weight:bold;/height:15px;/overflow:hidden;word-wrap:break-word;}
        
-       
+/* add various bumps for when panel is toggled */
+
+.tagged {top: 88px!important; }
+.tagTeam {top: 184px!important;}
+.tagCat {top: 130px!important; }
+      
 /******************************* FONTS ********************/
 #slide
 {
@@ -571,9 +596,7 @@ margin-left: -512px;   /* 50% */
 
 ul#controls {
 	color: #9EA5B5;
-    font-size: 18px;
-    letter-spacing: 3px;
-    line-height: 16px;
+    line-height: 24px;
     position: absolute;
     right: 20px;
     text-transform: uppercase;
@@ -586,42 +609,36 @@ ul#controls li {margin: 0 0 0 10px; float: left}
 ul#controls li.zoom {margin: 0 0 0 0px;}
 ul#controls li.zoom_out {}
 
-li#infoLink {width: 80px}
+li#infoLink {margin: 2px 20px 2px 0;}
 
 ul#controls li.activeTagClass {color: #fff}
 
 /*ZOOM CONTROLS */
 
-a#in:link, a#in:visited { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus-darkTheme.png') no-repeat 0 0 transparent; cursor: pointer; height: 20px; width: 24px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}
+a#in:link, a#in:visited { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus-darkTheme.png') no-repeat 0 0 transparent; cursor: pointer; height: 20px; width: 24px; display: block; float: left; margin: 3px 0 10px; text-indent: -9999px}
 a#in:hover {background-position: -22px  0px}
 
-a#out:link, a#out:visited { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus-darkTheme.png') no-repeat  0 -20px transparent; cursor: pointer; height: 20px; width: 24px; display: block; float: left; margin: 0 0 10px; text-indent: -9999px}
+a#out:link, a#out:visited { text-transform: uppercase;letter-spacing: 0; line-height: .9em; font-size: 1.4em; width: 420px; background: url('images/plusMinus-darkTheme.png') no-repeat  0 -20px transparent; cursor: pointer; height: 20px; width: 24px; display: block; float: left; margin: 3px 0 10px; text-indent: -9999px}
 a#out:hover{background-position: -22px -20px}
 
 /* INFO CONTROL */
 
 span.info { float: left;}
 
-.close {width: 24px; height: 20px; display: block; background: url('images/openClose_000_2.png') no-repeat  1px 0px transparent; cursor: pointer; float: right; margin: 0px 0 0 0; }
-
-.open {width: 24px; height: 20px; display: block; background: url('images/openClose_000_2.png') no-repeat  1px -20px transparent; cursor: pointer; float: right; margin: 0px 0 0 0; }
-
-
-a:hover span.openClose {width: 24px; height: 20px; display: block; background: url('images/openClose_000_2.png') no-repeat  1px -20px transparent; cursor: pointer; float: left; margin: 0px 0 0 0; }
-
 /* INFO PANEL */
 
 #infoPanel {width: 510px; float: right; 
 /*background: url("images/raster.png") repeat scroll 0 0; */
 background: url('images/paper-2.png') repeat #e0e0e0;  padding: 20px; margin: 0px 5px 0 0; 
-position: fixed; right: 0px; border: 1px dashed #999; top: 40px; z-index: 999;  }
+position: fixed; right: 0px; border: 1px dashed #999; top: 48px; z-index: 999;  }
 #infoPanel.infoClose {margin-right: -2500px;}
 #infoPanel.infoOpen {margin-right: 0px;}
 .theInfoTagList {float: left; width: 100%; margin: 5px 0;}
-.theInfoTagList p {float: left;}
-#infoTags {}
-#infoTags li {float: left; margin: 0 0 0 10px;}
-.title  {font-size:28px; font-family: fantasy; text-transform: uppercase;}
+.theInfoTagList p {float: left; width: 100%; margin: 5px 0;}
+#infoTags {margin: 0}
+
+#infoTags li {float: left; margin: 0 10px 0 0px;}
+.title  {font-size:28px; font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif; text-transform: uppercase;}
 .description {font-size: 15px; font-family: Verdana; margin: 10px 0;}
 
 /******************************* GALLERIA ********************/

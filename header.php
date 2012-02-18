@@ -54,15 +54,20 @@
 						<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 					</span>
 				 </h1>
-				  <div class="sep">|</div>
-				 <div class="tagLink">
-				<a href="?tags">tags </a><span class="close"></span>
-				</div>
-			
-					<div class="sep">|</div>
-				<div class="editLink">
-					<?php edit_post_link('edit', '<p>', '</p>'); ?>
-				</div>
+				 <ul id="singleNav">
+					<li class="sep">|</li>
+					<li class="galleryLink">
+					<a href="#">galleries</a> <span class="close"></span>
+					</li>
+					<li class="tagLink">
+					<a href="?tags">tags </a><span class="close"></span>
+					</li>
+					<li class="sep">|</li>
+				
+						<li class="sep">|</li>
+						
+				
+				</ul>
 			</div><!-- #masthead -->
 			
 		</div><!-- #header -->
@@ -91,6 +96,7 @@
 				 <div class="tagLink">
 				tags <span class="close"></span>
 				</div>
+	
 			</div><!-- #masthead -->
 							
 		<?php }?>
@@ -108,12 +114,15 @@
 		<li class="zoom_out"><a id="out" href="#"> - </a></li>
 		<li class="zoom_in"><a id="in" href="#"> + </a></li>
 		<li>|</li>
-	    <li id="infoLink">info <span class="close"></span></li>
+	    <li id="infoLink"><a href="#">info</a> <span class="close"></span></li>
 	  <!--    <a id="fit" href="#">100%</a>
 	 <a id="orig" href="#">orig</a> -->
 	</ul>
-
-	<div id="tagList">
+	<ul id="catList" style="display:none">
+	<?php  wp_list_categories('orderby=name&title_li=') ?>
+	</ul>
+	
+	<div id="tagList" style="display:none">
 	<?php $tagArgs = array(
 			'orderby' => 'name',
 			'order' => 'ASC',
