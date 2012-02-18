@@ -21,6 +21,9 @@
 <?php } ?>
 -->
 	<div id="footer" role="contentinfo">
+		
+						<?php edit_post_link('edit', '<p class="editLink">', '</p>'); ?>
+				
 		<p>
 		&copy; <?php echo date("Y"); ?> Zachary Folk Photography | <a href="http://wordpress.org/" title="Semantic Personal Publishing Platform" rel="generator">Proudly powered by WordPress </a> and the Loupe 
 		</p>
@@ -53,20 +56,23 @@ var $ = jQuery;
 $(document).ready(function(){
 	var imgCtrl = $( '#controls');
 	var panel = $('.thumbBox');
-	var button = $('.all');
+	
 	var initialState = 'collapsed';
 	var activeClass = 'active';
-	var visibleText = 'hide recent posts';
-	var hiddenText = 'show recent posts';
+
 	var triangle = $('.tagLink span');
+	var catTriangle = $('.galleryLink span');
 	var infoTri = $('#infoLink span');
 	var closed = 'close';
 	var opened = 'open';	
-	var tags = $('#tagList');	
+	var tags = $('#tagList');
+	var cats = $('#catList');	
 	var tagPanelState = $.cookie('tagPanel');
 	var tagPanelHistory = $.cookie('lastTag');
+	var catPanelState = $.cookie('catPanel');
 	var tagButton = $('.tagLink');
-	var tagThumbs = $('.tagTable');
+	var catButton = $('.galleryLink');
+
 	var tagImage = $('.tagImgBox a');
 	var tagThumbState = $.cookie('tagThumbPanel');
 	var info = $('#infoPanel');	
@@ -74,9 +80,12 @@ $(document).ready(function(){
 	var infoButton = $('#infoLink');
 	var main = $('#ajaxTable');
 	var home = $('.floater');
+	// bumps depending on what is open in menu
 	var homeTagBump = ( 'hometagged' );
 	var tagBump = ('tagged');
 	var tagTeamBump = ('tagTeam');
+	var catBump = ('catBump');
+	
 	var activeTags = 'activeTagClass';
 	<?php $id = $_GET['tagP']; ?>
 	var tagParam = '<?php echo $id; ?>';
@@ -85,39 +94,38 @@ $(document).ready(function(){
 	if($.cookie('panelState') == undefined) {
 		$.cookie('panelState', initialState);
 		}
-	
-	if(state == "collapsed") {
-			panel.hide();
-			button.text( hiddenText );
-			button.addClass( activeClass );
-		}
 		
-	button.click(function(){
-			if($.cookie( "panelState" ) == "expanded" ) {
-				$.cookie( "panelState", "collapsed" );
-				button.text( hiddenText );
-				button.addClass( activeClass );
-			} else {
-				$.cookie( "panelState", "expanded" );
-				button.text( visibleText );
-				button.removeClass( activeClass );
-			}
-			panel.slideToggle( "slow" );
-			return false;
-	});		
 
 
 	$('.viewer').bind('contextmenu',function(e){
-		 	//e.preventDefault();
-			var $cmenu = $(this).next();
-			$('<div class="rc_overlay"></div>').css({left : '0px', top : '0px',position: 'absolute', width: '100%', height: '100%', zIndex: '100' }).click(function() {
-				$(this).remove();
-				$cmenu.hide();
-			}).bind('contextmenu' , function(){return false;}).appendTo(document.body);
-			$(this).next().css({ left: e.pageX, top: e.pageY, zIndex: '101' }).fadeIn('1000');
- 
-			return false;
-			 });
+		 //	e.preventDefault();
+			var $cmenu = $(this).next();			
+			$('<div class="rc_overlay"></div>').css({
+				left : '0px', 
+				top : '0px',
+				position: 'absolute', 
+				width: '100%', 
+				height: '100%', 
+				zIndex: '100' 
+				})			
+				.click(function() {				
+					$(this).remove();
+					$cmenu.hide();
+					})
+				.bind('contextmenu' , function(e){	
+					if((".rc_overlay").length>0)
+						{	
+							$(this).remove();
+							$('.rcmenu').css({ left: e.pageX, top: e.pageY, zIndex: '101' });	
+							return false;
+						
+							};
+							
+					})
+					.appendTo(document.body);
+					$(this).next().css({ left: e.pageX, top: e.pageY, zIndex: '101' }).fadeIn('1000'); 	
+				return false;
+				 });
  
 			 /*
 			  * //generic first menu events
@@ -152,8 +160,50 @@ $(document).ready(function(){
 				$(this).find('.inner_li').hide();
 			});
  
- 
+// categories
+	if( $.cookie( "catPanel" ) == undefined ){
+		$.cookie( "catPanel", initialState );
+		catTriangle.addClass( closed );
+		catTriangle.removeClass( opened );
+	};
+	
+	catButton.click(function(){		
+			if( $.cookie("catPanel") == "expanded") {
+				$.cookie("catPanel", "collapsed");	
+				catTriangle.removeClass( opened );
+				catTriangle.addClass( closed );
+					
+			} else {
+				$.cookie( "catPanel", "expanded" );			
+				catTriangle.addClass( opened );
+				catTriangle.removeClass( closed );
+				
+			}	catButton.toggleClass( activeTags );
+				cats.slideToggle('fast');	
+				//info.toggleClass( tagBump );
+				//home.addClass( homeTagBump );
+				
+				return false;
+			});
+	if( catPanelState == initialState ){
+		cats.hide();
+		//info.removeClass( tagBump );
+		//home.removeClass( homeTagBump );
+		catTriangle.removeClass( opened );
+		catTriangle.addClass( closed );
+		
+	};
 
+	if( catPanelState == "expanded" ){
+		cats.show();
+	
+		//info.addClass( tagBump );
+		//home.addClass( homeTagBump );
+		catTriangle.removeClass( closed );
+		catTriangle.addClass( opened );
+	//	main.addClass( tagBump );
+	};
+	
 // tags 
 
 	if( $.cookie( "tagPanel" ) == undefined ){
@@ -166,16 +216,18 @@ $(document).ready(function(){
 		$.cookie( "lastTag", initialState);
 	};
 	
-	if( tagPanelState == "collapsed" ){
+	if( tagPanelState == initialState ){
 		tags.hide();
 		info.removeClass( tagBump );
 		home.removeClass( homeTagBump );
 		triangle.removeClass( opened );
 		triangle.addClass( closed );
+		$('#tagThumbs').hide();
 	};
 
 	if(tagPanelState == "expanded" ){
 		tags.show();
+		$('#tagThumbs').show();
 		info.addClass( tagBump );
 		home.addClass( homeTagBump );
 		triangle.removeClass( closed );
@@ -204,7 +256,8 @@ $(document).ready(function(){
 
 	tagButton.click(function(){		
 			if( $.cookie("tagPanel") == "expanded") {
-				$.cookie("tagPanel", "collapsed");			
+				$.cookie("tagPanel", "collapsed");
+				$.cookie("lastTag", "collapsed");			
 				triangle.removeClass( opened );
 				triangle.addClass( closed );
 				$('.tagTable').remove();
@@ -218,7 +271,7 @@ $(document).ready(function(){
 				tags.slideToggle('fast');	
 				info.toggleClass( tagBump );
 				home.addClass( homeTagBump );
-				tagThumbs.slideToggle( 'fast' );	
+				
 				return false;
 			});
 
@@ -227,7 +280,8 @@ $(document).ready(function(){
         $(this).click(function() {
 			// remove single image ui controls
 			//imgCtrl.hide();	
-			$('.tagTable').show();
+			$(this).addClass('activeTag').siblings().removeClass('activeTag');
+			$('#tagThumbs, .tagTable').show();
 			info.addClass(tagTeamBump);
 			var tagName = $(this).attr("id");
 			var tagURL = '<?php bloginfo('url');?>/tag/' + tagName;

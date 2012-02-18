@@ -6,6 +6,8 @@
 						<div class="first_li rcZin"><span>Zoom In</span></div>
 						<div class="first_li rcZout"><span>Zoom Out</span></div>
 						<div class="first_li rcZ100"><span>Fit Screen</span></div>
+						
+						<div class="first_li"><span><?php next_post_link(); ?> </span></div>
 						<div class="sep_li"></div>
 
 						<div class="first_li"><span>Meta</span>
