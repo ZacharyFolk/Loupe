@@ -116,6 +116,7 @@ $(document).ready(function(){
 					if((".rc_overlay").length>0)
 						{	
 							$(this).remove();
+			
 							$('.rcmenu').css({ left: e.pageX, top: e.pageY, zIndex: '101' });	
 							return false;
 						
@@ -406,8 +407,7 @@ $(document).ready(function(){
 					function reloadThemTags(){	
 					//rehideLoader();
 					//$('.loader').fadeIn('fast');			
-		
-		
+
 					};
 					function rehideLoader(){
 					//$('.loader').fadeOut('fast');		
@@ -415,8 +415,37 @@ $(document).ready(function(){
 				reLoad ();
 		        }
 		    },
-		    { unescape: ',/' });	
-});		
+		    { unescape: ',/' });
+
+    var tagDiv = $('div#tagList');
+	var tagUl = $('ul.post_tags');	
+	//var tagDivWidth = tagDiv.width();
+	var winWidth = $(window).width();
+	//var winWidth2 = winWidth * 2;
+	var tagDivWidth = winWidth - 20;
+	var lastLi = tagUl.find('li:last-child');
+  //  var width = 0;
+          
+	tagDiv.css({overflow: 'hidden' });
+/*
+        $('ul li').each(function() {
+         width += $(this).outerWidth();
+        });
+ */
+	tagDiv.mousemove(function(e){
+       tagUl.css({ marginLeft: '20px' });
+		var ulWidth = lastLi[0].offsetLeft + lastLi.outerWidth();    
+		var left = (e.pageX - tagDiv.offset().left) * (ulWidth-tagDivWidth) / tagDivWidth;
+	//	console.log (e.pageX);
+
+          tagDiv.scrollLeft(left);
+          
+   //console.log('ulWidth : ' + ulWidth + ' | tagDivWidth : ' + tagDivWidth +  ' | left : ' + left + ' | width : ' + width );
+		});
+				    
+		    
+		 	
+	});	//jQuery	
  
 </script>
 <?php wp_footer(); ?>
