@@ -55,16 +55,14 @@ var $ = jQuery;
 
 $(document).ready(function(){
 	var imgCtrl = $( '#controls');
-	var panel = $('.thumbBox');
-	
+	var panel = $('.thumbBox');	
 	var initialState = 'collapsed';
 	var activeClass = 'active';
-
 	var triangle = $('.tagLink span');
 	var catTriangle = $('.galleryLink span');
 	var infoTri = $('#infoLink span');
-	var closed = 'close';
-	var opened = 'open';	
+
+	
 	var tags = $('#tagList');
 	var cats = $('#catList');	
 	var tagPanelState = $.cookie('tagPanel');
@@ -72,7 +70,6 @@ $(document).ready(function(){
 	var catPanelState = $.cookie('catPanel');
 	var tagButton = $('.tagLink');
 	var catButton = $('.galleryLink');
-
 	var tagImage = $('.tagImgBox a');
 	var tagThumbState = $.cookie('tagThumbPanel');
 	var info = $('#infoPanel');	
@@ -84,8 +81,7 @@ $(document).ready(function(){
 	var homeTagBump = ( 'hometagged' );
 	var tagBump = ('tagged');
 	var tagTeamBump = ('tagTeam');
-	var catBump = ('catBump');
-	
+	var catBump = ('catBump');	
 	var activeTags = 'activeTagClass';
 	<?php $id = $_GET['tagP']; ?>
 	var tagParam = '<?php echo $id; ?>';
@@ -165,19 +161,21 @@ $(document).ready(function(){
 	if( $.cookie( "catPanel" ) == undefined ){
 		$.cookie( "catPanel", initialState );
 		catTriangle.addClass( closed );
-		catTriangle.removeClass( opened );
+		catTriangle.removeClass( 'open' );
+		tags.removeClass( 'catBumpOne' );
 	};
 	
 	catButton.click(function(){		
 			if( $.cookie("catPanel") == "expanded") {
 				$.cookie("catPanel", "collapsed");	
-				catTriangle.removeClass( opened );
-				catTriangle.addClass( closed );
+				catTriangle.removeClass( 'open' ).addClass( closed );
+				tags.removeClass( 'catBumpOne' );
 					
 			} else {
 				$.cookie( "catPanel", "expanded" );			
-				catTriangle.addClass( opened );
-				catTriangle.removeClass( closed );
+				catTriangle.addClass( 'open' );
+				catTriangle.removeClass( 'close' );
+				tags.addClass( 'catBumpOne' );
 				
 			}	catButton.toggleClass( activeTags );
 				cats.slideToggle('fast');	
@@ -190,8 +188,8 @@ $(document).ready(function(){
 		cats.hide();
 		//info.removeClass( tagBump );
 		//home.removeClass( homeTagBump );
-		catTriangle.removeClass( opened );
-		catTriangle.addClass( closed );
+		catTriangle.removeClass( 'open' );
+		catTriangle.addClass( 'close' );
 		
 	};
 
@@ -200,8 +198,8 @@ $(document).ready(function(){
 	
 		//info.addClass( tagBump );
 		//home.addClass( homeTagBump );
-		catTriangle.removeClass( closed );
-		catTriangle.addClass( opened );
+		catTriangle.removeClass( 'close' );
+		catTriangle.addClass( 'open' );
 	//	main.addClass( tagBump );
 	};
 	
@@ -209,8 +207,8 @@ $(document).ready(function(){
 
 	if( $.cookie( "tagPanel" ) == undefined ){
 		$.cookie( "tagPanel", initialState );
-		triangle.addClass( closed );
-		triangle.removeClass( opened );
+		triangle.addClass( 'close' );
+		triangle.removeClass( 'open' );
 	};
 	
 	if( $.cookie( "lastTag" ) == undefined ){
@@ -221,8 +219,8 @@ $(document).ready(function(){
 		tags.hide();
 		info.removeClass( tagBump );
 		home.removeClass( homeTagBump );
-		triangle.removeClass( opened );
-		triangle.addClass( closed );
+		triangle.removeClass( 'open' );
+		triangle.addClass( 'close' );
 		$('#tagThumbs').hide();
 	};
 
@@ -231,8 +229,8 @@ $(document).ready(function(){
 		$('#tagThumbs').show();
 		info.addClass( tagBump );
 		home.addClass( homeTagBump );
-		triangle.removeClass( closed );
-		triangle.addClass( opened );
+		triangle.removeClass( 'close' );
+		triangle.addClass( 'open' );
 		main.addClass( tagBump );
 
 		var reLoadTagURL = "<?php bloginfo('url'); ?>/tag/" + tagParam + " .tagTable";
@@ -255,23 +253,29 @@ $(document).ready(function(){
 		reLoadOpenTags();
 		}
 
+//main menu Tags
 	tagButton.click(function(){		
 			if( $.cookie("tagPanel") == "expanded") {
 				$.cookie("tagPanel", "collapsed");
 				$.cookie("lastTag", "collapsed");			
-				triangle.removeClass( opened );
-				triangle.addClass( closed );
+				triangle.removeClass( 'open' );
+				triangle.addClass( 'close' );
 				$('.tagTable').remove();
-				info.removeClass( tagTeamBump );			
+				info.removeClass('tagTeam');		
 			} else {
 				$.cookie( "tagPanel", "expanded" );			
-				triangle.addClass( opened );
-				triangle.removeClass( closed );
+				triangle.addClass( 'open' );
+				triangle.removeClass( 'close' );
+			
+				//if category open here
+				if( catPanelState == "expanded" ){
+				tags.addClass ('catBumpOne');
+				}
 				
 			}	tagButton.toggleClass( activeTags );
 				tags.slideToggle('fast');	
 				info.toggleClass( tagBump );
-				home.addClass( homeTagBump );
+				home.addClass( homeTagBump ); //why?
 				
 				return false;
 			});
@@ -344,22 +348,22 @@ $(document).ready(function(){
 	
 	if ( $.cookie( 'infoPanel' ) == undefined ){
 		$.cookie( 'infoPanel', initialState );
-		infoTri.addClass( closed );
-		infoTri.removeClass( opened );
+		infoTri.addClass( 'close' );
+		infoTri.removeClass( 'open' );
 	};
 	
 	if( infoPanelState == 'collapsed' ){
 		//info.hide();
 		info.addClass ('infoClose');
-		infoTri.removeClass( opened );
-		infoTri.addClass( closed );
+		infoTri.removeClass( 'open' );
+		infoTri.addClass( 'close' );
 	};
 		
 	if( infoPanelState == 'expanded' ){
 		//info.show();
 		info.addClass ('infoOpen');
-		infoTri.removeClass(closed);
-		infoTri.addClass(opened);
+		infoTri.removeClass( 'close' );
+		infoTri.addClass('open');
 		infoButton.addClass(activeTags);
 	};
 	
@@ -370,16 +374,16 @@ $(document).ready(function(){
 				//google.maps.event.trigger(map, 'resize');  
 			    info.removeClass ('infoOpen');
 			    info.addClass ('infoClose');				
-				infoTri.removeClass( opened );
-				infoTri.addClass( closed );
+				infoTri.removeClass( 'open' );
+				infoTri.addClass( 'close' );
 			} else {
 				$.cookie( 'infoPanel', 'expanded' );
 				infoButton.addClass( activeTags );
 			   // google.maps.event.trigger(map, 'resize');
 			    info.removeClass ('infoClose');
 			    info.addClass ('infoOpen');
-				infoTri.removeClass( closed ); 
-				infoTri.addClass( opened );
+				infoTri.removeClass( 'close' ); 
+				infoTri.addClass( 'open' );
 
 			}
 			//info.slideToggle('fast');
