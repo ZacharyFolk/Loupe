@@ -168,7 +168,7 @@ $(document).ready(function(){
 	catButton.click(function(){		
 			if( $.cookie("catPanel") == "expanded") {
 				$.cookie("catPanel", "collapsed");	
-				catTriangle.removeClass( 'open' ).addClass( closed );
+				catTriangle.removeClass( 'open' ).addClass( 'close' );
 				tags.removeClass( 'catBumpOne' );
 					
 			} else {
@@ -232,9 +232,9 @@ $(document).ready(function(){
 		triangle.removeClass( 'close' );
 		triangle.addClass( 'open' );
 		main.addClass( tagBump );
-
-		var reLoadTagURL = "<?php bloginfo('url'); ?>/tag/" + tagParam + " .tagTable";
-
+		theLastTag = $.cookie('lastTag);
+	//	var reLoadTagURL = "<?php bloginfo('url'); ?>/tag/" + tagParam + " .tagTable";
+		var reLoadTagURL = "<?php bloginfo('url'); ?>/tag/" + theLastTag + " .tagTable";
 		function reLoadOpenTags(){
             //$('.lightTable').remove();
 			$('.tagTable').detach();
