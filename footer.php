@@ -60,9 +60,7 @@ $(document).ready(function(){
 	var activeClass = 'active';
 	var triangle = $('.tagLink span');
 	var catTriangle = $('.galleryLink span');
-	var infoTri = $('#infoLink span');
-
-	
+	var infoTri = $('#infoLink span');	
 	var tags = $('#tagList');
 	var cats = $('#catList');	
 	var tagPanelState = $.cookie('tagPanel');
@@ -163,6 +161,7 @@ $(document).ready(function(){
 		catTriangle.addClass( closed );
 		catTriangle.removeClass( 'open' );
 		tags.removeClass( 'catBumpOne' );
+		info.removeClass( 'catInfoBump' );
 	};
 	
 	catButton.click(function(){		
@@ -170,15 +169,36 @@ $(document).ready(function(){
 				$.cookie("catPanel", "collapsed");	
 				catTriangle.removeClass( 'open' ).addClass( 'close' );
 				tags.removeClass( 'catBumpOne' );
+				$('.tagTable').removeClass( 'catBumpTwo' );
+				info.removeClass( 'catInfoBump' );
+				info.removeClass( 'catTagInfoBump' );
+				info.removeClass( 'tagCatInfoBump' );
+				if( $.cookie("tagPanel") == "expanded" )
+				{
+					info.addClass( 'tagged' );
+				} 
 					
 			} else {
 				$.cookie( "catPanel", "expanded" );			
 				catTriangle.addClass( 'open' );
 				catTriangle.removeClass( 'close' );
 				tags.addClass( 'catBumpOne' );
+				$('.tagTable').addClass( 'catBumpTwo' );
+			
+				if( $.cookie("tagPanel") == "expanded" )
+				{
+					info.addClass( 'catTagInfoBump' );
+				} 
+				if( $.cookie("tagPanel") == "collapsed" ) 
+				{
+					info.addClass( 'catInfoBump' );
+				}
+		
+
 				
 			}	catButton.toggleClass( activeTags );
-				cats.slideToggle('fast');	
+				cats.slideToggle('fast');
+				//tags.toggleClass( 'catBumpOne' );	
 				//info.toggleClass( tagBump );
 				//home.addClass( homeTagBump );
 				
@@ -190,6 +210,9 @@ $(document).ready(function(){
 		//home.removeClass( homeTagBump );
 		catTriangle.removeClass( 'open' );
 		catTriangle.addClass( 'close' );
+		tags.removeClass( 'catBumpOne' );
+		$('.tagTable').removeClass( 'catBumpTwo' );
+
 		
 	};
 
@@ -200,11 +223,14 @@ $(document).ready(function(){
 		//home.addClass( homeTagBump );
 		catTriangle.removeClass( 'close' );
 		catTriangle.addClass( 'open' );
+		tags.addClass( 'catBumpOne' );
+		$('.tagTable').addClass( 'catBumpTwo' );
+		info.addClass( 'catInfoBump' );
 	//	main.addClass( tagBump );
 	};
 	
 // tags 
-
+		
 	if( $.cookie( "tagPanel" ) == undefined ){
 		$.cookie( "tagPanel", initialState );
 		triangle.addClass( 'close' );
@@ -232,9 +258,11 @@ $(document).ready(function(){
 		triangle.removeClass( 'close' );
 		triangle.addClass( 'open' );
 		main.addClass( tagBump );
-		theLastTag = $.cookie('lastTag);
+		theLastTag = $.cookie('lastTag');
 	//	var reLoadTagURL = "<?php bloginfo('url'); ?>/tag/" + tagParam + " .tagTable";
-		var reLoadTagURL = "<?php bloginfo('url'); ?>/tag/" + theLastTag + " .tagTable";
+		if (theLastTag != "collapsed" ){ 
+			var reLoadTagURL = "<?php bloginfo('url'); ?>/tag/" + theLastTag + " .tagTable";
+		}
 		function reLoadOpenTags(){
             //$('.lightTable').remove();
 			$('.tagTable').detach();
@@ -245,7 +273,9 @@ $(document).ready(function(){
 			//$('.loader').fadeIn('fast');			
 			$('#tagThumbs').load( reLoadTagURL,rehideTagLoader );
 		    $('.tagTable').appendTo($('#ajaxTable'));
-	
+		    if ( ( catPanelState == "expanded" ) && ( tagPanelState == "expanded" ) ) {
+				$('.tagTable').addClass( 'catBumpTwo' );
+				}
 			};
 			function rehideTagLoader(){
 			//$('.loader').fadeOut('fast');		
@@ -261,22 +291,30 @@ $(document).ready(function(){
 				triangle.removeClass( 'open' );
 				triangle.addClass( 'close' );
 				$('.tagTable').remove();
-				info.removeClass('tagTeam');		
+				info.removeClass('tagged');
+				info.removeClass('tagCatInfoBump');	
+				info.removeClass('catTagInfoBump');		
+				if( $.cookie("catPanel") == "expanded" )
+				{
+					info.addClass( 'catInfoBump' );
+					
+				} 	
 			} else {
 				$.cookie( "tagPanel", "expanded" );			
 				triangle.addClass( 'open' );
 				triangle.removeClass( 'close' );
-			
-				//if category open here
-				if( catPanelState == "expanded" ){
-				tags.addClass ('catBumpOne');
+				if( $.cookie("catPanel") == "expanded" )
+				{
+					info.addClass( 'tagCatInfoBump' );
+				} 
+				if( $.cookie("catPanel") == "collapsed" ) 
+				{
+					info.addClass( 'tagged' );
 				}
+		
 				
 			}	tagButton.toggleClass( activeTags );
-				tags.slideToggle('fast');	
-				info.toggleClass( tagBump );
-				home.addClass( homeTagBump ); //why?
-				
+				tags.slideToggle('fast');					
 				return false;
 			});
 
@@ -288,6 +326,7 @@ $(document).ready(function(){
 			$(this).addClass('activeTag').siblings().removeClass('activeTag');
 			$('#tagThumbs, .tagTable').show();
 			info.addClass(tagTeamBump);
+	
 			var tagName = $(this).attr("id");
 			var tagURL = '<?php bloginfo('url');?>/tag/' + tagName;
 			var toLoad = '<?php bloginfo('url'); ?>/tag/'+ tagName + ' .tagTable';	
@@ -295,12 +334,14 @@ $(document).ready(function(){
          //  $('.lightTable').hide();			
 			function loadThemTags(){	
 			//$('.loader').fadeIn('fast');
+					
 			$('#tagThumbs').load(toLoad,hideLoader);
 			};
 			
 			function hideLoader(){
 			//$('.loader').fadeOut('fast');
-			$('.tagTable').fadeIn('slow'); 	
+			$('.tagTable').fadeIn('slow'); 
+			$('.tagTable').addClass( 'catBumpTwo' );	
 			};
 						
 			<?php if(empty($_GET)) { ?> 	
@@ -340,8 +381,12 @@ $(document).ready(function(){
 				
 		var loadHistory = '<?php bloginfo( 'url' ); ?>/tag/'+ tagPanelHistory + ' .tagTable';
 			$('.tagTable').detach();
-			$('#tagThumbs').load( loadHistory );
-		    $('.tagTable').appendTo($('#ajaxTable'));
+			$('#tagThumbs').load( loadHistory, function(){
+				$('.tagTable').appendTo($('#ajaxTable'));
+				$('.tagTable').addClass( 'catBumpTwo' );
+				} );
+		 
+		
 	 };
 	 	
 // info
@@ -367,6 +412,9 @@ $(document).ready(function(){
 		infoButton.addClass(activeTags);
 	};
 	
+
+		
+		
 	infoButton.click( function(){
 			if( $.cookie( 'infoPanel' ) == 'expanded' ) {
 				$.cookie( 'infoPanel', 'collapsed' );
@@ -391,7 +439,7 @@ $(document).ready(function(){
 	});			
 
 
-// MOVE THIS
+// Update this with https://github.com/cowboy/jquery-hashchange
 	$.history.init(function(hash){
 		        if(hash == '') {
 		            // remove
@@ -404,9 +452,10 @@ $(document).ready(function(){
 				function reLoad(){		
 		
 		            //$('.lightTable').remove();
-					$('.tagTable').detach();
-					$('#tagThumbs').load(reLoadURL,rehideLoader);
-				    $('.tagTable').appendTo($('#ajaxTable'));
+//					$('.tagTable').detach();
+//					$('#tagThumbs').load(reLoadURL,rehideLoader);
+//				    $('.tagTable').appendTo($('#ajaxTable'));
+//				    $('.tagTable').addClass( 'catBumpTwo' );
 					}
 					function reloadThemTags(){	
 					//rehideLoader();
@@ -447,7 +496,12 @@ $(document).ready(function(){
    //console.log('ulWidth : ' + ulWidth + ' | tagDivWidth : ' + tagDivWidth +  ' | left : ' + left + ' | width : ' + width );
 		});
 				    
-		    
+	if ((tagPanelState == "expanded") && (catPanelState == "expanded" ))
+		{	
+		  
+		//  	$('.tagTable').addClass( 'catBumpTwo' );
+		 
+		};		    
 		 	
 	});	//jQuery	
  
