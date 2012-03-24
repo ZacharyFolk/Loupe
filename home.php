@@ -19,7 +19,7 @@ get_header(); ?>
 								<a href="<?php the_permalink(); ?>">
 								<img src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo get_post_meta($post->ID, 'single_photo', true); ?>&w=500&h=500&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
 								</a>
-								<?php the_title();?>
+								<div class="homeCaption"><?php the_title();?></div>
 							</div>							
 						<?php } endwhile; ?>
 				</div> <!-- featured -->
@@ -35,7 +35,7 @@ get_header(); ?>
 						if ( $featured  ) {
 					?>
 					<li class="recentThumbs">
-					<a class="" href="<?php the_permalink(); ?>">
+					<a href="<?php the_permalink(); ?>">
 					<img src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo get_post_meta($post->ID, 'single_photo', true); ?>&w=80&h=80&a=b&zc=1&q=80" alt="<?php the_title(); ?>" />
 					</a>
 					</li>
@@ -53,11 +53,13 @@ jQuery(document).ready(function($){
 		allowPagerClickBubble: true, 
 		pagerEvent: 'mouseover',
 		pauseOnPagerHover:true,
+		pause :1,
 		pagerAnchorBuilder: function(idx,slide){
 		return '#thumbNav li:eq(' + idx + ') a';
 			}
 		}
 	);
+
 });
 </script>
 <?php get_footer(); ?>
