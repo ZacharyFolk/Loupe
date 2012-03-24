@@ -324,7 +324,7 @@ body.black  a:hover{color: #CFCFCF; text-decoration: underline}
 **/
 
 
-#header {position: fixed; top: 0; left: 0; width: 100%; height: 45px;  border-bottom: 3px solid #000; 
+#header {position: fixed; top: 0; left: 0; width: 100%; height: 47px;  border-bottom: 1px solid #000; 
 /* background: url("images/raster.png") repeat scroll 0 0 #EFEFEF; 
 background-image: url('images/fpbg.gif');
 background-repeat: repeat*/
@@ -449,6 +449,8 @@ a:hover span.openClose {width: 24px; height: 20px; display: block; background: u
 
 #viewer img {cursor: move; display: none;}
 
+.previous {position: fixed; width: 50px; background: #000; display: block; left: 0px; height: 100%;}
+.next {}
 #slide {width: 260px; height: 230px; background-color: #fff; border: 1px solid #999; float: left; margin: 10px 20px 0 0;-moz-border-radius: 15px;
 border-radius: 15px;-moz-box-shadow: 2px 3px 6px #BFBFBF;
 	-webkit-box-shadow: 2px 3px 6px #BFBFBF;
@@ -520,7 +522,8 @@ ul.post_tags li.count-2 {font-size: 22px}
 
 li.activeTag a:visited, li.activeTag a:link {color: #EDDFC2; text-decoration: underline}
 
-
+.catBumpOne {top: 88px!important}
+.catBumpTwo {top: 128px!important}
 /**** Categories ***/
 
 #catList{background-color:rgba( 25,0,0,0.7 );   width: 100%; z-index: 1002; position: fixed; top: 48px; left: 0px;  border-bottom: 1px solid #000; line-height: 40px; height: 40px; list-style:none;   }
@@ -540,10 +543,11 @@ display:none;font-size:0.75em;}
        
 /* add various bumps for when panel is toggled */
 
-.tagged {top: 88px!important; }
-.tagTeam {top: 184px!important;}
-.tagCat {top: 130px!important; }
-      
+.tagged { top: 88px!important; }
+.tagBumpTwo { top: 184px!important;}
+.tagCat { top: 130px!important; }
+.catInfoBump { top: 88px!important; }
+.tagCatInfoBump, .catTagInfoBump { top: 128px!important; }      
 /******************************* FONTS ********************/
 #slide
 {
@@ -641,6 +645,7 @@ position: fixed; right: 0px; border: 1px dashed #999; top: 48px; z-index: 999;  
 .title  {font-size:28px; font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif; text-transform: uppercase;}
 .description {font-size: 15px; font-family: Verdana; margin: 10px 0;}
 
+.homeCaption {font-size:16px; font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif; text-transform: uppercase; margin: 5px 0 5px 4px;}
 /******************************* GALLERIA ********************/
 
 /*** FOOTER **/

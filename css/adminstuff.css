@@ -22,6 +22,7 @@ ul.ui-autocomplete {width: 500px!important}
 .clearfix, .container {display:block;}
 .clear {clear:both;}
 
+.sUcallback {float:left; width: 200px; }
 .sUinput {width: 450px; float: left}
 .sUinput input {width: 420px;}
 .sUbutton {width: 100px; float: left;}
