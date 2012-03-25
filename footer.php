@@ -88,8 +88,37 @@ $(document).ready(function(){
 	if($.cookie('panelState') == undefined) {
 		$.cookie('panelState', initialState);
 		}
+	
+	var getHeight = $(document).height();
+	console.log(getHeight);
+	var getWidth = $(document).width();
+	console.log(getWidth);
+	
+	var rightConstraint = ( getWidth - 50 );
+	console.log(rightConstraint);	
+	$(document).mousemove(function(e){
+		console.log(e.pageX +', ' + e.pageY);
 		
-
+		if (e.pageX < 50){
+		console.log('leftin');
+			if(previous){
+		$('.previous').fadeIn();
+		
+			$('.previous').click(function(){
+				window.location = previous;
+				});
+			}
+			} else if (( e.pageX > 50) && (e.pageX < rightConstraint)) {
+				$('.previous, .next').fadeOut();
+			console.log('leftout');
+			} else if ( e.pageX > rightConstraint ){
+				$('.next').fadeIn();
+				$('.next').click(function(){
+				window.location = next;
+				});
+				console.log('rightin');
+			}
+	});
 
 	$('.viewer').bind('contextmenu',function(e){
 		 //	e.preventDefault();

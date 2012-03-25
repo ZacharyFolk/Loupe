@@ -208,11 +208,36 @@ function portfolio_admin_script() {
 	}	
 }
 */
+
+
+
+
 //deactivate WordPress function
 remove_shortcode( 'gallery', 'gallery_shortcode' );
 
 //activate own function
 add_shortcode( 'gallery', 'z_gallery_shortcode' );
+
+// Where is rest of gallery code?
+
+// Custom previous/next links
+
+function custom_post_link($format, $link, $in_same_cat = true, $excluded_categories = '', $previous = true) {
+if ( $previous && is_attachment() )
+    $post = & get_post($GLOBALS['post']->post_parent);
+else
+    $post = get_adjacent_post($in_same_cat, $excluded_categories, $previous);
+
+if ( !$post )
+    return;
+
+$link = get_permalink($post);
+
+$format = str_replace('%link', $link, $format);
+
+$adjacent = $previous ? 'previous' : 'next';
+echo apply_filters( "{$adjacent}_post_link", $format, $link );
+}
 
 //************** Register sidebars and widgetized areas.
 

@@ -134,7 +134,9 @@ if ($lat !== '') {
 		});
 		marker.setMap(map);
       }
-
+		var previous = '<?php custom_post_link( '%link','',TRUE, '', TRUE ); ?>';
+		var next = '<?php custom_post_link( '%link','',TRUE, '', FALSE ); ?>';
+		console.log (previous + ' + ' + next);
     </script>
 
 <div id="map_canvas" style="width:100%; height:300px"></div>
@@ -150,7 +152,14 @@ echo get_post_meta($post->ID, 'upload_image', true);
 -->
 
 </div>	
+
 <div id="viewer" class="viewer">
+<div class="previous">
+	<div class="arrowL"></div>
+</div>
+<div class="next">
+	<div class="arrowR"></div>
+</div>
 	<?php if ( get_post_meta($post->ID, 'story', true) ) : ?>
 	
 	     <?php echo get_post_meta($post->ID, 'story', true) ?>
