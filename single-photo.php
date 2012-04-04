@@ -118,7 +118,7 @@ if ($lat !== '') {
         var lat = "<?php echo $lat;?>"; 
       	var lng = "<?php echo $long;?>";
       	var myLatlng = new google.maps.LatLng(lat,lng);
-      function initialize() {
+     	function initialize() {
        	//console.log(latlng);
       	//wtf i cant load ltnlng in as variable or i get a blue screen
         var mapOptions = {
@@ -134,9 +134,13 @@ if ($lat !== '') {
 		});
 		marker.setMap(map);
       }
-		var previous = '<?php custom_post_link( '%link','',TRUE, '', TRUE ); ?>';
-		var next = '<?php custom_post_link( '%link','',TRUE, '', FALSE ); ?>';
-		console.log (previous + ' + ' + next);
+		 navInit =  function(){
+			 previous = '<?php custom_post_link( '%link','',TRUE, '', TRUE ); ?>';
+			 next = '<?php custom_post_link( '%link','',TRUE, '', FALSE ); ?>';
+			console.log ( previous + next );	
+ 	 };
+		
+		
     </script>
 
 <div id="map_canvas" style="width:100%; height:300px"></div>

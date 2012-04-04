@@ -450,7 +450,7 @@ a:hover span.openClose {width: 24px; height: 20px; display: block; background: u
 #viewer img {cursor: move; display: none;}
 
 .previous {position: fixed; width: 50px; background-color:rgba( 15,0,0,0.7 ); z-index: 800; display: none; left: 0px; height: 100%; cursor: pointer;}
-.next {position: fixed; width: 50px; background-color:rgba( 15,0,0,0.7 ); z-index: 1002; display: none; right: 0px; height: 100%;}
+.next {position: fixed; width: 50px; background-color:rgba( 15,0,0,0.7 ); z-index: 1002; display: none; right: 0px; height: 100%; cursor: pointer;}
 .arrowL{background: url('images/prevNext.png') no-repeat 0 0; width: 22px; height: 20px; display: block; position: relative; top: 50%; left: 11px; filter:alpha(opacity=60); opacity:0.6; }
 .arrowR{background: url('images/prevNext.png') no-repeat -21px 0; width: 22px; height: 20px; display: block; position: relative; top: 50%; left: 11px; filter:alpha(opacity=60); opacity:0.6; }
 #slide {width: 260px; height: 230px; background-color: #fff; border: 1px solid #999; float: left; margin: 10px 20px 0 0;-moz-border-radius: 15px;

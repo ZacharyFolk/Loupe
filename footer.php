@@ -54,6 +54,7 @@
 var $ = jQuery;
 
 $(document).ready(function(){
+	navInit();
 	var imgCtrl = $( '#controls');
 	var panel = $('.thumbBox');	
 	var initialState = 'collapsed';
@@ -88,19 +89,23 @@ $(document).ready(function(){
 	if($.cookie('panelState') == undefined) {
 		$.cookie('panelState', initialState);
 		}
+
+	// panel hid with margin because bug with google maps not properly rendering in hidden div
+	info.addClass ('infoClose');
+	
 	
 	var getHeight = $(document).height();
-	console.log(getHeight);
+	//console.log(getHeight);
 	var getWidth = $(document).width();
-	console.log(getWidth);
+	//console.log(getWidth);
 	
 	var rightConstraint = ( getWidth - 50 );
-	console.log(rightConstraint);	
+	//console.log(rightConstraint);	
 	$(document).mousemove(function(e){
-		console.log(e.pageX +', ' + e.pageY);
+	//	console.log(e.pageX +', ' + e.pageY);
 		
 		if (e.pageX < 50){
-		console.log('leftin');
+		//console.log('leftin');
 			if(previous){
 		$('.previous').fadeIn();
 		
@@ -110,13 +115,15 @@ $(document).ready(function(){
 			}
 			} else if (( e.pageX > 50) && (e.pageX < rightConstraint)) {
 				$('.previous, .next').fadeOut();
-			console.log('leftout');
+			//console.log('leftout');
 			} else if ( e.pageX > rightConstraint ){
+				if(next){
 				$('.next').fadeIn();
 				$('.next').click(function(){
 				window.location = next;
 				});
-				console.log('rightin');
+				}
+			//	console.log('rightin');
 			}
 	});
 
@@ -191,6 +198,7 @@ $(document).ready(function(){
 		catTriangle.removeClass( 'open' );
 		tags.removeClass( 'catBumpOne' );
 		info.removeClass( 'catInfoBump' );
+		$('.tagTable').removeClass( 'catBumpTwo' );
 	};
 	
 	catButton.click(function(){		
@@ -290,7 +298,10 @@ $(document).ready(function(){
 		theLastTag = $.cookie('lastTag');
 	//	var reLoadTagURL = "<?php bloginfo('url'); ?>/tag/" + tagParam + " .tagTable";
 		if (theLastTag != "collapsed" ){ 
+				
 			var reLoadTagURL = "<?php bloginfo('url'); ?>/tag/" + theLastTag + " .tagTable";
+			
+			
 		}
 		function reLoadOpenTags(){
             //$('.lightTable').remove();
@@ -300,13 +311,17 @@ $(document).ready(function(){
 			function reloadThemOpenTags(){	
 			//rehideLoader();
 			//$('.loader').fadeIn('fast');			
-			$('#tagThumbs').load( reLoadTagURL,rehideTagLoader );
+			$('#tagThumbs').load( reLoadTagURL,loadCallback );
+			
 		    $('.tagTable').appendTo($('#ajaxTable'));
-		    if ( ( catPanelState == "expanded" ) && ( tagPanelState == "expanded" ) ) {
+		    if  ( catPanelState == "expanded" ) {
 				$('.tagTable').addClass( 'catBumpTwo' );
 				}
 			};
-			function rehideTagLoader(){
+			function loadCallback(){
+				if( catPanelState == "expanded" ){
+					$('.tagTable').addClass( 'catBumpTwo' );
+				}
 			//$('.loader').fadeOut('fast');		
 			};
 		reLoadOpenTags();
@@ -409,11 +424,13 @@ $(document).ready(function(){
 		//alert(tagPanelHistory);  	
 				
 		var loadHistory = '<?php bloginfo( 'url' ); ?>/tag/'+ tagPanelHistory + ' .tagTable';
-			$('.tagTable').detach();
-			$('#tagThumbs').load( loadHistory, function(){
-				$('.tagTable').appendTo($('#ajaxTable'));
-				$('.tagTable').addClass( 'catBumpTwo' );
-				} );
+			//$('.tagTable').detach();
+		//	$('#tagThumbs').load( loadHistory, function(){
+		//		$('.tagTable').appendTo($('#ajaxTable'));
+		//		if ( catPanelState == "expanded" ) {
+		//		$('.tagTable').addClass( 'catBumpTwo' );
+		//		}
+				//});
 		 
 		
 	 };
@@ -428,7 +445,7 @@ $(document).ready(function(){
 	
 	if( infoPanelState == 'collapsed' ){
 		//info.hide();
-		info.addClass ('infoClose');
+		// moved to start info.addClass ('infoClose');
 		infoTri.removeClass( 'open' );
 		infoTri.addClass( 'close' );
 	};
