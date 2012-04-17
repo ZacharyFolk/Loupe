@@ -40,9 +40,16 @@
 					<span>
 						<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 					</span>
-				 </h1>
-				 <div class="sep">|</div>
-			
+				 	 </h1>
+				 <ul id="singleNav">
+					<li class="sep">|</li>
+					<li class="galleryLink">
+					<a href="#">galleries</a> <span class="close"></span>
+					</li>
+					<li class="tagLink">
+					<a href="?tags">tags </a><span class="close"></span>
+					</li>			
+				</ul>			
 		</div><!-- #masthead -->
 
 	</div><!-- #header -->		
@@ -105,6 +112,7 @@
 	if (is_single()){ ?>
 	
 	<ul id="controls">
+		<li id="helper">Help</li>
 		<li class="zoom">Zoom : </li>
 		<li class="zoom_out"><a id="out" href="#"> - </a></li>
 		<li class="zoom_in"><a id="in" href="#"> + </a></li>
@@ -113,6 +121,7 @@
 	  <!--    <a id="fit" href="#">100%</a>
 	 <a id="orig" href="#">orig</a> -->
 	</ul>
+	 <?php } ?>
 	<ul id="catList" style="display:none">
 	<?php  wp_list_categories('orderby=name&title_li=') ?>
 	</ul>
@@ -134,4 +143,4 @@
 				echo $tagListHTML;
 	?>
 	</div>
-	    <?php } ?>
+	   

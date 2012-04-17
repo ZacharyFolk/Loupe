@@ -54,7 +54,6 @@
 var $ = jQuery;
 
 $(document).ready(function(){
-	navInit();
 	var imgCtrl = $( '#controls');
 	var panel = $('.thumbBox');	
 	var initialState = 'collapsed';
@@ -70,6 +69,7 @@ $(document).ready(function(){
 	var tagButton = $('.tagLink');
 	var catButton = $('.galleryLink');
 	var tagImage = $('.tagImgBox a');
+	var tagThumbs = $('#tagThumbs');
 	var tagThumbState = $.cookie('tagThumbPanel');
 	var info = $('#infoPanel');	
 	var infoPanelState = $.cookie('infoPanel');
@@ -93,6 +93,8 @@ $(document).ready(function(){
 	// panel hid with margin because bug with google maps not properly rendering in hidden div
 	info.addClass ('infoClose');
 	
+<?php if (is_single()) { ?>
+	navInit();
 	
 	var getHeight = $(document).height();
 	//console.log(getHeight);
@@ -126,7 +128,7 @@ $(document).ready(function(){
 			//	console.log('rightin');
 			}
 	});
-
+<? } ?>
 	$('.viewer').bind('contextmenu',function(e){
 		 //	e.preventDefault();
 			var $cmenu = $(this).next();			
@@ -201,7 +203,7 @@ $(document).ready(function(){
 		$('.tagTable').removeClass( 'catBumpTwo' );
 	};
 	
-	catButton.click(function(){		
+	$('.galleryLink').click(function(){		
 			if( $.cookie("catPanel") == "expanded") {
 				$.cookie("catPanel", "collapsed");	
 				catTriangle.removeClass( 'open' ).addClass( 'close' );
@@ -385,7 +387,10 @@ $(document).ready(function(){
 			function hideLoader(){
 			//$('.loader').fadeOut('fast');
 			$('.tagTable').fadeIn('slow'); 
+		if( $.cookie("catPanel") == "expanded" )
+				{
 			$('.tagTable').addClass( 'catBumpTwo' );	
+				}			
 			};
 						
 			<?php if(empty($_GET)) { ?> 	
@@ -551,6 +556,115 @@ $(document).ready(function(){
 		 	
 	});	//jQuery	
  
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	var body = $('body');
+	// Go to a random post -> jQuery animated help using setTimout.  
+	var imgCtrl = $( '#controls');
+	var panel = $('.thumbBox');	
+	var initialState = 'collapsed';
+	var activeClass = 'active';
+	var triangle = $('.tagLink span');
+	var catTriangle = $('.galleryLink span');
+	var infoTri = $('#infoLink span');	
+	var tags = $('#tagList');
+	var cats = $('#catList');	
+	
+	var tagButton = $('.tagLink');
+	var catButton = $('.galleryLink');
+	var tagImage = $('.tagImgBox a');
+	var tagThumbs = $('#tagThumbs');
+
+	var info = $('#infoPanel');	
+
+	var infoButton = $('#infoLink');
+	var main = $('#ajaxTable');
+	var home = $('.floater');
+	var homeTagBump = ( 'hometagged' );
+	var tagBump = ('tagged');
+	var tagTeamBump = ('tagTeam');
+	var catBump = ('catBump');	
+	var activeTags = 'activeTagClass';
+	
+	var helper = {
+
+	
+	 h1 : function(){
+		$('.lHelp').fadeIn('3000');
+		$('.previous').fadeIn('5000');
+	
+	},
+	
+	 h2 : function(){	
+		$('.rHelp').fadeIn('3000');
+		$('.next').fadeIn('5000');
+	},
+	
+	 h3 : function(){
+	// categories "galleries"
+		catTriangle.addClass( 'open' ).removeClass( 'close' );
+		tags.addClass( 'catBumpOne' );
+		$('.tagTable').addClass( 'catBumpTwo' );
+	},
+	
+	 h4 : function(){
+	// tags
+		tags.show();
+		$('.tagLink a').css('color','#FFFFFF');
+		tagThumbs.show();
+		info.addClass( tagBump );
+		home.addClass( homeTagBump );
+		triangle.removeClass( 'close' );
+		triangle.addClass( 'open' );
+		main.addClass( tagBump );
+		console.log ('you did it!');
+	},
+	
+	 h5 : function(){
+	// zoom
+	$('.zoom').css('color','#FFFFFF');
+	iv1.iviewer('zoom_by', 1);
+	console.log('that worked too!!');
+	},
+	
+	 h6 : function(){
+	// info
+	},
+	
+	 h7 : function(){
+	// the end
+	}
+	
+	}
+	
+	// add the stop button
+
+	 var stopHelp = function(){
+		//undo everything I just did
+		};
+		
+	$('#stopHelp').click(function(){
+		stopHelp();
+		});
+	
+	
+	
+$('#helper').click(function(){
+	//$("#viewer").empty(); 
+	// load random background
+	// global $wpdb;
+	// $random_photo = $wpdb->get_var("SELECT meta_value FROM wp_postmeta WHERE meta_key like 'single_photo' ORDER BY RAND()");
+
+	// better, if on home  nav to random photo post, else just run it where they are at. if in blog, remove help link.
+	setTimeout(helper.h1, 0 );
+	setTimeout(helper.h4, 2000 );
+	setTimeout(helper.h5,4000);
+	$('#stopHelp').slideUp('2000');
+	});
+});
+
 </script>
 <?php wp_footer(); ?>
 </body>
