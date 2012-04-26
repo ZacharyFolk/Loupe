@@ -3,8 +3,10 @@
  * Template Name: Home
  */
 get_header(); ?>
+<div id="tagThumbs"></div>
+	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-000.gif'></div>	
 	<div class="lightTable">
-		<div class="floater">			
+		<div class="floater hometagged">			
 			<div id="leftBlock">
 				<div id="featured" class="pics"> 					
 					<?php 
