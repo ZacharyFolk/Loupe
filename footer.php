@@ -79,7 +79,7 @@ $(document).ready(function(){
 	// bumps depending on what is open in menu
 	var homeTagBump = ( 'hometagged' );
 	var tagBump = ('tagged');
-	var tagTeamBump = ('tagTeam');
+
 	var catBump = ('catBump');	
 	var activeTags = 'activeTagClass';
 	<?php $id = $_GET['tagP']; ?>
@@ -131,6 +131,7 @@ $(document).ready(function(){
 <? } ?>
 	$('.viewer').bind('contextmenu',function(e){
 		 //	e.preventDefault();
+		 console.log('original click' + e.pageX + ', ' + e.pageY );
 			var $cmenu = $(this).next();			
 			$('<div class="rc_overlay"></div>').css({
 				left : '0px', 
@@ -147,19 +148,28 @@ $(document).ready(function(){
 				.bind('contextmenu' , function(e){	
 					if((".rc_overlay").length>0)
 						{	
-							$(this).remove();
-			
+							$(this).remove();						
 							$('.rcmenu').css({ left: e.pageX, top: e.pageY, zIndex: '101' });	
-							return false;
-						
-							};
-							
+							return false;						
+							};							
 					})
 					.appendTo(document.body);
-					$(this).next().css({ left: e.pageX, top: e.pageY, zIndex: '101' }).fadeIn('1000'); 	
+					
+				$(this).next().css({ left: e.pageX, top: e.pageY, zIndex: '101' }).fadeIn('1000'); 	
 				return false;
 				 });
- 
+				 
+		 $('.rcmenu').draggable({ handle: "#handle", containment: "#viewer", 
+		 stop: function(event,ui){
+		 	var Stoppos=$(this).position();
+		 	console.log('stop : ' + Stoppos.left + ',' + Stoppos.top );
+		 	 }
+		 	 });
+ 		 $('.rcClose').click(function(){
+ 		 	$('.rc_overlay').remove();
+ 		 	$('.rcmenu').fadeOut();
+ 		 	
+ 		 	});
 			 /*
 			  * //generic first menu events
 			  $('.rcmenu .first_li').live('click',function() {
@@ -205,75 +215,77 @@ $(document).ready(function(){
 	
 	$('.galleryLink').click(function(){		
 			if( $.cookie("catPanel") == "expanded") {
-				$.cookie("catPanel", "collapsed");	
-				catTriangle.removeClass( 'open' ).addClass( 'close' );
-				tags.removeClass( 'catBumpOne' );
-				$('.tagTable').removeClass( 'catBumpTwo' );
-				info.removeClass( 'catInfoBump' );
-				info.removeClass( 'catTagInfoBump' );
-				info.removeClass( 'tagCatInfoBump' );
-				if( $.cookie("tagPanel") == "expanded" )
-				{
-					info.addClass( 'tagged' );
-				} 
+					//close categories
+					$.cookie("catPanel", "collapsed");	
+					catTriangle.removeClass( 'open' ).addClass( 'close' );
+					catButton.removeClass( activeTags );
+					tags.removeClass( 'catBumpOne' );
+					$('.tagTable').removeClass( 'catBumpTwo' );
+					info.removeClass( 'catInfoBump catTagInfoBump catTagInfoTagBump tagCatInfoBump tagTeam' );
+	
+						if( $.cookie("tagPanel") == "expanded" )
+							{
+								info.addClass( 'tagged' );
+							} 						
+					} else {
+						$.cookie( "catPanel", "expanded" );			
+						catTriangle.addClass( 'open' ).removeClass( 'close' );
+						catButton.addClass( activeTags );
+						tags.addClass( 'catBumpOne' );
+						$('.tagTable').addClass( 'catBumpTwo' );
 					
-			} else {
-				$.cookie( "catPanel", "expanded" );			
-				catTriangle.addClass( 'open' );
-				catTriangle.removeClass( 'close' );
-				tags.addClass( 'catBumpOne' );
-				$('.tagTable').addClass( 'catBumpTwo' );
-			
-				if( $.cookie("tagPanel") == "expanded" )
-				{
-					info.addClass( 'catTagInfoBump' );
-				} 
-				if( $.cookie("tagPanel") == "collapsed" ) 
-				{
-					info.addClass( 'catInfoBump' );
-				}
-		
-
+						if( $.cookie("tagPanel") == "expanded" )
+						{
+							info.addClass( 'catTagInfoBump' );
+						}; 
+						if( $.cookie( "lastTag" ) !== initialState ){
+							info.addClass ('catTagInfoTagBump');
+						};
+						if( $.cookie("tagPanel") == "collapsed" ) 
+						{
+							info.addClass( 'catInfoBump' );
+						};
+					}	
+					cats.slideToggle('fast');
+					//tags.toggleClass( 'catBumpOne' );	
+					//info.toggleClass( tagBump );
+					//home.addClass( homeTagBump );
+					
+					return false;
+				});
 				
-			}	catButton.toggleClass( activeTags );
-				cats.slideToggle('fast');
-				//tags.toggleClass( 'catBumpOne' );	
-				//info.toggleClass( tagBump );
-				//home.addClass( homeTagBump );
-				
-				return false;
-			});
 	if( catPanelState == initialState ){
 		cats.hide();
 		//info.removeClass( tagBump );
 		//home.removeClass( homeTagBump );
-		catTriangle.removeClass( 'open' );
-		catTriangle.addClass( 'close' );
+		catTriangle.removeClass( 'open' ).addClass( 'close' );
+		catButton.removeClass( activeTags );
 		tags.removeClass( 'catBumpOne' );
 		$('.tagTable').removeClass( 'catBumpTwo' );
+		
 
 		
 	};
 
 	if( catPanelState == "expanded" ){
 		cats.show();
-	
-		//info.addClass( tagBump );
-		//home.addClass( homeTagBump );
-		catTriangle.removeClass( 'close' );
-		catTriangle.addClass( 'open' );
+		catTriangle.removeClass( 'close' ).addClass( 'open' );
+		catButton.addClass( activeTags );
 		tags.addClass( 'catBumpOne' );
 		$('.tagTable').addClass( 'catBumpTwo' );
 		info.addClass( 'catInfoBump' );
-	//	main.addClass( tagBump );
+		if( $.cookie( "lastTag" ) !== initialState ){
+			info.addClass ('catTagInfoTagBump');
+			};
 	};
 	
 // tags 
 		
 	if( $.cookie( "tagPanel" ) == undefined ){
 		$.cookie( "tagPanel", initialState );
-		triangle.addClass( 'close' );
-		triangle.removeClass( 'open' );
+		triangle.addClass( 'close' ).removeClass( 'open' );
+		tagButton.removeClass(activeTags);
+
 	};
 	
 	if( $.cookie( "lastTag" ) == undefined ){
@@ -281,7 +293,8 @@ $(document).ready(function(){
 	};
 	
 	if( tagPanelState == initialState ){
-		tags.hide();
+		tags.hide();	
+		tagButton.removeClass(activeTags);
 		info.removeClass( tagBump );
 		home.removeClass( homeTagBump );
 		triangle.removeClass( 'open' );
@@ -290,6 +303,7 @@ $(document).ready(function(){
 	};
 
 	if(tagPanelState == "expanded" ){
+		tagButton.addClass(activeTags);
 		tags.show();
 		$('#tagThumbs').show();
 		info.addClass( tagBump );
@@ -315,10 +329,10 @@ $(document).ready(function(){
 			//$('.loader').fadeIn('fast');			
 			$('#tagThumbs').load( reLoadTagURL,loadCallback );
 			
-		    $('.tagTable').appendTo($('#ajaxTable'));
-		    if  ( catPanelState == "expanded" ) {
-				$('.tagTable').addClass( 'catBumpTwo' );
-				}
+		 //   $('.tagTable').appendTo($('#ajaxTable'));
+		   // if  ( catPanelState == "expanded" ) {
+			//	$('.tagTable').addClass( 'catBumpTwo' );
+				//}
 			};
 			function loadCallback(){
 				if( catPanelState == "expanded" ){
@@ -331,39 +345,39 @@ $(document).ready(function(){
 
 //main menu Tags
 	tagButton.click(function(){		
-			if( $.cookie("tagPanel") == "expanded") {
-				$.cookie("tagPanel", "collapsed");
-				$.cookie("lastTag", "collapsed");			
-				triangle.removeClass( 'open' );
-				triangle.addClass( 'close' );
-				$('.tagTable').remove();
-				info.removeClass('tagged');
-				info.removeClass('tagCatInfoBump');	
-				info.removeClass('catTagInfoBump');		
-				if( $.cookie("catPanel") == "expanded" )
-				{
-					info.addClass( 'catInfoBump' );
+			if( 
+			// close tag list
+				$.cookie("tagPanel") == "expanded") {
+					$.cookie("tagPanel", "collapsed");	
+					tagButton.removeClass(activeTags);
+					$.cookie("lastTag", "collapsed");			
+					triangle.removeClass( 'open' );
+					triangle.addClass( 'close' );
+					$('.tagTable').remove();
+					info.removeClass('tagged');
+					info.removeClass('tagCatInfoBump catTagInfoBump catTagInfoTagBump tagTeam');		
+					if( $.cookie("catPanel") == "expanded" )
+					{
+						info.addClass( 'catInfoBump' );	
+					} 
+				// expand tag list		
+				} else {
+					$.cookie( "tagPanel", "expanded" );			
+					triangle.addClass( 'open' ).removeClass( 'close' );
+					tagButton.addClass(activeTags);
+					if( $.cookie("catPanel") == "expanded" )
+					{
+						info.addClass( 'tagCatInfoBump' );
+					};
 					
-				} 	
-			} else {
-				$.cookie( "tagPanel", "expanded" );			
-				triangle.addClass( 'open' );
-				triangle.removeClass( 'close' );
-				if( $.cookie("catPanel") == "expanded" )
-				{
-					info.addClass( 'tagCatInfoBump' );
-				} 
-				if( $.cookie("catPanel") == "collapsed" ) 
-				{
-					info.addClass( 'tagged' );
-				}
-		
-				
-			}	tagButton.toggleClass( activeTags );
+					if( $.cookie("catPanel") == "collapsed" ) 
+					{
+						info.addClass( 'tagged' );
+					}				
+				}	
 				tags.slideToggle('fast');					
 				return false;
 			});
-
 
 	$('#tagList li').each(function() {
         $(this).click(function() {
@@ -371,8 +385,11 @@ $(document).ready(function(){
 			//imgCtrl.hide();	
 			$(this).addClass('activeTag').siblings().removeClass('activeTag');
 			$('#tagThumbs, .tagTable').show();
-			info.addClass(tagTeamBump);
-	
+			info.addClass('tagTeam');
+			if( $.cookie("catPanel") == "expanded" )
+				{
+					info.addClass('catTagInfoTagBump');
+				}
 			var tagName = $(this).attr("id");
 			var tagURL = '<?php bloginfo('url');?>/tag/' + tagName;
 			var toLoad = '<?php bloginfo('url'); ?>/tag/'+ tagName + ' .tagTable';	
@@ -425,7 +442,7 @@ $(document).ready(function(){
 	 		});
 	 		
 	 if ( tagPanelHistory !== initialState ) {
-		info.addClass(tagTeamBump);	
+		info.addClass('tagTeam');	
 		//alert(tagPanelHistory);  	
 				
 		var loadHistory = '<?php bloginfo( 'url' ); ?>/tag/'+ tagPanelHistory + ' .tagTable';
@@ -483,6 +500,10 @@ $(document).ready(function(){
 			    info.addClass ('infoOpen');
 				infoTri.removeClass( 'close' ); 
 				infoTri.addClass( 'open' );
+				if(( $.cookie('catPanel') == "expanded" ) && ( $.cookie('tagPanel') == "expanded" ))
+					{
+						info.addClass( 'tagCatInfoBump' );
+					} 
 
 			}
 			//info.slideToggle('fast');
@@ -584,12 +605,11 @@ $(document).ready(function(){
 	var home = $('.floater');
 	var homeTagBump = ( 'hometagged' );
 	var tagBump = ('tagged');
-	var tagTeamBump = ('tagTeam');
+
 	var catBump = ('catBump');	
 	var activeTags = 'activeTagClass';
 	
 	var helper = {
-
 	
 	 h1 : function(){
 		$('.lHelp').fadeIn('3000');
