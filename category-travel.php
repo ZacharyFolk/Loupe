@@ -18,14 +18,7 @@ get_header(); ?>
  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBw1DpJdlyFiMUhy9yu1zThIK9AFa5zGac&sensor=true">
 </script>
 <div id="travel_map" ></div>		
-<?php
-/* Run the loop for the tag archive to output the posts
- * If you want to overload this in a child theme then include a file
- * called loop-tag.php and that will be used instead.
- */
- get_template_part( 'loop', 'map' );
-
- ?>
+<?php get_template_part( 'loop', 'map' ); ?>
 <script type="text/javascript">
 jQuery(document).ready(function(){initialize(); });
 </script>
