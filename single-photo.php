@@ -96,6 +96,8 @@ foreach($palette as $color)
 echo "</table>\n";
 */
 ?></div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo urlencode(get_permalink($post->ID)); ?>&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:450px; height:25px; float:left; margin-top: 10px;"></iframe>
+
 <div class="theInfoTagList">
 <?php $photoTxt = get_post_meta($post->ID, 'photowords', true); 
 		if ($photoTxt){
@@ -104,6 +106,18 @@ echo "</table>\n";
 	?>
 
 <?php the_tags('<ul id="infoTags" ><li>Tagged with : </li> <li>','</li><li>','</li></ul>'); ?>
+<?php 	echo get_the_category_list('Galleries:','','');  ?>
+<ul id="infoTags">
+	<li>Galleries :</li>
+	<?php
+		foreach((get_the_category()) as $category) {
+			$category_id = get_cat_ID( $category->cat_name );
+			$category_link = get_category_link( $category_id );
+			echo '<li><a href="'.$category_link.'">'.$category->cat_name.'</a></li>';
+	} ?>
+</ul>
+
+
 </div>
 <?php 
 $lat = get_post_meta($post->ID, 'latitude', true);
