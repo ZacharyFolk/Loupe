@@ -91,7 +91,7 @@ $(document).ready(function(){
 		}
 
 	// panel hid with margin because bug with google maps not properly rendering in hidden div
-	info.addClass ('infoClose');
+	//info.addClass ('infoClose');
 	
 <?php if (is_single()) { ?>
 	navInit();
@@ -466,15 +466,15 @@ $(document).ready(function(){
 	};
 	
 	if( infoPanelState == 'collapsed' ){
-		//info.hide();
+		info.hide();
 		// moved to start info.addClass ('infoClose');
 		infoTri.removeClass( 'open' );
 		infoTri.addClass( 'close' );
 	};
 		
 	if( infoPanelState == 'expanded' ){
-		//info.show();
-		info.addClass ('infoOpen');
+	 	info.show();
+//		info.addClass ('infoOpen');
 		infoTri.removeClass( 'close' );
 		infoTri.addClass('open');
 		infoButton.addClass(activeTags);
@@ -487,17 +487,19 @@ $(document).ready(function(){
 			if( $.cookie( 'infoPanel' ) == 'expanded' ) {
 				$.cookie( 'infoPanel', 'collapsed' );
 				infoButton.removeClass( activeTags );
+				info.hide();
 				//google.maps.event.trigger(map, 'resize');  
 			    info.removeClass ('infoOpen');
-			    info.addClass ('infoClose');				
-				infoTri.removeClass( 'open' );
+		 //	    info.addClass ('infoClose');				
+		 		infoTri.removeClass( 'open' );
 				infoTri.addClass( 'close' );
 			} else {
 				$.cookie( 'infoPanel', 'expanded' );
 				infoButton.addClass( activeTags );
+				info.show();
 			   // google.maps.event.trigger(map, 'resize');
-			    info.removeClass ('infoClose');
-			    info.addClass ('infoOpen');
+			//    info.removeClass ('infoClose');
+			//    info.addClass ('infoOpen');
 				infoTri.removeClass( 'close' ); 
 				infoTri.addClass( 'open' );
 				if(( $.cookie('catPanel') == "expanded" ) && ( $.cookie('tagPanel') == "expanded" ))
@@ -508,7 +510,20 @@ $(document).ready(function(){
 			}
 			//info.slideToggle('fast');
 			return false;
-	});			
+	});
+	
+	$('#viewMap').click(function(){
+		if($('.mapContainer').css('display') == "none"){
+			$('.mapContainer').slideDown('fast');
+			  document.getElementById('map_canvas').style.display="block";
+	          initialize();
+	        $(this).html('Close Map -');
+	        } else {
+	        $('.mapContainer').slideUp('fast');
+	        document.getElementById('map_canvas').style.display="none";
+	         $(this).html('&nbsp;View Map + ');        
+        	}
+		});			
 
 
 // Update this with https://github.com/cowboy/jquery-hashchange

@@ -82,7 +82,7 @@
 	<div id="ajaxTable">
 
 <?php if ( have_posts() ) :  while ( have_posts() ) : the_post(); ?>	
-<div id="infoPanel">
+<div id="infoPanel" style="display:none">
 <div class="title"><?php the_title(); 
 //test color palette
 /*
@@ -96,7 +96,15 @@ foreach($palette as $color)
 echo "</table>\n";
 */
 ?></div>
-<iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo urlencode(get_permalink($post->ID)); ?>&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:450px; height:25px; float:left; margin-top: 10px;"></iframe>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=141020842607871";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<fb:like send="true" width="450" show_faces="false" font="tahoma"></fb:like>
 
 <div class="theInfoTagList">
 <?php $photoTxt = get_post_meta($post->ID, 'photowords', true); 
@@ -124,8 +132,8 @@ $lat = get_post_meta($post->ID, 'latitude', true);
 $long = get_post_meta($post->ID, 'longitude', true);
 if ($lat !== '') {
  ?>	
- <script type="text/javascript"
-      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBw1DpJdlyFiMUhy9yu1zThIK9AFa5zGac&sensor=true">
+ <div id="viewMap">&nbsp;View Map + </div>
+ <script type="text/javascript"      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBw1DpJdlyFiMUhy9yu1zThIK9AFa5zGac&sensor=true">
     </script>
     <script type="text/javascript"> 	
         var lat = "<?php echo $lat;?>"; 
@@ -147,9 +155,9 @@ if ($lat !== '') {
 		marker.setMap(map);
       }		
     </script>
-
-<div id="map_canvas" style="width:100%; height:300px"></div>
-
+<div class="mapContainer">
+<div id="map_canvas" style="width:510px; height:300px"></div>
+</div>
 <?php   } 
 
 echo get_post_meta($post->ID, 'upload_image', true);
@@ -204,9 +212,10 @@ echo get_post_meta($post->ID, 'upload_image', true);
 			 next = '<?php custom_post_link( '%link','',TRUE, '', FALSE ); ?>';
 			console.log ( previous + next );	
  	 };
-      	<?php if ($lat !== '') { ?>
-    	initialize();
-    	<?php } ?>
+      	<?php// if ($lat !== '') { ?>
+    	//initialize();
+    	<?php //} 
+    	//moved initialize to .click(function)?>
 	//	var colors = $.cookie('colors');
                   	  iv1 = $("#viewer").iviewer({
                       src: "<?php echo get_post_meta($post->ID, 'single_photo', true); ?>",
