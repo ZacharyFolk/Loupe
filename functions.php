@@ -466,17 +466,17 @@ add_action( 'init', 'photo_register' );
  
 function photo_register() {
 	$labels = array(
-		'name' => _x( 'My Photos', 'post type general name' ),
-		'singular_name' => _x( 'Photo', 'post type singular name' ),
-		'add_new' => _x( 'Add New', 'photo item' ),
+		'name' => __( 'My Photos' ),
+		'singular_name' => __( 'Photo' ),
+		'add_new' => __( 'Add New Photo' ),
 		'add_new_item' => __( 'Add New Photo' ),
 		'edit_item' => __( 'Edit Photo' ),
-		'new_item' => __( 'New Photo' ),
+		'new_item' => __( 'Add New Photo' ),
 		'view_item' => __( 'View Photo' ),
 		'search_items' => __( 'Search Photos' ),
-		'not_found' =>  __( 'Nothing found' ),
-		'not_found_in_trash' => __( 'Nothing found in Trash' ),
-		'parent_item_colon' => ''
+		'not_found' =>  __( 'No photos found' ),
+		'not_found_in_trash' => __( 'No photos in Trash' )
+		//,'parent_item_colon' => ''
 	);
 	
 	$args = array(
@@ -498,137 +498,158 @@ function photo_register() {
 	register_taxonomy( 'Photos', array( 'photo' ), array( 'hierarchical' => true, 'label' => 'Photos', 'singular_label' => 'Photo', 'rewrite' => true ) );
 }
 
-	add_action( 'admin_init', 'admin_init' );
+	// (before WP 3.0) add_action( 'admin_init', 'add_photo_metaboxes', 1 );
+	 
+	add_action( 'add_meta_boxes', 'add_photo_metaboxes' );
 	add_action( 'save_post', 'save_details' );
 
-function admin_init(){ // add_meta_box( $id, $title, $callback, $page, $context, $priority ); 
-	  add_meta_box( 'media', 'Media Type', 'media', 'photo', 'side', 'high' );
-	  add_meta_box( 'photowords', 'Words', 'photowords', 'photo', 'normal', 'high' );
-	  add_meta_box( 'photo_meta', 'Add a photograph', 'photo_meta', 'photo', 'normal', 'high' );
-	  add_meta_box( 'map_meta', 'Map It', 'map_meta', 'photo', 'normal', 'high' );
+	function add_photo_metaboxes(){
+		 // add_meta_box( $id, $title, $callback, $page, $context, $priority ); 
+		  add_meta_box( 'media', 'Media Type', 'media', 'photo', 'side', 'high' );
+		  add_meta_box( 'photowords', 'Words', 'photowords', 'photo', 'normal', 'high' );
+		  add_meta_box( 'photo_meta', 'Add a photograph', 'photo_meta', 'photo', 'normal', 'default' );
+		  add_meta_box( 'map_meta', 'Map It', 'map_meta', 'photo', 'normal', 'low' );
+		}	
+
+	function photowords(){
+		global $post;
+		$custom = get_post_custom($post->ID);
+		$photowords = $custom["photowords"][0];
+			if ($photowords) $enteredText = $photowords; 
+			if (!$photowords) $enteredText = "";
+			// verification
+			wp_nonce_field( basename( __FILE__ ), 'photowords_nonce' );
+
+		?>	
+		<div style="width: 100%" >
+			<div class="photoText">
+			<textarea name="photowords" value="<?php echo $enteredText; ?>" style="width: 100%"><?php echo $enteredText; ?></textarea>
+			</div>
+		</div>
+	<?php }
+
+	function photo_meta(){
+		global $post;
+		$custom = get_post_custom( $post->ID );
+		$single_photo = $custom["single_photo"][0];
+		$isFeatured = $custom["isFeatured"][0];
+		// verification
+			wp_nonce_field( basename( __FILE__ ), 'photo_meta_nonce' );
+
+		?>	
+		
+		<div id="singleUpload" class="clearfix">
+			<div class="sUcallback"> 
+		  		<img src="<?php echo $single_photo; ?>" width="200" exif="true" class="cbImg"/> 	
+			</div>
+		  	<div class="sUinput">	  
+		  		<input id="single_photo" name="single_photo" value="<?php echo $single_photo; ?>" />
+		  	</div>
+		  	<div class="sUbutton">
+		  		<input type="button" value="Upload" name="upload" id="upload_image_button" />
+		  	</div>
+		  	<div class="sUcheckbox">
+		  		<label class="selectit"> 
+		  			<?php if ( $isFeatured == 1 ) {?> 
+		  			<input id="isFeatured" type="checkbox" checked="yes" name="isFeatured" value="1"> 
+		  			<?php } else { ?> 
+		  			<input id="isFeatured" type="checkbox" name="isFeatured" value="1"> 
+		  			<?php } ?> 
+		  			Featured Photo? 
+		  		</label> 
+			</div>  
+		</div>
+	<?php }
+
+	function map_meta() {
+	  global $post;
+	  $custom = get_post_custom( $post->ID );
+	  $latitude = $custom["latitude"][0];
+	  $longitude = $custom["longitude"][0];
+	  // verification
+			wp_nonce_field( basename( __FILE__ ), 'map_nonce' );
+
+	  ?>
+	   <input type="text" value="" id="searchTextField" style="width:98%; height:30px; font-size:15px;" onKeyPress="return disableEnterKey(event)" />
+		<div class="clearfix">&nbsp;</div>
+		<div class="clearfix" id="mapFix">
+			<div id="map_canvas" style="width:98%; height:350px;"></div>
+		</div>	
+		<div id="mapControls">	
+			<div class="lat">
+			  <p><label for="lat">Latitude:</label>
+			  <input id="latitude"  name="latitude" value="<?php echo $latitude; ?>"></input></p>
+			</div>
+			<div class="lng">
+			  <p><label>Longitude:</label>
+			  <input id="longitude" name="longitude" value="<?php echo $longitude; ?>" ></input></p>
+			</div>
+	 	</div>
+		 <script language="JavaScript">
+				function disableEnterKey(e)
+				{ // disable enter on search (otherwise it defaults to UPDATE)
+				var key;
+				if(window.event)
+				key = window.event.keyCode; //IE
+				else
+				key = e.which; //firefox
+				return (key != 13);
+				}
+		</script>
+	<?php }
+
+	function media(){
+		global $post;
+		$custom = get_post_custom($post->ID);
+		$film = $custom["film"][0];
+		$camera = $custom["camera"][0]; 
+		$single_photo = $custom["single_photo"][0];
+		// verification
+			wp_nonce_field( basename( __FILE__ ), 'media_nonce' );
+
+		?>			
+		<div style="width: 100%" class="clearfix">
+				<div class="mediaRow">
+					<label>Camera:</label>
+					<input name="camera" value="<?php echo $camera; ?>" />
+				</div>	
+				<div class="mediaRow">
+					<label>Film:</label>
+					<input name="film" value="<?php echo $film; ?>" />
+				</div>
+		</div>		
+		<?php  // if ( $single_photo ) { printExifData(); } 
+		}
+	
+	function save_details( $post_id ){
+		if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+			return $post_id;
+		
+		/* Verify the nonce before proceeding. */
+
+   		if ( !isset( $_POST['photowords_nonce'] ) || !wp_verify_nonce( $_POST['photowords_nonce'], basename( __FILE__ ) ) )
+        return $post_id;
+		if ( !isset( $_POST['photo_meta_nonce'] ) || !wp_verify_nonce( $_POST['photowords_nonce'], basename( __FILE__ ) ) )
+        return $post_id;
+		if ( !isset( $_POST['map_nonce'] ) || !wp_verify_nonce( $_POST['photowords_nonce'], basename( __FILE__ ) ) )
+        return $post_id;
+	   	if ( !isset( $_POST['media_nonce'] ) || !wp_verify_nonce( $_POST['photowords_nonce'], basename( __FILE__ ) ) )
+        return $post_id;
+		
+		// check permissions
+		if ( !current_user_can( 'edit_post', $post->ID ))
+        return $post->ID;
+		
+		// global $post;
+		update_post_meta($post_id, "single_photo", $_POST["single_photo"]);
+		update_post_meta($post_id, "isFeatured", $_POST["isFeatured"]);
+		update_post_meta($post_id, "photowords", $_POST["photowords"]); 
+		//update_post_meta($post_id, "latlong", $_POST["latlong"]);
+		update_post_meta($post_id, "latitude", $_POST["latitude"]);
+		update_post_meta($post_id, "longitude", $_POST["longitude"]);
+		update_post_meta($post_id, "camera", $_POST["camera"]);
+		update_post_meta($post_id, "film", $_POST["film"]); 
 	}
- 
-function media(){
-	global $post;
-	$custom = get_post_custom($post->ID);
-	$film = $custom["film"][0];
-	$camera = $custom["camera"][0]; 
-	$single_photo = $custom["single_photo"][0];?>
-		
-	<div style="width: 100%" class="clearfix">
-		<div class="mediaRow">
-		<label>Camera:</label>
-		<input name="camera" value="<?php echo $camera; ?>" />
-		</div>
-		
-		<div class="mediaRow">
-		<label>Film:</label>
-		<input name="film" value="<?php echo $film; ?>" />
-		</div>
-		
-		
-<?php 
-
-if ( $single_photo ) { printExifData(); } ?>
-
-	</div>
-	
-<?php }
-
-function photo_meta(){
-	global $post;
-	$custom = get_post_custom( $post->ID );
-	$single_photo = $custom["single_photo"][0];
-	$isFeatured = $custom["isFeatured"][0];
-?>
-
-	<div id="singleUpload" class="clearfix">
-		<div class="sUcallback"> 
-	  		<img src="<?php echo $single_photo; ?>" width="200" exif="true" class="cbImg"/> 
-
-		</div>
-	  	<div class="sUinput">	  
-	  		<input id="single_photo" name="single_photo" value="<?php echo $single_photo; ?>" />
-	  	</div>
-	  	<div class="sUbutton">
-	  		<input type="button" value="Upload" name="upload" id="upload_image_button" />
-	  	</div>
-	  	<div class="sUcheckbox">
-	  		<label class="selectit"> 
-	  			<?php if ( $isFeatured == 1 ) {?> 
-	  			<input id="isFeatured" type="checkbox" checked="yes" name="isFeatured" value="1"> Featured Photo? 
-	  			<?php } else { ?> 
-	  			<input id="isFeatured" type="checkbox" name="isFeatured" value="1"> Featured Photo? 
-	  			<?php } ?> 
-	  		</label> 
-	</div>  
-<?php }
-
-
-function photowords(){
-	global $post;
-	$custom = get_post_custom($post->ID);
-	$photowords = $custom["photowords"][0];
-?>	
-	<div style="width: 100%" >
-		<div class="photoText">
-		<textarea name="photowords" value="<?php echo $photowords; ?>" style="width: 100%">
-			<?php echo $photowords; ?>
-		</textarea>
-		</div>
-	
-<?php }
-
-
-function map_meta() {
-  global $post;
-  $custom = get_post_custom( $post->ID );
-  $latitude = $custom["latitude"][0];
-  $longitude = $custom["longitude"][0];
-  ?>
-
-   <input type="text" value="" id="searchTextField" style="width:98%; height:30px; font-size:15px;" onKeyPress="return disableEnterKey(event)" />
-	<div class="clearfix">&nbsp;</div>
-	<div class="clearfix" id="mapFix">
-		<div id="map_canvas" style="width:98%; height:350px;"></div>
-	</div>
-	
-	<div id="mapControls">
-		
-		<div class="lat">
-		  <p><label for="lat">Latitude:</label>
-		  <input id="latitude"  name="latitude" value="<?php echo $latitude; ?>"></input></p>
-		</div>
-		<div class="lng">
-		  <p><label>Longitude:</label>
-		  <input id="longitude" name="longitude" value="<?php echo $longitude; ?>" ></input></p>
-		</div>
- 	</div>
-	 <script language="JavaScript">
-			function disableEnterKey(e)
-			{
-			var key;
-			if(window.event)
-			key = window.event.keyCode; //IE
-			else
-			key = e.which; //firefox
-			return (key != 13);
-			}
-	</script>
-<?php }
-
-function save_details( $post_id ){
-	if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-	global $post;
-	update_post_meta($post_id, "single_photo", $_POST["single_photo"]);
-	update_post_meta($post_id, "isFeatured", $_POST["isFeatured"]);
-	update_post_meta($post_id, "photowords", $_POST["photowords"]); 
-	//update_post_meta($post_id, "latlong", $_POST["latlong"]);
-	update_post_meta($post_id, "latitude", $_POST["latitude"]);
-	update_post_meta($post_id, "longitude", $_POST["longitude"]);
-	update_post_meta($post_id, "camera", $_POST["camera"]);
-	update_post_meta($post_id, "film", $_POST["film"]); 
-}
 
 add_action("manage_posts_custom_column",  "photo_custom_columns");
 add_filter("manage_edit-photo_columns", "photo_edit_columns");

@@ -104,8 +104,17 @@ echo "</table>\n";
   js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=141020842607871";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-<fb:like send="true" width="450" show_faces="false" font="tahoma"></fb:like>
-
+<fb:like send="true" width="450" show_faces="false" font="tahoma" style="margin-top:10px"></fb:like>
+<?php $camera = get_post_meta($post->ID, 'camera', true);
+	if ($camera){
+		echo "<p>Camera : " . $camera . "</p>";
+	} 
+?>
+<?php $film = get_post_meta($post->ID, 'film', true);
+	if ($film){
+		echo "<p>Film : " . $film . "</p>";
+	} 
+?>
 <div class="theInfoTagList">
 <?php $photoTxt = get_post_meta($post->ID, 'photowords', true); 
 		if ($photoTxt){

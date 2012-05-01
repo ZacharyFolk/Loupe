@@ -487,7 +487,7 @@ $(document).ready(function(){
 			if( $.cookie( 'infoPanel' ) == 'expanded' ) {
 				$.cookie( 'infoPanel', 'collapsed' );
 				infoButton.removeClass( activeTags );
-				info.hide();
+				info.slideUp();
 				//google.maps.event.trigger(map, 'resize');  
 			    info.removeClass ('infoOpen');
 		 //	    info.addClass ('infoClose');				
@@ -496,7 +496,7 @@ $(document).ready(function(){
 			} else {
 				$.cookie( 'infoPanel', 'expanded' );
 				infoButton.addClass( activeTags );
-				info.show();
+				info.slideDown();
 			   // google.maps.event.trigger(map, 'resize');
 			//    info.removeClass ('infoClose');
 			//    info.addClass ('infoOpen');
