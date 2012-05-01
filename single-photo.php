@@ -115,6 +115,7 @@ echo "</table>\n";
 		echo "<p>Film : " . $film . "</p>";
 	} 
 ?>
+
 <div class="theInfoTagList">
 <?php $photoTxt = get_post_meta($post->ID, 'photowords', true); 
 		if ($photoTxt){

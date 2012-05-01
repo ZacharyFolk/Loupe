@@ -497,6 +497,7 @@ $(document).ready(function(){
 				$.cookie( 'infoPanel', 'expanded' );
 				infoButton.addClass( activeTags );
 				info.slideDown();
+				
 			   // google.maps.event.trigger(map, 'resize');
 			//    info.removeClass ('infoClose');
 			//    info.addClass ('infoOpen');
