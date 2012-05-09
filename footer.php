@@ -384,7 +384,7 @@ $(document).ready(function(){
 			// remove single image ui controls
 			//imgCtrl.hide();	
 			$(this).addClass('activeTag').siblings().removeClass('activeTag');
-			$('#tagThumbs, .tagTable').show();
+			$('#tagThumbs').show();
 			info.addClass('tagTeam');
 			if( $.cookie("catPanel") == "expanded" )
 				{
@@ -403,7 +403,7 @@ $(document).ready(function(){
 			
 			function hideLoader(){
 			//$('.loader').fadeOut('fast');
-			$('.tagTable').fadeIn('slow'); 
+		//	$('.tagTable').fadeIn('slow'); 
 		if( $.cookie("catPanel") == "expanded" )
 				{
 			$('.tagTable').addClass( 'catBumpTwo' );	
@@ -596,6 +596,8 @@ $(document).ready(function(){
 </script>
 
 <script type="text/javascript">
+// help on hold
+/*
 $(document).ready(function(){
 	var body = $('body');
 	// Go to a random post -> jQuery animated help using setTimout.  
@@ -700,7 +702,7 @@ $('#helper').click(function(){
 	$('#stopHelp').slideUp('2000');
 	});
 });
-
+*/
 </script>
 <?php wp_footer(); ?>
 </body>
