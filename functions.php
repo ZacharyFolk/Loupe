@@ -495,8 +495,19 @@ function photo_register() {
 		); 
  
 	register_post_type( 'photo' , $args );
-	register_taxonomy( 'Photos', array( 'photo' ), array( 'hierarchical' => true, 'label' => 'Photos', 'singular_label' => 'Photo', 'rewrite' => true ) );
+	
+	register_taxonomy( 'gallery', array( 'photo' ), array( 'hierarchical' => true, 'label' => 'Galleries', 'singular_label' => 'Gallery', 'rewrite' => true ) );
+
+	register_taxonomy( 'camera', array( 'photo' ), array( 'public' => true, 'hierarchical' => true, 'label' => 'Camera', 'singular_label' => 'Camera', 'rewrite' => true ) );
+	
+	register_taxonomy( 'lens', array( 'photo' ), array( 'hierarchical' => true, 'label' => 'Lens', 'singular_label' => 'Lens', 'rewrite' => true ) );	
+	
+	register_taxonomy( 'film', array( 'photo' ), array( 'hierarchical' => true, 'label' => 'Film', 'singular_label' => 'Film', 'rewrite' => true ) );
+	
+
+		
 }
+
 
 	// (before WP 3.0) add_action( 'admin_init', 'add_photo_metaboxes', 1 );
 	 

@@ -85,12 +85,14 @@
 				 </h1>
 				 <ul id="singleNav">
 				<li class="sep">:</li>
-					<li>
+					<!--
+						<li>
 					<a href="#">About</a></li>		
-					<li class="sep">|</li>
-					<li><a href="#">Blog</a></li>				
-					<li class="sep">|</li>
+						<li class="sep">|</li>
 					<li id="helper"><a href="#">Help</a></li>
+					-->
+					<li><a href="#">Blog</a></li>				
+				
 				
 					<li class="sep">|</li>
 					<li class="galleryLink">
@@ -156,7 +158,24 @@
 	</ul>
 	 <?php } ?>
 	<ul id="catList" style="display:none">
-	<?php  wp_list_categories('orderby=name&title_li=') ?>
+	<?php  
+	$taxonomy = 'gallery';
+	$orderby = 'name';
+	$show_count = 0;
+	$pad_counts = 0;
+	$hierarchical = 1;
+	$title = '';
+	
+	$args = array (
+		'taxonomy' => $taxonomy,
+		'orderby' => $orderby,
+		'show_count' => $show_count,
+		'pad_counts' => $pad_counts,
+		'hierarchical' => $hierarchical,
+		'title_li' => $title
+		);
+	
+	wp_list_categories($args) ?>
 	</ul>
 	
 	<div id="tagList" style="display:none">
