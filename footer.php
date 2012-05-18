@@ -315,7 +315,7 @@ $(document).ready(function(){
 	//	var reLoadTagURL = "<?php bloginfo('url'); ?>/tag/" + tagParam + " .tagTable";
 		if (theLastTag != "collapsed" ){ 
 				
-			var reLoadTagURL = "<?php bloginfo('url'); ?>/tag/" + theLastTag + " .tagTable";
+			var reLoadTagURL = "<?php bloginfo('url'); ?>/tag/" + theLastTag + "/ .tagTable";
 			
 			
 		}
@@ -391,8 +391,8 @@ $(document).ready(function(){
 					info.addClass('catTagInfoTagBump');
 				}
 			var tagName = $(this).attr("id");
-			var tagURL = '<?php bloginfo('url');?>/tag/' + tagName;
-			var toLoad = '<?php bloginfo('url'); ?>/tag/'+ tagName + ' .tagTable';	
+			var tagURL = '<?php bloginfo('url');?>/tag/' + tagName + '/';
+			var toLoad = '<?php bloginfo('url'); ?>/tag/'+ tagName + '/ .tagTable';	
 			$.cookie("lastTag",tagName);
          //  $('.lightTable').hide();			
 			function loadThemTags(){	
