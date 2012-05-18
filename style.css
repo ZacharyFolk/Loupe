@@ -581,8 +581,8 @@ ul.rcHeading li{float:left; font-size: 16px; margin-top: 4px;}
 
 
 /*********************************MAP*****************/
-#viewMap {margin: 4px 0; float: left; cursor:pointer;}
-.mapContainer {display:none; margin-top: 15px;}
+#viewMap {margin: 4px 0; float: left; cursor:pointer; width: 100%; float: left;}
+.mapContainer {display:none; margin-top: 15px; float: left;}
 /******************************* VIEWER ********************/
 
  .viewer
