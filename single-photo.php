@@ -1,83 +1,6 @@
 <?php get_header(); ?>
-<?php // watermark
-	/*
-	$SourceFile = get_post_meta($post->ID, 'single_photo', true);
-	$DestinationFile = '/home/adminwt/folkphotography.com/temp/photo_wm.jpg';		
-	$WaterMarkText = ' - Zachary Folk';
-	
-	watermarkImage ($SourceFile, $WaterMarkText, $DestinationFile);
-	
-	function watermarkImage ($SourceFile, $WaterMarkText, $DestinationFile) {
-		   list($width, $height) = getimagesize($SourceFile);
-		   $image_p = imagecreatetruecolor($width, $height);
-		   $image = imagecreatefromjpeg($SourceFile);
-		   imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width, $height);
-		   $black = imagecolorallocate($image_p, 0, 0, 0);
-		   $font = '/home/adminwt/folkphotography.com/wp-content/themes/Loupe/fonts/SpecialElite.ttf';
-		   
-		   if ( $width > 600 ) { 
-		   		$font_size = 20;
-		   }
-		   if ( $width < 600 ) { 
-		   		$font_size = 10;
-		   }
-		   $pos_w = $width - 100;
-		   $pos_h = $height - 50;
-		   imagettftext($image_p, $font_size, 0, 100, $pos_h, $black, $font, $WaterMarkText);
-			   if ($DestinationFile<>'') {
-			      imagejpeg ($image_p, $DestinationFile, 100);
-			   } else {
-			      header('Content-Type: image/jpeg');
-			      imagejpeg($image_p, null, 100);
-			   };
-		   imagedestroy($image);
-		   imagedestroy($image_p);
-		};
-		
-		function colorPalette($imageFile, $numColors, $granularity = 5) 
-		{ 
-		   $granularity = max(1, abs((int)$granularity)); 
-		   $colors = array(); 
-		   $size = @getimagesize($imageFile); 
-		   if($size === false) 
-		   { 
-		      user_error("Unable to get image size data"); 
-		      return false; 
-		   } 
-		   $img = @imagecreatefromjpeg($imageFile); 
-		   if(!$img) 
-		   { 
-		      user_error("Unable to open image file"); 
-		      return false; 
-		   } 
-		   for($x = 0; $x < $size[0]; $x += $granularity) 
-		   { 
-		      for($y = 0; $y < $size[1]; $y += $granularity) 
-		      { 
-		         $thisColor = imagecolorat($img, $x, $y); 
-		         $rgb = imagecolorsforindex($img, $thisColor); 
-		         $red = round(round(($rgb['red'] / 0x33)) * 0x33); 
-		         $green = round(round(($rgb['green'] / 0x33)) * 0x33); 
-		         $blue = round(round(($rgb['blue'] / 0x33)) * 0x33); 
-		         $thisRGB = sprintf('%02X%02X%02X', $red, $green, $blue); 
-		         if(array_key_exists($thisRGB, $colors)) 
-		         { 
-		            $colors[$thisRGB]++; 
-		         } 
-		         else 
-		         { 
-		            $colors[$thisRGB] = 1; 
-		         } 
-		      } 
-		   } 
-		   arsort($colors); 
-		   return array_slice(array_keys($colors), 0, $numColors); 
-		} 
-
-*/
-?>
 <div id="tagThumbs"></div>
-	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-000.gif'></div>
+	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-001.gif'></div>
 	<div class="tagTable" style="display:none">&nbsp;</div>
 	<div id="ajaxTable">
 
@@ -105,6 +28,15 @@ echo "</table>\n";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 <fb:like send="true" width="450" show_faces="false" font="tahoma" style="margin-top:10px"></fb:like>
+
+<div class="theInfoTagList">
+<?php $photoTxt = get_post_meta($post->ID, 'photowords', true); 
+		if ($photoTxt){
+			echo "<p>" . $photoTxt . "</p>";
+		}
+	?>
+
+<?php the_tags('<ul id="infoTags" ><li>Tagged with : </li> <li>','</li><li>','</li></ul>'); ?>
 <?php $camera = get_post_meta($post->ID, 'camera', true);
 	if ($camera){
 		echo "<p>Camera : " . $camera . "</p>";
@@ -116,14 +48,6 @@ echo "</table>\n";
 	} 
 ?>
 
-<div class="theInfoTagList">
-<?php $photoTxt = get_post_meta($post->ID, 'photowords', true); 
-		if ($photoTxt){
-			echo "<p>" . $photoTxt . "</p>";
-		}
-	?>
-
-<?php the_tags('<ul id="infoTags" ><li>Tagged with : </li> <li>','</li><li>','</li></ul>'); ?>
 <?php 	echo get_the_category_list('Galleries:','','');  ?>
 <ul id="infoTags">
 	<li>Galleries :</li>
@@ -191,9 +115,25 @@ echo get_post_meta($post->ID, 'upload_image', true);
 	
 	     <?php echo get_post_meta($post->ID, 'story', true) ?>
 	   
-	<?php endif; ?>
+	<?php endif; 
 
-<?php endwhile; else: ?>
+	
+	$PhotoName = the_title(); 
+
+	$SourceFile = get_post_meta($post->ID, 'single_photo', true);
+	$DestinationFile = '/home/adminwt/folkphotography.com/temp/watermarked/';
+	$DestinationFile .= $PhotoName;
+	$DestinationFile .= '.jpg';		
+	$WaterMarkText = 'folkphotography.com';
+	echo $DestinationFile;
+	//watermarkImage ($SourceFile, $WaterMarkText, $DestinationFile);
+	
+	
+
+
+
+	endwhile; else: ?>
+	
 	<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
 <?php endif; ?>
 <noscript>
@@ -213,10 +153,7 @@ echo get_post_meta($post->ID, 'upload_image', true);
       	var randomimage = "<?php 
       	global $wpdb; 
 		$random_photo = $wpdb->get_var("SELECT meta_value FROM wp_postmeta WHERE meta_key like 'single_photo' ORDER BY RAND()"); ?>";
-		
-		console.log(randomimage);
-		
-      	
+		console.log(randomimage);      	
       	 navInit =  function(){
 			 previous = '<?php custom_post_link( '%link','',TRUE, '', TRUE ); ?>';
 			 next = '<?php custom_post_link( '%link','',TRUE, '', FALSE ); ?>';

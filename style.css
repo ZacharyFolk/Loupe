@@ -485,7 +485,7 @@ a {text-decoration: none}
 /************** TAGS ********************/
 
 #ajaxTable {width: 99%; margin: 30px auto 0; }
-.loader {position: absolute; top: 40%; left: 50%; background: url('images/ajax-loader-000.gif'); display: none; width: 32px; height: 32px;}
+.loader {position: absolute; top: 40%; left: 50%; background: url('images/ajax-loader-001.gif'); display: none; width: 128px; height: 15px;}
 
 .tagTable {background: url("images/raster.png") repeat scroll 0 0 transparent; z-index: 98; height: 82px; padding: 10px 0; width: 100%; position: fixed; top: 88px; border: 1px solid #000; }
 .tagTable img {margin: 0 0 0 10px; border-top: 1px solid #000; float: left;}
