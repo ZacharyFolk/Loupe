@@ -29,11 +29,6 @@ endif;
 
 /**
  * Removes the default styles that are packaged with the Recent Comments widget.
- *
- * To override this in a child theme, remove the filter and optionally add your own
- * function tied to the widgets_init action hook.
- *
- * @since Twenty Ten 1.0
  */
 function loupe_remove_recent_comments_style() {
 	global $wp_widget_factory;
@@ -45,7 +40,6 @@ if ( ! function_exists( 'loupe_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post—date/time and author.
  *
- * @since Twenty Ten 1.0
  */
 function loupe_posted_on() {
 	printf( __( '<span class="%1$s">Posted on</span> %2$s <span class="meta-sep">by</span> %3$s', 'loupe' ),
@@ -67,8 +61,6 @@ endif;
 if ( ! function_exists( 'loupe_posted_in' ) ) :
 /**
  * Prints HTML with meta information for the current post (category, tags and permalink).
- *
- * @since Twenty Ten 1.0
  */
 function loupe_posted_in() {
 	// Retrieves tag list of current post, separated by commas.
@@ -490,7 +482,7 @@ function photo_register() {
 		'capability_type' => 'post',
 		'hierarchical' => false,
 		'menu_position' => 4,
-		'taxonomies' => array( 'post_tag', 'category' ),
+		'taxonomies' => array( 'post_tag' ),
 		'supports' => array( 'title', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'page-attributes', 'thumbnail', 'excerpt', 'tags' )
 		); 
  
@@ -498,13 +490,11 @@ function photo_register() {
 	
 	register_taxonomy( 'gallery', array( 'photo' ), array( 'hierarchical' => true, 'label' => 'Galleries', 'singular_label' => 'Gallery', 'rewrite' => true ) );
 
-	register_taxonomy( 'camera', array( 'photo' ), array( 'public' => true, 'hierarchical' => true, 'label' => 'Camera', 'singular_label' => 'Camera', 'rewrite' => true ) );
+	register_taxonomy( 'camera', array( 'photo' ), array( 'hierarchical' => true, 'label' => 'Camera', 'singular_label' => 'Camera', 'rewrite' => true ) );
 	
 	register_taxonomy( 'lens', array( 'photo' ), array( 'hierarchical' => true, 'label' => 'Lens', 'singular_label' => 'Lens', 'rewrite' => true ) );	
 	
-	register_taxonomy( 'film', array( 'photo' ), array( 'hierarchical' => true, 'label' => 'Film', 'singular_label' => 'Film', 'rewrite' => true ) );
-	
-
+	register_taxonomy( 'film', array( 'photo' ), array( 'hierarchical' => true, 'label' => 'Film', 'singular_label' => 'Film', 'rewrite' => true ) );	
 		
 }
 
@@ -516,7 +506,6 @@ function photo_register() {
 
 	function add_photo_metaboxes(){
 		 // add_meta_box( $id, $title, $callback, $page, $context, $priority ); 
-		  add_meta_box( 'media', 'Media Type', 'media', 'photo', 'side', 'high' );
 		  add_meta_box( 'photowords', 'Words', 'photowords', 'photo', 'normal', 'high' );
 		  add_meta_box( 'photo_meta', 'Add a photograph', 'photo_meta', 'photo', 'normal', 'default' );
 		  add_meta_box( 'map_meta', 'Map It', 'map_meta', 'photo', 'normal', 'low' );
@@ -526,9 +515,7 @@ function photo_register() {
 		global $post;
 		$custom = get_post_custom($post->ID);
 		$photowords = $custom["photowords"][0];
-			if ($photowords) $enteredText = $photowords; 
-			if (!$photowords) $enteredText = "";
-			// verification
+ 
 			wp_nonce_field( basename( __FILE__ ), 'photowords_nonce' );
 
 		?>	
@@ -609,35 +596,13 @@ function photo_register() {
 		</script>
 	<?php }
 
-	function media(){
-		global $post;
-		$custom = get_post_custom($post->ID);
-		$film = $custom["film"][0];
-		$camera = $custom["camera"][0]; 
-		$single_photo = $custom["single_photo"][0];
-		// verification
-			wp_nonce_field( basename( __FILE__ ), 'media_nonce' );
-
-		?>			
-		<div style="width: 100%" class="clearfix">
-				<div class="mediaRow">
-					<label>Camera:</label>
-					<input name="camera" value="<?php echo $camera; ?>" />
-				</div>	
-				<div class="mediaRow">
-					<label>Film:</label>
-					<input name="film" value="<?php echo $film; ?>" />
-				</div>
-		</div>		
-		<?php  // if ( $single_photo ) { printExifData(); } 
-		}
 	
 	function save_details( $post_id ){
 		if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
 			return $post_id;
 		
 		/* Verify the nonce before proceeding. */
-
+/*
    		if ( !isset( $_POST['photowords_nonce'] ) || !wp_verify_nonce( $_POST['photowords_nonce'], basename( __FILE__ ) ) )
         return $post_id;
 		if ( !isset( $_POST['photo_meta_nonce'] ) || !wp_verify_nonce( $_POST['photowords_nonce'], basename( __FILE__ ) ) )
@@ -646,7 +611,7 @@ function photo_register() {
         return $post_id;
 	   	if ( !isset( $_POST['media_nonce'] ) || !wp_verify_nonce( $_POST['photowords_nonce'], basename( __FILE__ ) ) )
         return $post_id;
-		
+*/		
 		// check permissions
 		if ( !current_user_can( 'edit_post', $post->ID ))
         return $post->ID;
@@ -671,8 +636,10 @@ function photo_edit_columns($columns){
     "title" => "Photo Title",
     "photo" => "Photo",
     "tags" => "Tags",
-    "categories" => "Categories",
-    "featured" => "Featured?",
+    "galleries" => "Gallery",
+    "cameras" => "Cameras",
+    "film" => "Film",
+   // "featured" => "Featured?",
     "date" => "Date"
   );
  
@@ -689,14 +656,35 @@ function photo_custom_columns($column){
 	echo '<img src="' . $phoVar . '" width="100" />'; 
     break; 
 	
-	case "featured":
-	$featured = get_post_meta($post->ID, 'isFeatured', true);
-	if ($featured == 1) {
-	echo "Yes";
+	case "galleries":
+    $galVar = get_the_terms($post->ID, 'gallery');
+		if($galVar){
+			foreach ($galVar as $gal => $galitem):
+				echo  $galitem->name;
+				endforeach;
+		}
+    break;
+	
+	case "cameras":
+	$cam = get_the_terms($post->ID, 'camera'); 
+		if($cam){
+		foreach ($cam as $camera => $camitem):
+				echo $camitem->name;
+				endforeach;
+			}
+		break;
+		
+	case "film":
+	$film = get_the_terms($post->ID, 'film'); 
+		if($film){
+		foreach ($film as $films => $filmitem):
+				echo $filmitem->name;
+				endforeach;
+			}
+		break;
+		
 	}
-	break;
   
-  }
 }
 
 // for category archives
@@ -807,5 +795,17 @@ function watermarkImage ($SourceFile, $WaterMarkText, $DestinationFile) {
 		   arsort($colors); 
 		   return array_slice(array_keys($colors), 0, $numColors); 
 		} 
+
+		// text for tooltip on tag links
 		
-?>
+		function tag_count_text( $count ) {
+			return sprintf( _n('%s tag', '%s tags', $count), number_format_i18n( $count ) );
+		}
+		
+		// remove p tags from images in posts
+		
+		function filter_ptags_on_images($content){
+		   return preg_replace('/<p>\s*(<a .*>)?\s*(<img .* \/>)\s*(<\/a>)?\s*<\/p>/iU', '\1\2\3', $content);
+		}
+		
+		add_filter('the_content', 'filter_ptags_on_images');

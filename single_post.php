@@ -1,13 +1,12 @@
-<?php include(TEMPLATEPATH.'/single-post-header.php'); ?>
+<?php get_header(); ?>
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-	<div class="postContainer">
 		<div class="leftContent">
 				<nav id="nav-above" class="navigation">
 					<?php previous_post_link( '%link', '' . _x( '&larr;', 'Previous post link', 'loupe' ) . ' %title' ); ?>
 					<?php next_post_link( '%link', '%title ' . _x( '&rarr;', 'Next post link', 'loupe' ) . '' ); ?>
 				</nav><!-- #nav-above -->
 				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-					<h1><?php the_title(); ?></h1>
+					<h1 class="perm"><?php the_title(); ?></h1>
 					<div class="entry-meta">
 						<?php loupe_posted_on(); ?>
 					</div><!-- .entry-meta -->

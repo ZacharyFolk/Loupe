@@ -1,4 +1,4 @@
-	<ul id="catImgBox">		
+	<ul id="theThumbs">		
 <?php if ( have_posts() ) :  while ( have_posts() ) : the_post(); ?>
 	<?php // get_tags(); ?>
 

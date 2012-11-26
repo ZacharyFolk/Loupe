@@ -1,24 +1,7 @@
 <?php get_header(); ?>
-<div id="tagThumbs"></div>
-	<div class='loader'><img src='<?php bloginfo('template_url');?>/images/ajax-loader-001.gif'></div>
-	<div class="tagTable" style="display:none">&nbsp;</div>
-	<div id="ajaxTable">
-
 <?php if ( have_posts() ) :  while ( have_posts() ) : the_post(); ?>	
+		<script src="<?php bloginfo( 'template_directory' ); ?>/scripts/jquery.paginate.js" type="text/javascript"></script>
 <div id="infoPanel" style="display:none">
-<div class="title"><?php the_title(); 
-//test color palette
-/*
-print_r($colors);
-$palette = colorPalette($SourceFile, 10, 4); 
-echo "<table>\n"; 
-foreach($palette as $color) 
-{ 
-   echo "<tr><td style='background-color:#$color;width:2em;'>&nbsp;</td><td>#$color</td></tr>\n"; 
-} 
-echo "</table>\n";
-*/
-?></div>
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -28,175 +11,205 @@ echo "</table>\n";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 <fb:like send="true" width="450" show_faces="false" font="tahoma" style="margin-top:10px"></fb:like>
+<div class="description"><?php the_content(); ?></div>
 
-<div class="theInfoTagList">
-<?php $photoTxt = get_post_meta($post->ID, 'photowords', true); 
+</div>	
+
+	<ul id="image_controls">
+		<li><a href="#" class="previous"></a></li>
+		<li><a href="#" class="zoom_in"></a></li>
+		<li><a href="#" class="zoom_out"></a></li>
+		<li><a href="#" class="next"></a></li>
+		<li></li>
+	</ul>
+	
+	<div id="viewer">
+<!-- load image for those with js disabled -- move to the footer? -->
+	<noscript>
+	<style type="text/css">
+	#controls{display:none}
+	#viewer img {width: 800px}
+	.imgContainer{margin: 0 auto; width: 800px}</style>
+	<div class="imgContainer">
+		<img src="<?php echo get_post_meta($post->ID, 'single_photo', true); ?>" />
+	</div>
+	</noscript>
+
+<script type="text/javascript">
+    var $ = jQuery;
+    var imgsrc = "<?php echo get_post_meta($post->ID, 'single_photo', true); ?>";
+    // TODO: figure how to pass the source and this can be moved into a .js file
+    	$(document).ready(function(){
+    		loadMain(imgsrc);
+    	});
+    	
+      	var loadMain = function(img){
+      		
+      	iv1 = $("#viewer").iviewer({
+        src: img,
+        update_on_resize: true,
+   		zoom_delta: 1.2,
+        onFinishLoad: function()
+		    {
+			    $('.loader').fadeOut('200');	
+			    iv1.iviewer('zoom_by',-1);  // because drop shadow being cutoff in overflow
+				$("#viewer img").fadeIn(400);
+		    }
+      	 	});
+        };
+                      
+        $("#in").click(function(){ iv1.iviewer('zoom_by', 1);}); 
+        $("#out").click(function(){ iv1.iviewer('zoom_by', -1); });  
+		$('.loader').fadeIn('200');  				
+				   
+       
+        $('.previous').click(function(e){
+        
+        });
+        $('.zoom_in').click(function(e){
+         iv1.iviewer('zoom_by', 2);
+        });
+        $('.zoom_out').click(function(e){
+         iv1.iviewer('zoom_by', -2);
+        });
+        function openImageControls(){
+        	$('#image_controls').animate({ marginTop: '35px'});	
+        };
+        
+        function closeImageControls(){
+        	$('#image_controls').stop().animate({ marginTop: '0px'});
+        };
+        
+        var ctrlTimer;
+        var galleryLI = $('#image_controls li');
+    
+        $('#image_controls')
+        	.hover(function(){
+        		clearTimeout($(this).data('timeout'));
+        		$(this).stop().animate({ marginTop: '35px'}, 'fast');	
+	        	}, function(){
+	             var t = setTimeout(function(){
+		            $('#image_controls').stop().animate({ marginTop: '0px'}, 'fast');	
+        		}, 400);
+        		$(this).data('timeout',t);
+        		});  		   
+        
+        // move image if browser is resized
+        function getCentered() {       
+		  iv1.iviewer('fit'); 
+		};
+		
+		// slight delay for UI responsiveness
+		var resizeTimer;
+		$(window).resize(function() {
+    		clearTimeout(resizeTimer);
+    		resizeTimer = setTimeout(getCentered, 100);    		
+		});
+		
+	var singleGetThumbs = function(c, o , t){
+			var div = c;
+			var link = o;
+			var linkName = link.id;
+			var path = link.href;
+			var loadIt = path + ' ' + t;
+			var kids = $(div).children('div');
+			var pre = kids[0];
+			var target = kids[1];
+
+			$(target).empty();
+			$(pre).fadeIn('slow', function(){	
+				$(target).load(loadIt,function(){
+						$(pre).hide('slow', function(){
+							$(target).fadeIn('fast');
+								});
+							});		
+					});
+				};
+	// TODO : Add a timeout to make transitions smoother
+        </script>
+	</div>      
+
+<div id="singlePhotoMenu">
+	<h2 class="perm"><?php the_title(); ?></h2>
+	<div id="photoMeta">
+	<?php	
+	$photoTxt = get_post_meta($post->ID, 'photowords', true); 
 		if ($photoTxt){
 			echo "<p>" . $photoTxt . "</p>";
 		}
-	?>
+		
+			$cam = get_the_terms($post->ID, 'camera');
+			if($cam){
+				echo '<div class="meta_cam"><ul class="folk"><li>Shot with a </li>';
+				foreach ($cam as $camindex => $camitem):
+					echo '<li class="camera"><a href="/camera/' . $camitem->name . '/"  onclick="singleGetThumbs(\'.meta_cam\', this, \'#theThumbs\'); return false;" id="' . $camitem->name . '">' . $camitem->name . '</a></li>';
+				endforeach;
+				echo '</ul>';
+				echo '<div class="camPreload"></div><div class="camImageDiv"></div></div>';
+			}	
 
-<?php the_tags('<ul id="infoTags" ><li>Tagged with : </li> <li>','</li><li>','</li></ul>'); ?>
-<?php $camera = get_post_meta($post->ID, 'camera', true);
-	if ($camera){
-		echo "<p>Camera : " . $camera . "</p>";
-	} 
+			$cats = get_the_terms($post->ID, 'gallery');
+			if($cats){
+				echo '<div class="meta_cat"><ul class="folk"><li>Posted in: </li>';
+				foreach ($cats as $catindex => $catitem):
+					echo '<li class="galleryNames"><a href="/gallery/' . $catitem->name . '/" onclick="singleGetThumbs(\'.meta_cat\', this, \'#theThumbs\'); return false;" id="' . $catitem->name . '">' . $catitem->name . '</a></li>';
+				endforeach;
+				echo '</ul>';
+				echo '<div class="catPreload"></div><div class="catImageDiv"></div></div>';
+			}		
+					
+			$posttags = get_the_tags();
+			if ($posttags) {
+				echo '<div class="meta_tags"><ul class="folk"><li>Tagged with: </li>';		
+			  foreach($posttags as $tag):
+				  $tagName = $tag->name;
+				  $tagNameUrl= str_replace(" ", "-", $tagName );	  
+					echo '<li class="tagNames"><a href="/tag/' . $tagNameUrl . '/" onclick="singleGetThumbs(\'.meta_tags\', this, \'#theThumbs\'); return false;">' . $tagName . '</a></li>';
+			  endforeach;
+			  	echo '</ul>';
+			  	echo '<div class="tagPreload"></div><div class="tagImageDiv"></div></div>';
+			}
+			
 ?>
-<?php $film = get_post_meta($post->ID, 'film', true);
-	if ($film){
-		echo "<p>Film : " . $film . "</p>";
-	} 
-?>
-
-<?php 	echo get_the_category_list('Galleries:','','');  ?>
-<ul id="infoTags">
-	<li>Galleries :</li>
-	<?php
-		foreach((get_the_category()) as $category) {
-			$category_id = get_cat_ID( $category->cat_name );
-			$category_link = get_category_link( $category_id );
-			echo '<li><a href="'.$category_link.'">'.$category->cat_name.'</a></li>';
-	} ?>
-</ul>
-
-
-</div>
 <?php 
 $lat = get_post_meta($post->ID, 'latitude', true);
 $long = get_post_meta($post->ID, 'longitude', true);
-if ($lat !== '') {
- ?>	
- <div id="viewMap">&nbsp;View Map + </div>
- <script type="text/javascript"      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBw1DpJdlyFiMUhy9yu1zThIK9AFa5zGac&sensor=true">
+if ($lat !== '') { ?>	
+ <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBw1DpJdlyFiMUhy9yu1zThIK9AFa5zGac&sensor=true">
     </script>
-    <script type="text/javascript"> 	
+<div id="map_canvas" style="height:300px"></div>
+    <script type="text/javascript"> 
+     	var mapContainer = $('#singlePhotoMenu').width();
+     	$('#map_canvas').css('width', mapContainer+'px');
+     	console.log(mapContainer);  
         var lat = "<?php echo $lat;?>"; 
       	var lng = "<?php echo $long;?>";
       	var myLatlng = new google.maps.LatLng(lat,lng);
      	function initialize() {
-       	//console.log(latlng);
-      	//wtf i cant load ltnlng in as variable or i get a blue screen
-        var mapOptions = {
-          center: myLatlng,
-          zoom: 8,
-          mapTypeId: google.maps.MapTypeId.ROADMAP 
-        };
-        map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);        
-        var marker = new google.maps.Marker({
+	        var mapOptions = {
+	          center: myLatlng,
+	          zoom: 8,
+	          mapTypeId: google.maps.MapTypeId.ROADMAP 
+	        };        
+       		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions); 		       
+        	var marker = new google.maps.Marker({
 		    position: myLatlng,
 		    title:"Hello World!"
-		});
-		marker.setMap(map);
+			});
+			marker.setMap(map);
       }		
+      
     </script>
-<div class="mapContainer">
-<div id="map_canvas" style="width:510px; height:300px"></div>
-</div>
-<?php   } 
 
-echo get_post_meta($post->ID, 'upload_image', true);
+<?php } // end map
 
+echo get_post_meta($post->ID, 'upload_image', true); // what is this doing?
 ?>
-<div class="description"><?php the_content(); ?></div>
-<!--
-<div class="link">url: <?php the_permalink(); ?></div>
--->
-
-</div>	
-
-<div id="viewer" class="viewer">
-<div class="previous">
-	<div class="arrowL"></div>
-</div>
-<div class="next">
-	<div class="arrowR"></div>
-</div>
-	<?php if ( get_post_meta($post->ID, 'story', true) ) : ?>
-	
-	     <?php echo get_post_meta($post->ID, 'story', true) ?>
-	   
-	<?php endif; 
-
-	
-	$PhotoName = the_title(); 
-
-	$SourceFile = get_post_meta($post->ID, 'single_photo', true);
-	$DestinationFile = '/home/adminwt/folkphotography.com/temp/watermarked/';
-	$DestinationFile .= $PhotoName;
-	$DestinationFile .= '.jpg';		
-	$WaterMarkText = 'folkphotography.com';
-	echo $DestinationFile;
-	//watermarkImage ($SourceFile, $WaterMarkText, $DestinationFile);
-	
-	
-
-
-
-	endwhile; else: ?>
-	
+	</div>
+	<?php endwhile; 
+	else: ?>	
 	<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
 <?php endif; ?>
-<noscript>
-<style type="text/css">
-#controls{display:none}
-#viewer img {width: 800px}
-.imgContainer{margin: 0 auto; width: 800px}</style>
-<div class="imgContainer">
-<img src="<?php echo get_post_meta($post->ID, 'single_photo', true); ?>" />
 </div>
-</noscript>
 
-<script type="text/javascript">
-    var $ = jQuery;
-      $(document).ready(function(){
-      	
-      	var randomimage = "<?php 
-      	global $wpdb; 
-		$random_photo = $wpdb->get_var("SELECT meta_value FROM wp_postmeta WHERE meta_key like 'single_photo' ORDER BY RAND()"); ?>";
-		console.log(randomimage);      	
-      	 navInit =  function(){
-			 previous = '<?php custom_post_link( '%link','',TRUE, '', TRUE ); ?>';
-			 next = '<?php custom_post_link( '%link','',TRUE, '', FALSE ); ?>';
-			console.log ( previous + next );	
- 	 };
-      	<?php// if ($lat !== '') { ?>
-    	//initialize();
-    	<?php //} 
-    	//moved initialize to .click(function)?>
-	//	var colors = $.cookie('colors');
-                  	  iv1 = $("#viewer").iviewer({
-                      src: "<?php echo get_post_meta($post->ID, 'single_photo', true); ?>",
-                      update_on_resize: true,    
-                      onMouseMove: function(coords) { },
-                      onStartDrag: function(coords) { return true; }, //this image will not be dragged
-                      onDrag: function(coords) { },
-					  onFinishLoad: function()
-	                    {
-	                    $('.loader').fadeOut('200');	
-						$("#viewer img").fadeIn(400);
-	                    }
-                  		});
-                      
-                           $("#in").click(function(){ iv1.iviewer('zoom_by', 1);}); 
-                           $("#out").click(function(){ iv1.iviewer('zoom_by', -1); });  
-						    $('.loader').fadeIn('200');
-						
-     //  $("#fit").click(function(){ object.fit();}); 
-         //$("#orig").click(function(){  object.set_zoom(100); }); 
-		 // console.log(this.img_object.display_width); //works*
-				// console.log(object.img_object.display_width); //getting undefined.*
-                   
-        //      onFinishLoad: function()
-                  //      {
-			//	$("#viewer").data('viewer').setCoords(-500,-500);
-                  //        this.setCoords(-0, -500);
-                  //      }
-//onMouseMove: function(object, coords) { },
-//onStartDrag: function(object, coords) { return false; }, //this image will not be dragged
-//onDrag: function(object, coords) { }
-                 
-            });
-        </script>      
-</div> 
-<?php include('rcMenu.php'); ?>
 <?php get_footer(); ?>

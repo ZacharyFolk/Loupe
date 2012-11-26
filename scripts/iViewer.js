@@ -268,16 +268,17 @@ $.widget( "ui.iviewer", $.ui.mouse, {
     **/
     fit: function()
     {
+    	// edited this for Loupe to fit better in the layout
         var aspect_ratio = this.img_object.orig_width / this.img_object.orig_height;
         var window_ratio = this.options.width /  this.options.height;
         var choose_left = (aspect_ratio > window_ratio);
         var new_zoom = 0;
 
         if(choose_left){
-            new_zoom = this.options.width / this.img_object.orig_width * 100;
+            new_zoom = this.options.width / this.img_object.orig_width * 70;
         }
         else {
-            new_zoom = this.options.height / this.img_object.orig_height * 100;
+            new_zoom = this.options.height / this.img_object.orig_height * 70;
         }
 
       this.set_zoom(new_zoom);

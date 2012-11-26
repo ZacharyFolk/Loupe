@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
 
 var infowindow = null;
@@ -47,6 +46,4 @@ function initialize(){
 }
 
 </script>
-
-	<div id="travel_map" ></div>
-	
+<div id="travel_map" ></div>
