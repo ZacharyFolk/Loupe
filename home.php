@@ -41,9 +41,9 @@ get_header(); ?>
 	}
 </style>
 <script type="text/javascript">
-	 
+	   var $ = jQuery; 
 this.imagePreview = function(){	
-
+ 
 	xOffset = 5;
 	yOffset = 15;		
 	var getHeight = $(document).height();
@@ -56,6 +56,7 @@ this.imagePreview = function(){
 	var rc = (getWidth - 400); // right constraint
 	var bc = (getHeight - 400); // bottom constraint
 	//console.log(rightConstraint);	
+
 
 
 	$(".homeThumbs a").hover(function(e){

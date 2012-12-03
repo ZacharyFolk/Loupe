@@ -126,13 +126,49 @@
 					});
 				};
 	// TODO : Add a timeout to make transitions smoother
+	
+var modalWindow = {
+	parent:"body",
+	windowId:null,
+	content:null,
+	width:null,
+	height:null,
+	close:function()
+	{
+		$(".modal-window").remove();
+		$(".modal-overlay").remove();
+	},
+	open:function()
+	{
+		var modal = "";
+		modal += "<div class=\"modal-overlay\"></div>";
+		modal += "<div id=\"" + this.windowId + "\" class=\"modal-window\" style=\"width:" + this.width + "px; height:" + this.height + "px; margin-top:-" + (this.height / 2) + "px; margin-left:-" + (this.width / 2) + "px;\">";
+		modal += this.content;
+		modal += "</div>";	
+
+		$(this.parent).append(modal);
+
+		$(".modal-window").append("<a class=\"close-window\"></a>");
+		$(".close-window").click(function(){modalWindow.close();});
+		$(".modal-overlay").click(function(){modalWindow.close();});
+	}
+};
+
+var opemModal = function(source)
+{
+	modalWindow.windowId = "myModal";
+	modalWindow.width = "80%";
+	modalWindow.height = "80%";
+	modalWindow.content = "<iframe width='80%' height='80%' frameborder='0' scrolling='no' allowtransparency='true' src='" + source + "'></iframe>";  
+    modalWindow.open();  
+}
         </script>
 	</div>      
 
 <div id="singlePhotoMenu">
 	<h2 class="perm"><?php the_title(); ?></h2>
 	<div id="photoMeta">
-	<?php	
+<?php	
 	$photoTxt = get_post_meta($post->ID, 'photowords', true); 
 		if ($photoTxt){
 			echo "<p>" . $photoTxt . "</p>";
@@ -169,42 +205,32 @@
 			  	echo '</ul>';
 			  	echo '<div class="tagPreload"></div><div class="tagImageDiv"></div></div>';
 			}
-			
-?>
-<?php 
-$lat = get_post_meta($post->ID, 'latitude', true);
-$long = get_post_meta($post->ID, 'longitude', true);
-if ($lat !== '') { ?>	
- <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBw1DpJdlyFiMUhy9yu1zThIK9AFa5zGac&sensor=true">
-    </script>
-<div id="map_canvas" style="height:300px"></div>
-    <script type="text/javascript"> 
-     	var mapContainer = $('#singlePhotoMenu').width();
-     	$('#map_canvas').css('width', mapContainer+'px');
-     	console.log(mapContainer);  
-        var lat = "<?php echo $lat;?>"; 
-      	var lng = "<?php echo $long;?>";
-      	var myLatlng = new google.maps.LatLng(lat,lng);
-     	function initialize() {
-	        var mapOptions = {
-	          center: myLatlng,
-	          zoom: 8,
-	          mapTypeId: google.maps.MapTypeId.ROADMAP 
-	        };        
-       		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions); 		       
-        	var marker = new google.maps.Marker({
-		    position: myLatlng,
-		    title:"Hello World!"
-			});
-			marker.setMap(map);
-      }		
-      
-    </script>
 
-<?php } // end map
-
-echo get_post_meta($post->ID, 'upload_image', true); // what is this doing?
-?>
+	$lat = get_post_meta($post->ID, 'latitude', true);
+	$long = get_post_meta($post->ID, 'longitude', true);
+	if ($lat !== '') { 
+		$lat_long = $lat . ',' . $long;
+		$mapImgSrc = "http://maps.googleapis.com/maps/api/staticmap?center=" . $lat_long . "&zoom=13&size=640x640&maptype=satellite&sensor=false";
+		$mapImgSrcx2 = "http://maps.googleapis.com/maps/api/staticmap?center=" . $lat_long . "&zoom=13&size=640x640&maptype=satellite&sensor=false&scale=2";
+		$mapGoogleLink = "http://maps.google.com/?ie=UTF&hq=&ll=" . $lat_long . "&z=14&output=embed";
+		echo "<a href='". $mapGoogleLink . "' class='mapLink cbFull' target='_blank' onclick='openModal(this); return false;'><img src='" . $mapImgSrc . "' /></a>";
+		echo "<a href='". $mapGoogleLink . "' class='cbFull'>View Map</a>"	
+// inline style is for responsive size on map image
+?>	
+<style type="text/css">
+	.mapLink { background-image: url(<?php echo $mapImgSrc; ?>);}
+	/* for retina display 2x scale */
+	@media only screen and (min--moz-device-pixel-ratio: 2),
+		only screen and (-o-min-device-pixel-ration: 2/1),
+		only screen and (-webkit-min-device-pixel-ratio: 2),
+		only screen and (min-device-pixel-ratio: 2) {
+			.mapLink{
+				 background-image: url(<?php echo $mapImgSrcx2; ?>);
+				 background-size: 640px 640px;
+			}
+		}
+</style>
+<?php } // end map ?>
 	</div>
 	<?php endwhile; 
 	else: ?>	
