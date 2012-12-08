@@ -1,7 +1,6 @@
 <?php get_header(); ?>
 <?php if ( have_posts() ) :  while ( have_posts() ) : the_post(); ?>	
-		<script src="<?php bloginfo( 'template_directory' ); ?>/scripts/jquery.paginate.js" type="text/javascript"></script>
-<div id="infoPanel" style="display:none">
+	<!-- //
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -12,8 +11,7 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 <fb:like send="true" width="450" show_faces="false" font="tahoma" style="margin-top:10px"></fb:like>
 <div class="description"><?php the_content(); ?></div>
-
-</div>	
+//-->
 
 	<ul id="image_controls">
 		<li><a href="#" class="previous"></a></li>
@@ -60,9 +58,7 @@
                       
         $("#in").click(function(){ iv1.iviewer('zoom_by', 1);}); 
         $("#out").click(function(){ iv1.iviewer('zoom_by', -1); });  
-		$('.loader').fadeIn('200');  				
-				   
-       
+		$('.loader').fadeIn('200');  								          
         $('.previous').click(function(e){
         
         });
@@ -109,60 +105,33 @@
 	var singleGetThumbs = function(c, o , t){
 			var div = c;
 			var link = o;
-			var linkName = link.id;
+			var par = $(link).parent();
+			$(par).addClass('activeLink').siblings().removeClass('activeLink');
+			//var linkName = link.id;
 			var path = link.href;
 			var loadIt = path + ' ' + t;
 			var kids = $(div).children('div');
 			var pre = kids[0];
 			var target = kids[1];
-
-			$(target).empty();
+			$(target).hide();
 			$(pre).fadeIn('slow', function(){	
 				$(target).load(loadIt,function(){
-						$(pre).hide('slow', function(){
-							$(target).fadeIn('fast');
+						$(pre).hide('fast', function(){
+							$(target).show();
 								});
 							});		
 					});
 				};
+		var thumbsOnLoad = function(){
+			var tagLink = $('li.tagNames a').first();
+			var tagLink = tagLink[0];
+			singleGetThumbs('.meta_tags', tagLink , '#theThumbs');
+		}
+		$(document).ready(function(){ 
+		thumbsOnLoad();		
+		});
 	// TODO : Add a timeout to make transitions smoother
-	
-var modalWindow = {
-	parent:"body",
-	windowId:null,
-	content:null,
-	width:null,
-	height:null,
-	close:function()
-	{
-		$(".modal-window").remove();
-		$(".modal-overlay").remove();
-	},
-	open:function()
-	{
-		var modal = "";
-		modal += "<div class=\"modal-overlay\"></div>";
-		modal += "<div id=\"" + this.windowId + "\" class=\"modal-window\" style=\"width:" + this.width + "px; height:" + this.height + "px; margin-top:-" + (this.height / 2) + "px; margin-left:-" + (this.width / 2) + "px;\">";
-		modal += this.content;
-		modal += "</div>";	
-
-		$(this.parent).append(modal);
-
-		$(".modal-window").append("<a class=\"close-window\"></a>");
-		$(".close-window").click(function(){modalWindow.close();});
-		$(".modal-overlay").click(function(){modalWindow.close();});
-	}
-};
-
-var opemModal = function(source)
-{
-	modalWindow.windowId = "myModal";
-	modalWindow.width = "80%";
-	modalWindow.height = "80%";
-	modalWindow.content = "<iframe width='80%' height='80%' frameborder='0' scrolling='no' allowtransparency='true' src='" + source + "'></iframe>";  
-    modalWindow.open();  
-}
-        </script>
+   </script>
 	</div>      
 
 <div id="singlePhotoMenu">
@@ -183,7 +152,7 @@ var opemModal = function(source)
 				echo '</ul>';
 				echo '<div class="camPreload"></div><div class="camImageDiv"></div></div>';
 			}	
-
+/* Just tags for now… 
 			$cats = get_the_terms($post->ID, 'gallery');
 			if($cats){
 				echo '<div class="meta_cat"><ul class="folk"><li>Posted in: </li>';
@@ -193,18 +162,19 @@ var opemModal = function(source)
 				echo '</ul>';
 				echo '<div class="catPreload"></div><div class="catImageDiv"></div></div>';
 			}		
-					
+		*/			
 			$posttags = get_the_tags();
 			if ($posttags) {
 				echo '<div class="meta_tags"><ul class="folk"><li>Tagged with: </li>';		
 			  foreach($posttags as $tag):
 				  $tagName = $tag->name;
 				  $tagNameUrl= str_replace(" ", "-", $tagName );	  
-					echo '<li class="tagNames"><a href="/tag/' . $tagNameUrl . '/" onclick="singleGetThumbs(\'.meta_tags\', this, \'#theThumbs\'); return false;">' . $tagName . '</a></li>';
+					echo '<li class="tagNames"><a href="' . get_bloginfo('url') . '/tag/' . $tagNameUrl . '/" onclick="singleGetThumbs(\'.meta_tags\', this, \'#theThumbs\'); return false;">' . $tagName . '</a></li>';
 			  endforeach;
 			  	echo '</ul>';
-			  	echo '<div class="tagPreload"></div><div class="tagImageDiv"></div></div>';
+			  	echo '<div class="tagPreload"></div><div class="tagImageDiv"></div><div class="viewAllTags"><a href="#more">View All Tags</a></div></div>';
 			}
+/*
 
 	$lat = get_post_meta($post->ID, 'latitude', true);
 	$long = get_post_meta($post->ID, 'longitude', true);
@@ -214,11 +184,10 @@ var opemModal = function(source)
 		$mapImgSrcx2 = "http://maps.googleapis.com/maps/api/staticmap?center=" . $lat_long . "&zoom=13&size=640x640&maptype=satellite&sensor=false&scale=2";
 		$mapGoogleLink = "http://maps.google.com/?ie=UTF&hq=&ll=" . $lat_long . "&z=14&output=embed";
 		echo "<a href='". $mapGoogleLink . "' class='mapLink cbFull' target='_blank' onclick='openModal(this); return false;'><img src='" . $mapImgSrc . "' /></a>";
-		echo "<a href='". $mapGoogleLink . "' class='cbFull'>View Map</a>"	
 // inline style is for responsive size on map image
-?>	
+*/ ?>	<!--
 <style type="text/css">
-	.mapLink { background-image: url(<?php echo $mapImgSrc; ?>);}
+	.mapLink { background-image: url(<?php echo $mapImgSrc; ?>); height: 150px;}
 	/* for retina display 2x scale */
 	@media only screen and (min--moz-device-pixel-ratio: 2),
 		only screen and (-o-min-device-pixel-ration: 2/1),
@@ -230,7 +199,38 @@ var opemModal = function(source)
 			}
 		}
 </style>
-<?php } // end map ?>
+<?php // } // end map ?> -->
+<?php
+$arr = wp_tag_cloud(array(
+	'smallest' => 8,
+	'largest' => 34,
+	'unit' => 'px',
+	'number' => 50,
+	'format' => 'array', // flat, list, or array
+	'separator'          => '',         
+	'orderby' => 'name', // count
+	'link' => 'view',
+	'topic_count_text_callback' => tag_count_text,
+	'taxonomy' => 'post_tag',
+	'echo' => true, // set to false to return an array
+	'order' => 'RAND',// starting from A, or starting from highest count
+	'exclude' => '',  // ID's of tags to exclude, displays all except these
+	'include' => '',  // ID's of tags to include, displays none except these
+	'link' => 'view', // view = links to tag view; edit = link to edit tag
+	'taxonomy' => 'post_tag',  // post_tag, link_category, category
+	'echo'=> true   // set to false to return an array, not echo it
+	));
+	foreach ($arr as $value) {
+		// this cleans up the weird font sizes
+					$ptr1 = strpos($value,'font-size:');
+					$ptr2 = strpos($value,'px');
+					$px = round(substr($value,$ptr1+10,$ptr2-$ptr1-10));
+					$value = substr($value, 0, $ptr1+10) . $px . substr($value, $ptr2);
+					$ptr1 = strpos($value, "class=");
+					$value = substr($value, 0, $ptr1+7) . 'color-' . $px . ' ' . substr($value, $ptr1+7);
+				echo ' ' . $value . ' ';
+			}
+?>
 	</div>
 	<?php endwhile; 
 	else: ?>	

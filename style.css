@@ -3,7 +3,12 @@ Theme Name: The Loupe
 Theme URI: http://loupe.folkphotography.com/
 Description: Wordpress theme developed for photo sites.  Uses the <a href="">Tim Thumb</a> and iViewer scripts.
 Author: Zachary Folk
-Version: 0.9.1  
+Version: 0.0.2
+Changelog: 
+	# new layout!
+	# maps and categories function but hidden for now
+	# image 'tool tips' for home page
+	# ajax loading of preview thumbs
 */
 
 
@@ -67,6 +72,7 @@ html {
 	 /*font-family: Baskerville, "Times New Roman", Times,serif;*/
 	font-family: "DejaVu Serif", Rockwell, serif; font-size: 1.002em;
 	/*background: url('images/raster.png') repeat transparent; background-attachment: fixed;*/	  
+	line-height: 1.2em;
 	background: #f4f4f4; /* Old browsers */
 	background: -moz-radial-gradient(center, ellipse cover,  #f4f4f4 0%, #ededed 13%, #b7b7b7 100%); /* FF3.6+ */
 	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#f4f4f4), color-stop(13%,#ededed), color-stop(100%,#b7b7b7)); /* Chrome,Safari4+ */
@@ -143,7 +149,7 @@ p.enriquetaR {font: 18px/27px 'EnriquetaRegular', Arial, sans-serif;}
 p.enriquetaB {font: 18px/27px 'EnriquetaBold', Arial, sans-serif;}
 .radiohead {font: 30px/38px 'RabioheadRegular', Arial, sans-serif;letter-spacing: 0;}
 p.radiohead {font: 18px/27px 'RabioheadRegular', Arial, sans-serif;}
-.perm {font: 40px/48px 'PermanentMarkerRegular', Arial, sans-serif;letter-spacing: 0;}
+.perm {font: 33px/28px 'PermanentMarkerRegular', Arial, sans-serif;letter-spacing: 0;}
 p.perm {font: 18px/27px 'PermanentMarkerRegular', Arial, sans-serif;}
 				
 
@@ -192,14 +198,24 @@ cursor: pointer;
 height: 20px; margin: 0 0 10px }
 #rightBlock h2.active {background-position: 98% bottom;}
 
+#singlePhotoMenu{
+	background: url('images/bkgds/exclusive_paper.png') #e0e0e0 repeat; width: 25%; height: 100%; position: fixed;right: 0; padding: 50px 2% 0;	
+    -moz-box-shadow: -2px 1px 7px #000000;
+    -webkit-box-shadow: -2px 1px 7px #000000;
+    box-shadow: -2px 1px 7px #000000;
+}
+#singlePhotoMenu h2 {padding-bottom: 10px;}
 /* CATEGORIES AND TAGS */
-#catsAndTags, #photoMeta {padding: 0 10px}
+
 #catsAndTags ul, #photoMeta ul {width: 100%; float: left;}
 #catsAndTags ul li, #photoMeta ul li {float: left; margin: 0 5px 0 0;}
 #catsAndTags ul#tagThumbs li img { border: 2px solid #6d6a6a}
-.camPreload, .tagPreload, .catPreload{display:none}
-.camPreload, .tagPreload, .catPreload{width:220px; height: 19px; float:left; margin: 10px 0 0 50px; background:url('images/loader1.gif') no-repeat transparent;}
+/* preloader div should match thumb height */
+.camPreload, .tagPreload, .catPreload{width:220px;width: 100%; height: 60px; float:left; display: none; margin: 10px 0 0 50px; background:url('images/loader1.gif') no-repeat transparent;}
 
+li.activeLink a {text-decoration: underline; color: #357FC4}
+.viewAllTags{width: 100%; float: left;}
+.viewAllTags a{}
 /*** HOME LEFT SIDE ***/
 #leftBlock{float:left; width: 580px}
 
@@ -298,7 +314,7 @@ ul.wp-tag-cloud li {float: left; margin: 0 10px;}
 .tag-links {position: absolute; right: 92px; top: 5px;  z-index: 1002; }
 .singleTags {}
 .singleTags a {}
-
+.tagImageDiv{display:none; width: 100%; min-height: 50px; float: left;}
 .tagImgBox {position: relative; z-index: 1001}
 ul.post_tags {width: 5000px; overflow: auto;}
 ul.post_tags li {float: left; margin: 0 0 0 10px;}
@@ -366,14 +382,6 @@ box-shadow: 0 0 18px #000;}
 
 #viewer .postImage {display:none}
 
-#singlePhotoMenu{
-	background: url('images/bkgds/exclusive_paper.png') #e0e0e0 repeat; width: 25%; height: 100%; position: fixed;right: 0; padding: 50px 2% 0;	
-    -moz-box-shadow: -2px 1px 7px #000000;
-    -webkit-box-shadow: -2px 1px 7px #000000;
-    box-shadow: -2px 1px 7px #000000;
-
-
-}
      
 .wrapper {overflow: hidden;}
 .iviewer_zoom_status {position: fixed; top: 0; right: 0; z-index: 500; display: none; }
@@ -428,24 +436,6 @@ a#out:hover{background-position: -22px -20px}
 
 span.info { float: left;}
 
-/* INFO PANEL */
-
-#infoPanel {width: 510px; float: right; 
-/*background: url("images/raster.png") repeat scroll 0 0; */
-background: url('images/paper-2.png') repeat #e0e0e0;  padding: 20px; margin: 0px 5px 0 0; 
-position: fixed; right: 0px; border: 1px dashed #999; top: 48px; z-index: 99;  }
-#infoPanel.infoClose {margin-right: -2500px;}
-#infoPanel.infoOpen {margin-right: 0px;}
-.theInfoTagList {float: left; width: 100%; margin: 5px 0;}
-.theInfoTagList p {float: left; width: 100%; margin: 5px 0; font-size: 14px; line-height: 18px;}
-#infoTags {margin: 0}
-
-#infoTags li {float: left; margin: 0 10px 0 0px; font-size: 16px;  font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif;}
-.title  {font-size:28px; font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif; text-transform: uppercase;
-border-bottom: 1px dashed #999; padding: 4px 0 4px;}
-.description {font-size: 15px; font-family: Verdana; margin: 10px 0;}
-
-.homeCaption {font-size:16px; font-family: "Ubuntu", "Arial", "Helvetica", "Lucida Grande", "Verdana", "Gill Sans", sans-serif; text-transform: uppercase; margin: 5px 0 5px 4px;}
 
 /*** FOOTER **/
 

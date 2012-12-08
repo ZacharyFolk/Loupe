@@ -5,7 +5,7 @@
  * @since Loupe 0.1
  */
 ?>
-</div><!-- #main -->
+</section><!-- #main -->
 <!--//
 <?php if ( ! is_home()){ ?>
 <div class="thumbBox" >
@@ -20,10 +20,8 @@
 </div>
 <?php } ?>
 -->
-	<div id="footer" role="contentinfo">
-		
-						<?php edit_post_link('edit', '<p class="editLink">', '</p>'); ?>
-				
+	<footer>
+		<?php edit_post_link('edit', '<p class="editLink">', '</p>'); ?>
 		<p>
 		&copy; <?php echo date("Y"); ?> Zachary Folk Photography | <a href="http://wordpress.org/" title="Semantic Personal Publishing Platform" rel="generator">Proudly powered by WordPress </a> and the Loupe 
 		</p>
@@ -37,18 +35,11 @@
 //	wpfp_link();  ?> 
    
 <?php // endwhile; // end of the loop. ?>
-<!--//
+
 <div class="fb"> 
 <iframe src="http://www.facebook.com/plugins/like.php?href=<?php the_permalink(); ?>&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:35px;" allowTransparency="true"></iframe>
 </div>
-//-->
-
-	</div><!-- #footer -->
-
-</div><!-- #wrapper -->
-    </div>
-  </div>
-</div>
+</footer><!-- #footer -->
 <?php wp_footer(); ?>
 </body>
 </html>
