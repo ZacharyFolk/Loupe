@@ -43,7 +43,7 @@ get_header(); ?>
 <script type="text/javascript">
 	   var $ = jQuery; 
 this.imagePreview = function(){	
- 
+	// off set pop-up from mouse location 
 	xOffset = 5;
 	yOffset = 15;		
 	var getHeight = $(document).height();

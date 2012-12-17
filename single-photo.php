@@ -102,7 +102,7 @@
     		resizeTimer = setTimeout(getCentered, 100);    		
 		});
 		
-	var singleGetThumbs = function(c, o , t){
+	var singleGetThumbs = function(c, o, t){
 			var div = c;
 			var link = o;
 			var par = $(link).parent();
@@ -111,10 +111,13 @@
 			var path = link.href;
 			var loadIt = path + ' ' + t;
 			var kids = $(div).children('div');
-			var pre = kids[0];
-			var target = kids[1];
+			var preview = kids[0];
+			var pre  = $(preview).children('div');
+			var preload = pre[0];
+			var target = pre[1];
+			console.log(kids);
 			$(target).hide();
-			$(pre).fadeIn('slow', function(){	
+			$(preload).fadeIn('slow', function(){	
 				$(target).load(loadIt,function(){
 						$(pre).hide('fast', function(){
 							$(target).show();
@@ -172,7 +175,7 @@
 					echo '<li class="tagNames"><a href="' . get_bloginfo('url') . '/tag/' . $tagNameUrl . '/" onclick="singleGetThumbs(\'.meta_tags\', this, \'#theThumbs\'); return false;">' . $tagName . '</a></li>';
 			  endforeach;
 			  	echo '</ul>';
-			  	echo '<div class="tagPreload"></div><div class="tagImageDiv"></div><div class="viewAllTags"><a href="#more">View All Tags</a></div></div>';
+			  	echo '<div class="preview"><div class="tagPreload"></div><div class="tagImageDiv"></div></div>';
 			}
 /*
 

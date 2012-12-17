@@ -210,7 +210,7 @@ height: 20px; margin: 0 0 10px }
 #catsAndTags ul, #photoMeta ul {width: 100%; float: left;}
 #catsAndTags ul li, #photoMeta ul li {float: left; margin: 0 5px 0 0;}
 #catsAndTags ul#tagThumbs li img { border: 2px solid #6d6a6a}
-/* preloader div should match thumb height */
+.preview {width: 100%; float: left; height: 60px;}
 .camPreload, .tagPreload, .catPreload{width:220px;width: 100%; height: 60px; float:left; display: none; margin: 10px 0 0 50px; background:url('images/loader1.gif') no-repeat transparent;}
 
 li.activeLink a {text-decoration: underline; color: #357FC4}
