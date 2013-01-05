@@ -21,9 +21,8 @@
 <?php } ?>
 -->
 	<footer>
-		<?php edit_post_link('edit', '<p class="editLink">', '</p>'); ?>
 		<p>
-		&copy; <?php echo date("Y"); ?> Zachary Folk Photography | <a href="http://wordpress.org/" title="Semantic Personal Publishing Platform" rel="generator">Proudly powered by WordPress </a> and the Loupe 
+		&copy; <?php echo "Folk Photography " .  date("Y"); ?> | <a href="http://wordpress.org/" title="Semantic Personal Publishing Platform" rel="generator">Proudly powered by WordPress </a> and <a class="loupeLink" href="http://loupe.folkphotography.com">the Loupe</a>
 		</p>
 <!--//
 	<?php if (! is_home()){ ?>

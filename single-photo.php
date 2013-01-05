@@ -24,13 +24,14 @@
 	<div id="viewer">
 <!-- load image for those with js disabled -- move to the footer? -->
 	<noscript>
-	<style type="text/css">
-	#controls{display:none}
-	#viewer img {width: 800px}
-	.imgContainer{margin: 0 auto; width: 800px}</style>
-	<div class="imgContainer">
-		<img src="<?php echo get_post_meta($post->ID, 'single_photo', true); ?>" />
-	</div>
+    	<style type="text/css">
+    	#controls{display:none}
+    	#viewer img {width: 800px}
+    	.imgContainer{margin: 0 auto; width: 800px}
+    	</style>
+    	<div class="imgContainer">
+    		<img src="<?php echo get_post_meta($post->ID, 'single_photo', true); ?>" />
+    	</div>
 	</noscript>
 
 <script type="text/javascript">
@@ -115,7 +116,7 @@
 			var pre  = $(preview).children('div');
 			var preload = pre[0];
 			var target = pre[1];
-			console.log(kids);
+			//console.log(kids);
 			$(target).hide();
 			$(preload).fadeIn('slow', function(){	
 				$(target).load(loadIt,function(){
@@ -145,8 +146,48 @@
 		if ($photoTxt){
 			echo "<p>" . $photoTxt . "</p>";
 		}
-		
-			$cam = get_the_terms($post->ID, 'camera');
+        ?>
+<!-- // Template for Paypal ///
+<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_cart">
+<input type="hidden" name="business" value="YPDZCGDZ4CF6S">
+<input type="hidden" name="lc" value="US">
+<input type="hidden" name="item_name" value="Prints">
+<input type="hidden" name="button_subtype" value="products">
+<input type="hidden" name="no_note" value="0">
+<input type="hidden" name="cn" value="Add special instructions to the seller:">
+<input type="hidden" name="no_shipping" value="2">
+<input type="hidden" name="rm" value="1">
+<input type="hidden" name="return" value="http://www.thanksforbuyingstuff.com">
+<input type="hidden" name="cancel_return" value="http://www.thanksanyways.com">
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="tax_rate" value="9.000">
+<input type="hidden" name="weight" value="1">
+<input type="hidden" name="weight_unit" value="lbs">
+<input type="hidden" name="add" value="1">
+<input type="hidden" name="bn" value="PP-ShopCartBF:btn_cart_SM.gif:NonHosted">
+<table>
+<tr><td><input type="hidden" name="on0" value="SIzes">SIzes</td></tr><tr><td><select name="os0">
+    <option value="8 x 12">8 x 12 $65.00 USD</option>
+    <option value="11 x 14">11 x 14 $80.00 USD</option>
+    <option value="16 x 20">16 x 20 $140.00 USD</option>
+</select> </td></tr>
+</table>
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="option_select0" value="8 x 12">
+<input type="hidden" name="option_amount0" value="65.00">
+<input type="hidden" name="option_select1" value="11 x 14">
+<input type="hidden" name="option_amount1" value="80.00">
+<input type="hidden" name="option_select2" value="16 x 20">
+<input type="hidden" name="option_amount2" value="140.00">
+<input type="hidden" name="option_index" value="0">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+</form>
+-->
+    <?php
+    	
+	$cam = get_the_terms($post->ID, 'camera');
 			if($cam){
 				echo '<div class="meta_cam"><ul class="folk"><li>Shot with a </li>';
 				foreach ($cam as $camindex => $camitem):
