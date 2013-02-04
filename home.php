@@ -10,7 +10,9 @@ get_header(); ?>
 			<ul id="thumbNav">
 				<?php
 					$args = array('post_type' => 'photo',
-					'posts_per_page' => 50);									 
+					'orderby' => 'rand',
+					'posts_per_page' => -1); // display all	
+													 
 					$the_query = new WP_Query($args);
 					while ($the_query->have_posts()) : $the_query->the_post();
 					//$featured = get_post_meta($post->ID, 'isFeatured', true);
@@ -41,13 +43,14 @@ get_header(); ?>
 	}
 </style>
 <script type="text/javascript">
-	   var $ = jQuery; 
-this.imagePreview = function(){	
+	var $ = jQuery; 
+	
+    this.imagePreview = function(){	
 	// off set pop-up from mouse location 
 	xOffset = 5;
 	yOffset = 15;		
 	var getHeight = $(document).height();
-	//console.log(getHeight);
+
 	var dim = document.body.getBoundingClientRect();
 	var getWidth = dim.width;
 	var getMid = (getHeight / 2);
@@ -55,12 +58,9 @@ this.imagePreview = function(){
 	var midHigh = getMid + 100;
 	var rc = (getWidth - 400); // right constraint
 	var bc = (getHeight - 400); // bottom constraint
-	//console.log(rightConstraint);	
-
-
+	console.log('getHeight : ' + getHeight + ' \ngetWidth : ' + getWidth + '\ngetMid : ' + getMid + '\nmidLow : ' + midLow + '\nmidHigh : ' + midHigh + '\nrc : ' + rc + '\nbc : ' + bc );	
 
 	$(".homeThumbs a").hover(function(e){
-
 			this.t = this.title;
 			this.title = ""; // empty to prevent browser tooltip	
 			var c = (this.t != "") ? "<br/>" + this.t : "";
@@ -72,13 +72,14 @@ this.imagePreview = function(){
 			var ss = substr[1].split('&'); 
 			var srcImg = ss[0]; // the image path w/out params
 			
+		 	//console.log('tt : ' + tt + '\nss : ' + ss + '\nsrcImg : ' + srcImg);
 			// todo ?  params could be populated from admin			
 			var w = '200'; // width
 			var h = '300'; // height
 			var a = 'b'; //c, t, l, r, b, tl, tr, bl, br = crop alignment(center, top, left, right, bottom)
 			var q = '80'; // quality : 0-100
 			var zc = '0'; // zoom / crop : 0-3
-			//var f = '' // filters 1-10 
+			// var f = '' // filters 1-10 
 			// 1 : Invert
 			// 2 : Grayscale
 			// 3,arg(+/-0) : Brightness
@@ -95,7 +96,7 @@ this.imagePreview = function(){
 			// to add a filter : 
 			// var blur = s + "&f=8";
 			// remove all cropping 
-			//$("body").append("<p id='hoverPeek'><img src='" + tt + "=" + srcImg + "&w=" + w + "&h=" + h + "&zc=" + zc + "&q=" + q + "' alt='Image preview' />"+ c +"</p>");								 
+			//$("body").append("<p id='hoverPeek'><img src='" + tt + "=" + srcImg + "&w=" + w + "&h=" + h + "&zc=" + zc + "&f=" + f + "&q=" + q + "' alt='Image preview' />"+ c +"</p>");								 
 			// resource hog?
 			//var s = $('img', this).attr('src', blur);
 			
@@ -111,24 +112,33 @@ this.imagePreview = function(){
 					var imgM = h / 2;
 					// check if too close to right edge, move img to left of cursor						
 					if ( x > rc ){
+			         console.log ( 'x > rc' )
 						var xSpot = ( x - imgW ) - 50;
 					} else {
 					// default img to right of cursor
 						var xSpot = ( x + yOffset );
+	                    console.log ( xSpot )
 					}
 					// check if mouse has entered middle of browser height
 					if (( y >= midLow && y <= midHigh ) && !( y > bc )){						
 						var ySpot = ( y - imgM );
+                     console.log ( 'x > rc' )
+						
 					}
 					// check if too close to bottom, move img to top of cursor if true
 					if ( y > bc )  {
 						var ySpot =( y - h ) - 50;
+                     console.log ( 'x > rc' )
+
 					} else {
+                     console.log ( 'x > rc' )
 						var ySpot = ( y - xOffset );
 					}
-			$("#hoverPeek").css("top", ySpot + "px").css("left", xSpot + "px").fadeIn("fast");
-			//console.log('ySpot : ' + ySpot );
-			});		
+			 $("#hoverPeek").css("top", ySpot + "px").css("left", xSpot + "px").fadeIn("fast");
+			 console.log('ySpot : ' + ySpot + '\nxSpot : ' + xSpot);
+			 
+			 
+			 });		
 
 						
     },
