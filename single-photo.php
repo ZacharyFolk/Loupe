@@ -108,6 +108,7 @@
 			var link = o;
 			var par = $(link).parent();
 			$(par).addClass('activeLink').siblings().removeClass('activeLink');
+			console.log('c: ' + c + ' o: ' + o + ' t: ' + t + ' par: ' + par);
 			//var linkName = link.id;
 			var path = link.href;
 			var loadIt = path + ' ' + t;
@@ -116,7 +117,7 @@
 			var pre  = $(preview).children('div');
 			var preload = pre[0];
 			var target = pre[1];
-			//console.log(kids);
+			console.log('kids: ' + kids + ' preview: ' + preview + ' pre: ' + pre + ' target: ' + target);
 			$(target).hide();
 			$(preload).fadeIn('slow', function(){	
 				$(target).load(loadIt,function(){
@@ -132,8 +133,29 @@
 			singleGetThumbs('.meta_tags', tagLink , '#theThumbs');
 		}
 		$(document).ready(function(){ 
-		thumbsOnLoad();		
-		});
+        
+		thumbsOnLoad();	
+		 $('#theCloud a').click(function(e){
+               e.preventDefault();
+               $('li').removeClass('activeLink');
+               $('a').removeClass('on');
+               $(this).addClass('on');
+               var loadTags = this + ' #theThumbs';              
+               $('.tagImageDiv').hide();
+               $('.tagPreload').fadeIn('slow', function(){  
+                $('.tagImageDiv').load(loadTags, function(){
+                        $('.tagPreload').hide('fast', function(){
+                            $('.tagImageDiv').show();
+                                });
+                            });     
+                    });
+                });
+
+         });	
+
+		
+
+	
 	// TODO : Add a timeout to make transitions smoother
    </script>
 	</div>      
@@ -245,6 +267,7 @@
 </style>
 <?php // } // end map ?> -->
 <?php
+echo '<div id="theCloud">';
 $arr = wp_tag_cloud(array(
 	'smallest' => 8,
 	'largest' => 34,
@@ -274,6 +297,7 @@ $arr = wp_tag_cloud(array(
 					$value = substr($value, 0, $ptr1+7) . 'color-' . $px . ' ' . substr($value, $ptr1+7);
 				echo ' ' . $value . ' ';
 			}
+echo '</div>';
 ?>
 	</div>
 	<?php endwhile; 

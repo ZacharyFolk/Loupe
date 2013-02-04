@@ -214,6 +214,7 @@ height: 20px; margin: 0 0 10px }
 .camPreload, .tagPreload, .catPreload{width:220px;width: 100%; height: 60px; float:left; display: none; margin: 10px 0 0 50px; background:url('images/loader1.gif') no-repeat transparent;}
 
 li.activeLink a {text-decoration: underline; color: #357FC4}
+a.on:link, a.on:visited {text-decoration: underline; color: #357FC4}
 .viewAllTags{width: 100%; float: left;}
 .viewAllTags a{}
 /*** HOME LEFT SIDE ***/
