@@ -57,8 +57,9 @@ get_header(); ?>
 	var midLow = getMid - 100;
 	var midHigh = getMid + 100;
 	var rc = (getWidth - 400); // right constraint
+	var tc = 400;
 	var bc = (getHeight - 400); // bottom constraint
-	console.log('getHeight : ' + getHeight + ' \ngetWidth : ' + getWidth + '\ngetMid : ' + getMid + '\nmidLow : ' + midLow + '\nmidHigh : ' + midHigh + '\nrc : ' + rc + '\nbc : ' + bc );	
+//	console.log('getHeight : ' + getHeight + ' \ngetWidth : ' + getWidth + '\ngetMid : ' + getMid + '\nmidLow : ' + midLow + '\nmidHigh : ' + midHigh + '\nrc : ' + rc + '\nbc : ' + bc );	
 
 	$(".homeThumbs a").hover(function(e){
 			this.t = this.title;
@@ -107,35 +108,39 @@ get_header(); ?>
 					var x = e.pageX;
 					var y = e.pageY;
 					var imgW = $('#hoverPeek img').width();
+				 console.log ('imgW : ' + imgW );
 					// height is set in TT param
 					// var imgH = $('#hoverPeek img').height();
 					var imgM = h / 2;
-					// check if too close to right edge, move img to left of cursor						
+					// check if too close to right edge, move img to left of cursor		
+				//	console.log( 'rc : ' + rc);				
 					if ( x > rc ){
-			         console.log ( 'x > rc' )
 						var xSpot = ( x - imgW ) - 50;
-					} else {
-					// default img to right of cursor
+					} else if ( x === rc){
+					    var xSpot = ( x + yOffset );
+					} else if ( x < rc ){
+					//  img to right of cursor
 						var xSpot = ( x + yOffset );
-	                    console.log ( xSpot )
 					}
 					// check if mouse has entered middle of browser height
 					if (( y >= midLow && y <= midHigh ) && !( y > bc )){						
 						var ySpot = ( y - imgM );
-                     console.log ( 'x > rc' )
+          
 						
 					}
 					// check if too close to bottom, move img to top of cursor if true
 					if ( y > bc )  {
 						var ySpot =( y - h ) - 50;
-                     console.log ( 'x > rc' )
 
 					} else {
-                     console.log ( 'x > rc' )
 						var ySpot = ( y - xOffset );
 					}
+					// spaz bug happening when imgW is coming up empty
+					if ( imgW == 0 ){
+					       var xSpot = ( x - 550 );
+					   }
 			 $("#hoverPeek").css("top", ySpot + "px").css("left", xSpot + "px").fadeIn("fast");
-			 console.log('ySpot : ' + ySpot + '\nxSpot : ' + xSpot);
+			// console.log('ySpot : ' + ySpot + '\nxSpot : ' + xSpot);
 			 
 			 
 			 });		
