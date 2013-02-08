@@ -8,7 +8,6 @@ input#longitude, input#latitude {width: 150px}
 #mapControls {float: left; width: 100%; margin-top: -40px} 
 #mapControls label{ float:left; width: 70px; font-weight: bold; line-height: 22px;}
 
-
 .lat {width: 250px; float: left;}
 .lng {width: 250px; float: left;}
 .cur1 {width: 70%; float: left; font-size: 14px; margin-top: 25px;}
@@ -23,12 +22,12 @@ ul.ui-autocomplete {width: 500px!important}
 .clear {clear:both;}
 
 .sUcallback {float:left; width: 200px; }
-.sUinput {width: 450px; float: left}
-.sUinput input {width: 420px;}
+.sUinput {width: 220px; float: left}
+.sUinput input {width: 200px;}
 .sUbutton {width: 100px; float: left;}
 .sUbutton input {font-size: 10px; margin-top:-1px; text-transform: uppercase; width: 100px;}
 .sUbutton input:hover {background: #999; color: #fff}
-
+.sUcheckbox {width:120px; float: left; margin-left: 20px;}
 .mediaRow {width: 100%; float: left; margin: 0 0 10px 0; }
 .mediaRow label {width: 60px; float: left;}
 .mediaRow input {float: left; width: 140px;}
