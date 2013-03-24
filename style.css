@@ -92,9 +92,13 @@ a:hover{color: #4D4639; text-decoration: underline}
 .floater {float: left; margin-top: 40px}
 .hidden {display: none}
 
-header {position: fixed; top: 0; left: 0; width: 100%; 
-z-index: 8000;
-height: 34px;  border-bottom: 1px solid #000; 
+header {
+	position: fixed; 
+	top: 0; 
+	left: 0; 
+	width: 100%; 
+	z-index: 8000;
+	height: 34px;  border-bottom: 1px solid #000; 
 	-webkit-box-shadow: 0 8px 6px -6px #444444;
 	   -moz-box-shadow: 0 8px 6px -6px #444444;
 	        box-shadow: 0 8px 6px -6px #444444;	
@@ -135,6 +139,11 @@ header h1 a:link, h1 a:visited {color: #494949}
 header h1 a:hover {color: #000; text-decoration: none}
 h2 {color: #515151}
 
+
+/* Nav */
+nav ul {width: 50%; float: left; margin: 0 0 0 10px;}
+nav ul li {float: left;}
+
 /* FONTS  
 ----------------------------------- */
 .folk {font: 28px/37px 'LektonBold', Arial, sans-serif;}
@@ -155,7 +164,8 @@ p.perm {font: 18px/27px 'PermanentMarkerRegular', Arial, sans-serif;}
 
 .tagLink { }
 .galleryLink { }
-.editLink {position: fixed; left: 20px;}
+.editLink {font-size: 13px; font-style: italic; margin-left: 4px; }
+.editLink a:link, .editLink a:visited {color: #1B799D}
 .imageTitle {position: absolute; top: 4px; left: 200px; width: 300px; z-index: 1002}
 .caption {float: left; margin: 2px 0 0 21px}
 .blinky {}
@@ -199,13 +209,63 @@ height: 20px; margin: 0 0 10px }
 #rightBlock h2.active {background-position: 98% bottom;}
 
 #singlePhotoMenu{
-	background: url('images/bkgds/exclusive_paper.png') #e0e0e0 repeat; width: 25%; height: 100%; position: fixed;right: 0; padding: 50px 2% 0;	
+	background: url('images/bkgds/exclusive_paper.png') #e0e0e0 repeat; 
+	width: 25%; height: 100%; 
+	position: fixed;
+	right: 0; 
     -moz-box-shadow: -2px 1px 7px #000000;
     -webkit-box-shadow: -2px 1px 7px #000000;
     box-shadow: -2px 1px 7px #000000;
+    z-index: 1003;
+}
+
+#singlePhotoMenuContainer{
+	padding: 47px 15px; position: relative; overflow: auto;
 }
 #singlePhotoMenu h2 {padding-bottom: 10px;}
 /* CATEGORIES AND TAGS */
+
+/* Tag Cloud */
+
+#theCloud{
+	background: url('images/bkgds/exclusive_paper.png') #e0e0e0 repeat; 
+	width: 72%;
+	float: left;
+	margin: 34px 0 0 0px;
+	padding: 10px 25px;
+	z-index: 1002;
+	position: relative;
+	-webkit-box-shadow: 0px 4px 13px rgba(49, 50, 50, 0.6);
+	-moz-box-shadow:    0px 4px 13px rgba(49, 50, 50, 0.6);
+	box-shadow:         0px 4px 13px rgba(49, 50, 50, 0.6);
+	display : none;
+}
+
+#panelClose{
+	clear: left;
+	cursor: pointer;
+	 width: 140px; 
+	 height: 20px;  
+	 float: right; 
+	 position: relative; 
+	 right: 26%; 
+	 text-align: center;
+	 z-index: 1004;
+background: url('images/bkgds/exclusive_paper.png') #e0e0e0 repeat; 
+-moz-border-radius-bottomright: 12px;
+-moz-border-radius-bottomleft: 12px;
+-webkit-border-bottom-right-radius: 12px;
+-webkit-border-bottom-left-radius: 12px;
+border-bottom-right-radius: 12px;
+border-bottom-left-radius: 12px;
+-webkit-box-shadow: 0px 8px 13px rgba(49, 50, 50, 0.6);
+-moz-box-shadow:    0px 8px 13px rgba(49, 50, 50, 0.6);
+box-shadow:         0px 8px 13px rgba(49, 50, 50, 0.6);
+
+}
+
+
+
 
 #catsAndTags ul, #photoMeta ul {width: 100%; float: left;}
 #catsAndTags ul li, #photoMeta ul li {float: left; margin: 0 5px 0 0;}
@@ -248,7 +308,13 @@ ul#thumbNav li.homeThumbs a:hover {opacity:1;filter:alpha(opacity=100);border: 1
 
 .mapLink img{opacity: 0;}
 
-
+#map{
+    position: absolute;
+    z-index: 1000;
+    zoom: 1;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+}
 	
 /* vertical align from 
 http://www.jakpsatweb.cz/css/priklady/vertical-align-valid-solution-en.html*/
@@ -262,13 +328,13 @@ http://www.jakpsatweb.cz/css/priklady/vertical-align-valid-solution-en.html*/
 /* optional: #inner[id] {position: static;} */
 		
 
-
 /**** SINGLE **/
 
 /***** TOP NAV ************/
 
-#singleNav {letter-spacing: .1em; text-transform:uppercase;  line-height: 24px; }
-#singleNav li {cursor: pointer; float: left; margin:2px 20px 2px 0; }
+nav {letter-spacing: .1em; text-transform:uppercase;  line-height: 24px; font-size: 16px; }
+nav ul { float: left; margin: 2px 0 0 30px;}
+nav li {cursor: pointer; float: left; margin:2px 20px 2px 0; }
 .sep {margin: 0 6px; width: 20px; line-height: 24px; float: left; text-align: center; color: #D3DCF2;}
 
 #singleNav a , #infoLink a{float:left; }
@@ -366,7 +432,7 @@ ul.rcHeading li{float:left; font-size: 16px; margin-top: 4px;}
 #viewer
 {
 min-height: 100%;
-width: 71%;
+width: 75%;
 position: fixed;
 top: 15px;
 left: 0;			
@@ -393,7 +459,7 @@ box-shadow: 0 0 18px #000;}
 /*********** IMAGE CONTROLS *************/
 
 
-ul#image_controls{ width: 200px; height: 40px;  margin-top: 0px; padding-top: 10px; float: right; position: relative; margin-right: 28%; z-index: 1001;
+#ctrlPanel{ width: 200px; height: 40px;  margin-top: 0px; padding-top: 10px; float: right; position: fixed; right: 28%; z-index: 1001;
 background:url('images/bkgds/wild_oliva.png') repeat transparent;
 -moz-border-radius-bottomright: 12px;
 -moz-border-radius-bottomleft: 12px;
@@ -405,7 +471,7 @@ border-bottom-left-radius: 12px;
 -moz-box-shadow:    0px 4px 13px rgba(49, 50, 50, 0.6);
 box-shadow:         0px 4px 13px rgba(49, 50, 50, 0.6);
 }
-ul#image_controls li a{
+ul#imageCtrl li a{
 	height: 31px; 
 	display: block; 
 	background:url('images/bkgds/loupe_nav_white.png') 0px -50px no-repeat;
@@ -415,12 +481,12 @@ ul#image_controls li a{
 	filter:alpha(opacity=70);
 	}
 	
-ul#image_controls li a.previous{width: 30px; background-position: 5px 1px;}	
-ul#image_controls li a.zoom_in{width: 30px; background-position: -25px 0;}
-ul#image_controls li a.zoom_out{width: 30px; background-position: -52px 0;}
-ul#image_controls li a.next{width: 25px; background-position: -80px 1px;}
+ul#imageCtrl li a.previous{width: 30px; background-position: 5px 1px;}	
+ul#imageCtrl li a.zoom_in{width: 30px; background-position: -25px 0;}
+ul#imageCtrl li a.zoom_out{width: 30px; background-position: -52px 0;}
+ul#imageCtrl li a.next{width: 25px; background-position: -80px 1px;}
 
-ul#image_controls li a:hover {
+ul#imageCtrl li a:hover {
 	opacity:1;
 	filter:alpha(opacity=100);
 }

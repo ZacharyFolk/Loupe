@@ -516,14 +516,13 @@ function photo_register() {
 	function photowords(){
 		global $post;
 		$custom = get_post_custom($post->ID);
-		$photowords = $custom["photowords"][0];
- 
+		$photowords = $custom["photowords"][0]; 
 			wp_nonce_field( basename( __FILE__ ), 'photowords_nonce' );
 
 		?>	
 		<div style="width: 100%" >
 			<div class="photoText">
-			<textarea name="photowords" value="<?php echo $enteredText; ?>" style="width: 100%"><?php echo $enteredText; ?></textarea>
+			<textarea name="photowords" value="<?php echo $photowords; ?>" style="width: 100%"><?php echo $photowords; ?></textarea>
 			</div>
 		</div>
 	<?php }
@@ -564,13 +563,14 @@ function photo_register() {
 	function map_meta() {
 	  global $post;
 	  $custom = get_post_custom( $post->ID );
+      $location = $custom["location"][0];
 	  $latitude = $custom["latitude"][0];
 	  $longitude = $custom["longitude"][0];
 	  // verification
 			wp_nonce_field( basename( __FILE__ ), 'map_nonce' );
 
 	  ?>
-	   <input type="text" value="" id="searchTextField" style="width:98%; height:30px; font-size:15px;" onKeyPress="return disableEnterKey(event)" />
+	   <input type="text" value="<?php echo $location; ?>" name="location" id="searchTextField" style="width:98%; height:30px; font-size:15px;" onKeyPress="return disableEnterKey(event)" />
 		<div class="clearfix">&nbsp;</div>
 		<div class="clearfix" id="mapFix">
 			<div id="map_canvas" style="width:98%; height:350px;"></div>
@@ -585,6 +585,7 @@ function photo_register() {
 			  <input id="longitude" name="longitude" value="<?php echo $longitude; ?>" ></input></p>
 			</div>
 	 	</div>
+	 	 <?php console( $location ); ?>
 		 <script language="JavaScript">
 				function disableEnterKey(e)
 				{ // disable enter on search (otherwise it defaults to UPDATE)
@@ -623,6 +624,7 @@ function photo_register() {
 		update_post_meta($post_id, "isFeatured", $_POST["isFeatured"]);
 		update_post_meta($post_id, "photowords", $_POST["photowords"]); 
 		//update_post_meta($post_id, "latlong", $_POST["latlong"]);
+		update_post_meta($post_id, "location", $_POST["location"]);
 		update_post_meta($post_id, "latitude", $_POST["latitude"]);
 		update_post_meta($post_id, "longitude", $_POST["longitude"]);
 		update_post_meta($post_id, "camera", $_POST["camera"]);

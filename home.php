@@ -75,11 +75,11 @@ get_header(); ?>
 			
 		 	//console.log('tt : ' + tt + '\nss : ' + ss + '\nsrcImg : ' + srcImg);
 			// todo ?  params could be populated from admin			
-			var w = '200'; // width
+			var w = '300'; // width
 			var h = '300'; // height
 			var a = 'b'; //c, t, l, r, b, tl, tr, bl, br = crop alignment(center, top, left, right, bottom)
 			var q = '80'; // quality : 0-100
-			var zc = '0'; // zoom / crop : 0-3
+			var zc = '1'; // zoom / crop : 0-3
 			// var f = '' // filters 1-10 
 			// 1 : Invert
 			// 2 : Grayscale
@@ -100,15 +100,16 @@ get_header(); ?>
 			//$("body").append("<p id='hoverPeek'><img src='" + tt + "=" + srcImg + "&w=" + w + "&h=" + h + "&zc=" + zc + "&f=" + f + "&q=" + q + "' alt='Image preview' />"+ c +"</p>");								 
 			// resource hog?
 			//var s = $('img', this).attr('src', blur);
-			
-		$("body").append("<div id='hoverPeek'><img src='" + tt + "=" + srcImg + "&h=" + h + "&zc=" + zc + "&q=" + q + "' alt='Image preview' />"+ c +"</div>");
+		$("body").append("<div id='hoverPeek'>loading...</div>");	
+		$("#hoverPeek").html("<img src='" + tt + "=" + srcImg + "&h=" + h  + "&w=" + w + "&zc=" + zc + "&q=" + q + "' alt='Image preview' />"+ c );
 		
 		// follow mouse and check for edges
 			$(this).mousemove(function(e){
 					var x = e.pageX;
 					var y = e.pageY;
-					var imgW = $('#hoverPeek img').width();
-				 console.log ('imgW : ' + imgW );
+					//var imgW = $('#hoverPeek img').width();
+					var imgW = w;
+				// console.log ('imgW : ' + imgW );
 					// height is set in TT param
 					// var imgH = $('#hoverPeek img').height();
 					var imgM = h / 2;
@@ -124,9 +125,7 @@ get_header(); ?>
 					}
 					// check if mouse has entered middle of browser height
 					if (( y >= midLow && y <= midHigh ) && !( y > bc )){						
-						var ySpot = ( y - imgM );
-          
-						
+						var ySpot = ( y - imgM );						
 					}
 					// check if too close to bottom, move img to top of cursor if true
 					if ( y > bc )  {
@@ -135,10 +134,6 @@ get_header(); ?>
 					} else {
 						var ySpot = ( y - xOffset );
 					}
-					// spaz bug happening when imgW is coming up empty
-					if ( imgW == 0 ){
-					       var xSpot = ( x - 550 );
-					   }
 			 $("#hoverPeek").css("top", ySpot + "px").css("left", xSpot + "px").fadeIn("fast");
 			// console.log('ySpot : ' + ySpot + '\nxSpot : ' + xSpot);
 			 

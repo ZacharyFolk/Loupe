@@ -55,7 +55,16 @@
 </noscript>
 
 		<header role="banner">
-			<h1><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home" class="folk"><?php bloginfo( 'name' ); ?></a></h1>
+			<h1><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home" class="radiohead"><?php bloginfo( 'name' ); ?></a></h1>
 		<!--//	<p><?php //bloginfo( 'description' ); ?></p> -->
+			<nav>
+				<ul class="gandhiR">
+					<li class="navTags">Tags</li>
+					<li>/</li>
+					<li>About</li>
+					<li>/</li>
+					<li>Blog</li>
+				</ul>
+			</nav>
 		</header>
 			<section id="content" role="main">
