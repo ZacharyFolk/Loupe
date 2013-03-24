@@ -3,14 +3,25 @@ Theme Name: The Loupe
 Theme URI: http://loupe.folkphotography.com/
 Description: Wordpress theme developed for photo sites.  Uses the <a href="">Tim Thumb</a> and iViewer scripts.
 Author: Zachary Folk
-Version: 0.0.2
-Changelog: 
-	# new layout!
-	# maps and categories function but hidden for now
-	# image 'tool tips' for home page
-	# ajax loading of preview thumbs
-*/
+Version: 2.00 (1d16f082b0)
+Changelog : 
+	TODO # full width layout 
+	TODO # full width image (bkgd stretch)
+	TODO # new image controls / navigation
+	TODO # info window
+	TODO # view tags from home page
+	TODO # about 
+	TODO # blog
 
+* New Versioning :
+* 2.0.0 (1d16f082b0) <- Build number, git sha
+  ^ ^ ^
+  | | |
+  | | +--- Minor bugs, spelling mistakes, etc.
+  | +----- Minor features, major bug fixes, etc.
+  +------- Major version, UX changes, etc.
+
+* * */
 
 /* Reset default browser CSS. Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
 -------------------------------------------------------------- */
