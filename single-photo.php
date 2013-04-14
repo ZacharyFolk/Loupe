@@ -59,16 +59,20 @@ $next_post = get_next_post();
 if (!empty( $prev_post )): ?>
   <li><a href="<?php echo get_permalink( $prev_post->ID ); ?>" class="previous" title="<?php echo $prev_post->post_title; ?>"></a></li>
 <?php endif; ?>
-		<li><a href="#" class="zoom_in"></a></li>
 		<li><a href="#" class="zoom_out"></a></li>
+		<li><a href="#" class="zoom_in"></a></li>
+		<li><a href="#" class="more_info"></a></li></li>
 		<li><a href="<?php echo get_permalink( $next_post->ID ); ?>" class="next" title="<?php echo $prev_post->post->post_title; ?>"></a></li>
-		<li></li>
 	</ul>
 	<ul id="mapCtrl">
 		<li>[X] CLOSE MAP</li>
 	</ul>
+</div>
+<div class="imgContainer" style="display:none">
+	<img src="<?php echo get_post_meta($post->ID, 'single_photo', true); ?>" />
 </div>	
 <div id="viewer">
+
 <!-- load image for those with js disabled -- move to the footer? -->
 	<noscript>
     	<style type="text/css">
@@ -117,6 +121,7 @@ if (!empty( $prev_post )): ?>
         $('.zoom_out').click(function(e){
          iv1.iviewer('zoom_by', -2);
         });
+        /*
         function openImageControls(){
         	$('#ctrlPanel').animate({ marginTop: '35px'});	
         };
@@ -138,7 +143,7 @@ if (!empty( $prev_post )): ?>
         		}, 400);
         		$(this).data('timeout',t);
         		});  		   
-        
+        */
         // move image if browser is resized
         function getCentered() {       
 		  iv1.iviewer('fit'); 
@@ -186,7 +191,7 @@ if (!empty( $prev_post )): ?>
 		      }
 		$(document).ready(function(){ 
         
-		thumbsOnLoad();	
+		//thumbsOnLoad();	
 		
 		$('.navTags').click(function(){
 			$(this).addClass('navActive');
@@ -242,7 +247,6 @@ if (!empty( $prev_post )): ?>
               $('#map').css('width', vw).css('height',vh);
               $('#imageCtrl').hide();
               $Xmap.show();
-              $('#ctrlPanel').css({ marginTop: '35px'});
               closeMap();	
               <?php } ?>
             }
@@ -335,7 +339,7 @@ if (!empty( $prev_post )): ?>
     	
 	$cam = get_the_terms($post->ID, 'camera');
 			if($cam){
-				echo '<div class="meta_cam"><ul class="gandhiR"><li>Shot with a </li>';
+				echo '<div class="meta_cam"><ul class="gandhiR"><li>Camera : </li>';
 				foreach ($cam as $camindex => $camitem):
 					echo '<li class="camera"><a href="/camera/' . $camitem->name . '/"  onclick="singleGetThumbs(\'.meta_cam\', this, \'#theThumbs\'); return false;" id="' . $camitem->name . '">' . $camitem->name . '</a></li>';
 				endforeach;
@@ -367,29 +371,18 @@ if (!empty( $prev_post )): ?>
 
 
 
-    if ($lat !== '') {
-        echo '<h3 class="location">' . $loc . '</h3>'; 
+    if ($loc !== '') {
+        
         $lat_long = $lat . ',' . $long;
         $mapImgSrc = "http://maps.googleapis.com/maps/api/staticmap?center=" . $lat_long . "&zoom=13&size=640x640&maptype=satellite&sensor=false";
         $mapImgSrcx2 = "http://maps.googleapis.com/maps/api/staticmap?center=" . $lat_long . "&zoom=13&size=640x640&maptype=satellite&sensor=false&scale=2";
         $mapGoogleLink = "http://maps.google.com/?ie=UTF&hq=&ll=" . $lat_long . "&z=14&output=embed";
        // echo "<a href='". $mapGoogleLink . "' class='mapLink cbFull' target='_blank' onclick='openModal(this); return false;'><img src='" . $mapImgSrc . "' /></a>";
-       echo "<a href='#' class='mapLink cbFull' target='_blank'><img src='" . $mapImgSrc . "' /></a>";
+       echo "<div class='location_container'><h3 class='location'>Location : <a href='#' class='mapLink cbFull' target='_blank'>" . $loc . "</a></h3></div>"; 
+      // echo "<a href='#' class='mapLink cbFull' target='_blank'><img src='" . $mapImgSrc . "' /></a>";
         // inline style is for responsive size on map image could do this with js instead?
           ?>     
-        <style type="text/css">
-            .mapLink { background-image: url(<?php echo $mapImgSrc; ?>); height: 150px;}
-            /* for retina display 2x scale */
-            @media only screen and (min--moz-device-pixel-ratio: 2),
-                only screen and (-o-min-device-pixel-ration: 2/1),
-                only screen and (-webkit-min-device-pixel-ratio: 2),
-                only screen and (min-device-pixel-ratio: 2) {
-                    .mapLink{
-                         background-image: url(<?php echo $mapImgSrcx2; ?>);
-                         background-size: 640px 640px;
-                    }
-                }
-        </style>
+       
         <?php   } // end map ?>  
 	</div>
 	<?php endwhile; 

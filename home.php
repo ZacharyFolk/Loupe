@@ -3,8 +3,10 @@
  * Template Name: Home
  */
 get_header(); ?>
+<div id="results" style="display:none">
+</div>
+
 <div id="tagThumbs"></div>
- 
 	<div class="lightTable">
 		<div class="floater hometagged">						
 			<ul id="thumbNav">
@@ -28,23 +30,57 @@ get_header(); ?>
 			</ul>
 		</div> 
 	</div> 
+	<style type="text/css">
+		#hoverPeek{ /* this only works when inline ?! why cant this be part of stylesheet?? */
+       position:absolute;
+       border:3px solid #999;
+       background:#fff;
+       padding:25px 15px;
+       display:none;
+       color:#fff;
+       -webkit-box-shadow: 0 12px 16px -6px black;
+          -moz-box-shadow: 0 12px 16px -6px black;
+               box-shadow: 0 12px 16px -6px black;
+       }
+	</style>
 <?php get_footer(); ?>
-<style type="text/css">
-	#hoverPeek{
-	position:absolute;
-	border:3px solid #999;
-	background:#fff;
-	padding:25px 15px;
-	display:none;
-	color:#fff;
-	-webkit-box-shadow: 0 12px 16px -6px black;
-	   -moz-box-shadow: 0 12px 16px -6px black;
-	        box-shadow: 0 12px 16px -6px black;
-	}
-</style>
+
 <script type="text/javascript">
 	var $ = jQuery; 
-	
+		
+		$('.navTags').click(function(e){
+			e.preventDefault();
+			$(this).addClass('navActive');
+			$('#theCloud').slideToggle('fast');
+			
+		});
+		 $('#theCloud a').on('click', function(e){
+ 		 	 e.preventDefault();
+ 		 	// TODO : DRY THIS UP!
+ 		 	var home = $('.lightTable');
+ 			var loader = $('#preLoader');
+               $('li').removeClass('activeLink');
+               $('a').removeClass('on');
+               $(this).addClass('on');
+               $(home).fadeOut('fast',function(){ 
+ 				$(loader).fadeIn(); 
+ 				});
+               var loadTags = this + ' #theThumbs'; 
+               
+                $('#results').load(loadTags, function(){
+                       $(loader).fadeOut('fast',function(){
+                            $('#results').fadeIn();
+                                });
+                            });     
+                            
+                           
+                            
+         });
+         
+		$('#panelClose').click(function(){
+			$('#theCloud').slideUp();
+		})
+		
     this.imagePreview = function(){	
 	// off set pop-up from mouse location 
 	xOffset = 5;
@@ -63,10 +99,10 @@ get_header(); ?>
 
 	$(".homeThumbs a").hover(function(e){
 			this.t = this.title;
+
 			this.title = ""; // empty to prevent browser tooltip	
-			var c = (this.t != "") ? "<br/>" + this.t : "";
+			var c = (this.t != "") ? "<p class='perm'>" + this.t  + "</p>" : "";
 			var s = $('img', this).attr('src');
-		
 			// split at /timthumb.php?src=
 			var substr = s.split('=');
 			var tt = substr[0];	// ../timthumb.php?src	
@@ -75,8 +111,8 @@ get_header(); ?>
 			
 		 	//console.log('tt : ' + tt + '\nss : ' + ss + '\nsrcImg : ' + srcImg);
 			// todo ?  params could be populated from admin			
-			var w = '300'; // width
-			var h = '300'; // height
+			var w = '200'; // width
+			var h = '200'; // height
 			var a = 'b'; //c, t, l, r, b, tl, tr, bl, br = crop alignment(center, top, left, right, bottom)
 			var q = '80'; // quality : 0-100
 			var zc = '1'; // zoom / crop : 0-3
@@ -147,11 +183,114 @@ get_header(); ?>
 		$("#hoverPeek").remove();
 	// cool but resource hog ?
 	//	var s = $('img', this).attr('src', s);
+		
+    }).click(function(e){
+ 		e.preventDefault();
+ 		var home = $('.lightTable');
+ 		var loader = $('#preLoader');
+ 		$("#hoverPeek").remove();
+ 		var imgLink = $(this).attr('href'); 	
+ 		history.pushState(null,'title', imgLink);
+ 		var currUrl = location.href;	
+ 			$(home).fadeOut('fast',function(){ 
+ 				 $(loader).fadeIn(); 
+ 				 // load all elements required from single-photo.php
+ 				 $(this).after('<div id="singlePhotoMenu"></div>').after('<div id="viewer"></div>'); 
+ 				 
+ 			});
+ 		$('#results').load(currUrl + ' .imgContainer', function(){
+ 			var imgSrc = $('.imgContainer img').attr('src');		
+ 			//$('#content').load(imgLink + '  #viewer', function(){
+ 				$(loader).fadeOut('fast',function(){
+ 					loadMain(imgSrc);
+ 				});		
+ 			//});
+ 		});
+ 		
+ 		
+                
+			// load image controls
+ 		$('#ctrlPanel').load(imgLink + ' #imageCtrl', function(){
+ 			// load info panel
+ 			$('#singlePhotoMenu').load(imgLink +' #singlePhotoMenuContainer');
+ 			$('.more_info').click(function(){
+ 				$(this).parent('li').addClass('ON');
+ 				$('#photoMeta').slideDown('fast');
+ 				
+ 			})
+ 			 	$("#in").click(function(){ iv1.iviewer('zoom_by', 1);}); 
+		        $("#out").click(function(){ iv1.iviewer('zoom_by', -1); });  
+				$('.loader').fadeIn('200'); 
+		        $('.previous').click(function(e){
+		        
+		        });
+		        $('.zoom_in').click(function(e){
+		         iv1.iviewer('zoom_by', 2);
+		        });
+		        $('.zoom_out').click(function(e){
+		         iv1.iviewer('zoom_by', -2);
+		        });
+ 		});
+ 		
+ 		
+
+ 
+ 		console.log(imgLink);   	
     });	
-	
+	function loadMain(img){      		
+      		iv1 = $("#viewer").iviewer({
+	        src: img,
+	        update_on_resize: true,
+	   		zoom_delta: 1.2,
+	        onFinishLoad: function()
+			    {
+				    $('.loader').fadeOut('200');	
+				    iv1.iviewer('zoom_by',-1);  // because of drop shadow
+					$("#viewer img").fadeIn(400);
+			    }
+      	 	});
+        };
+    
+
+      
+    function getCentered() {       
+		  iv1.iviewer('fit'); 
+		};
+		
+		// slight delay for UI responsiveness
+		var resizeTimer;
+		$(window).resize(function() {
+    		clearTimeout(resizeTimer);
+    		resizeTimer = setTimeout(getCentered, 100);    		
+		});
 };
 
 $(document).ready(function(){
+	var baseUrl = '<?php bloginfo('url'); ?>/';
+	//better ? http://html5doctor.com/history-api/
+	window.onpopstate = function(event){
+		 currUrl = location.href;
+		if (currUrl == baseUrl){
+			loadHome();
+		} else {
+		console.log('woot');
+		}
+	
+		console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
+		console.log('curr : ' + currUrl + ' base : ' + baseUrl);
+		console.log(typeof(currUrl));
+		console.log(typeof(baseUrl));
+	};
 	imagePreview();
-	})
+});
+
+    function loadHome(){
+    	$('#viewer').fadeOut('fast',function(){
+    		$(this).empty();
+    		$('.lightTable').fadeIn('fast');
+    	});
+    	
+    };
+    
+    // TODO :  Module pattern http://www.theroadtosiliconvalley.com/technology/javascript-module-pattern/
 </script>
