@@ -3,16 +3,14 @@ Theme Name: The Loupe
 Theme URI: http://loupe.folkphotography.com/
 Description: Wordpress theme developed for photo sites.  Uses the <a href="">Tim Thumb</a> and iViewer scripts.
 Author: Zachary Folk
-Version: 3.00 (1d16f082b0)
+Version: 3.1.0 (bd24e846ea05)
 Changelog : 
 	# full width layout 
-	TODO # new image controls / navigation
-	TODO # new thumb preloader
-	TODO # info window
-	TODO # view tags from home page
-	TODO # about 
-	TODO # blog
-
+	TODO # bug : info window, clear and update
+	TODO # bug : tags are broken in admin
+	TODO # about (2 col) layout
+	TODO # blog layout
+	
 * New Versioning :
 * 3.0.0 (1d16f082b0) <- Build number, git sha
   ^ ^ ^
@@ -407,6 +405,10 @@ a {text-decoration: none}
 
  
 /************** TAGS ********************/
+#results{}
+	#theThumbs{float: left; width: 100%;}
+	ul#theThumbs li{float: left; margin: 5px;}
+
 .wp-tag-cloud{
 	width: 70%; margin: 70px auto 0;
 }
@@ -678,6 +680,7 @@ font-family:'Whitney SSm A', 'Whitney SSm B', "ff-meta-web-pro", sans-serif;font
 .entry-meta { font-size: 11px; margin-bottom: 10px; color: #3B3B3B;}
 .entry-content {font-size: 15px; }
 .entry-content p {margin: 0px 0px 10px 0}
+/* conflicting with About page too much 
 .entry-content img {padding: 15px 15px 20px; background: #F2EFEE; margin: 8px 20px;
 -moz-border-radius: 10px;
 -webkit-border-radius: 10px;
@@ -685,7 +688,8 @@ border-radius: 10px;
 -webkit-box-shadow: 0px 6px 6px rgba(50, 50, 50, 0.36);
 -moz-box-shadow:    0px 6px 6px rgba(50, 50, 50, 0.36);
 box-shadow:         0px 6px 6px rgba(50, 50, 50, 0.36);
- }
+}
+ */
 .alignleft {float: left; clear: left;}
 .alignright {float: right;}
 
