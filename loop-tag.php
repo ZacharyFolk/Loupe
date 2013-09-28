@@ -14,10 +14,12 @@ if ( have_posts() ) :  while ( have_posts() ) : the_post();
 ?>
 <li>
 	<a href="<?php the_permalink(); ?>">
-		<img src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo get_post_meta($post->ID, 'single_photo', true); ?>&w=160&h=120&zc=1" alt="<?php the_title(); ?>" />	</a>
+		<img src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo get_post_meta($post->ID, 'single_photo', true); ?>&w=160&h=120&zc=1" alt="<?php the_title(); ?>" />	
+	</a>
 	</li>
 <?php	
 	endwhile; 
-	 wp_reset_query(); 
-endif;
-echo '</ul>';
+	wp_reset_query(); 
+	endif;
+	echo '</ul>';
+?>

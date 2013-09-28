@@ -588,7 +588,6 @@ function photo_register() {
 			  <input id="longitude" name="longitude" value="<?php echo $longitude; ?>" ></input></p>
 			</div>
 	 	</div>
-	 	 <?php console( $location ); ?>
 		 <script language="JavaScript">
 				function disableEnterKey(e)
 				{ // disable enter on search (otherwise it defaults to UPDATE)
@@ -816,3 +815,4 @@ function watermarkImage ($SourceFile, $WaterMarkText, $DestinationFile) {
 		}
 		
 		add_filter('the_content', 'filter_ptags_on_images');
+?>
