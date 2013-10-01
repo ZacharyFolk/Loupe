@@ -7,7 +7,7 @@ get_header(); ?>
 </div>
 
 <div id="tagThumbs"></div>
-	<div class="lightTable">
+	<div class="lightTable" style="display:none">
 		<div class="floater hometagged">						
 			<ul id="thumbNav">
 				<?php
@@ -17,22 +17,28 @@ get_header(); ?>
 					'posts_per_page' => -1); // display all	
 													 
 					$the_query = new WP_Query($args);
+					//echo $the_query->found_posts;
+					
 					while ($the_query->have_posts()) : $the_query->the_post();
 					//$featured = get_post_meta($post->ID, 'isFeatured', true);
 					//	if ( $featured  ) {
-						
 				?>
 				
 				<li class="homeThumbs">
 					<a href="<?php the_permalink(); ?>"
 						data-tags="<?php $posttags = get_the_tags();
-if ($posttags) {
-  foreach($posttags as $tag) {
-    echo $tag->name . ' '; 
-  }
-} ?>"
+						if ($posttags) {
+						  foreach($posttags as $tag) {
+						    echo $tag->name . ' '; 
+						  }
+						} 
+						?>"
 						title="<?php the_title(); ?>">
-					<img src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo get_post_meta($post->ID, 'single_photo', true); ?>&w=80&h=80&a=b&zc=1&q=80&s=1" alt="<?php the_title(); ?>" />
+					<img 
+					onload="jQuery(this).data('loaded', 'loaded')"
+					src="<?php bloginfo('template_url'); ?>/scripts/timthumb.php?src=<?php echo get_post_meta($post->ID, 'single_photo', true); ?>&w=80&h=80&a=b&zc=1&q=80&s=1" 
+					alt="<?php the_title(); ?>" 
+					 />
 					</a>
 				</li>
 					<?php // } 
@@ -57,6 +63,8 @@ if ($posttags) {
 
 <script type="text/javascript">
 	var $ = jQuery; 
+	    		$('.lightTable').fadeIn('fast');
+
 			function loadMain(img){      		
       		iv1 = $("#viewer").iviewer({
 	        src: img,
@@ -65,7 +73,7 @@ if ($posttags) {
 	        onFinishLoad: function()
 			    {
 				    $('.loader').fadeOut('200');	
-				    iv1.iviewer('zoom_by',-1);  // because of drop shadow
+				    iv1.iviewer('zoom_by',2);  // because of drop shadow
 					$("#viewer img").fadeIn(400);
 			    }
       	 	});
@@ -145,7 +153,8 @@ if ($posttags) {
 	var tc = 400;
 	var bc = (getHeight - 400); // bottom constraint
 //	console.log('getHeight : ' + getHeight + ' \ngetWidth : ' + getWidth + '\ngetMid : ' + getMid + '\nmidLow : ' + midLow + '\nmidHigh : ' + midHigh + '\nrc : ' + rc + '\nbc : ' + bc );	
-
+	if ($('.homeThumbs img').data('loaded')) {
+		console.log('loaded');}
 	$(".homeThumbs a").hover(function(e){
 			 var tags = this.dataset.tags;
 			 console.log(tags);
@@ -327,5 +336,7 @@ $(document).ready(function(){
     	
     };
     
+
+
     // TODO :  Module pattern http://www.theroadtosiliconvalley.com/technology/javascript-module-pattern/
 </script>

@@ -3,15 +3,24 @@ Theme Name: The Loupe
 Theme URI: http://loupe.folkphotography.com/
 Description: Wordpress theme developed for photo sites.  Uses the <a href="">Tim Thumb</a> and iViewer scripts.
 Author: Zachary Folk
-Version: 3.1.1 (bd24e846ea05)
+Version: 3.1.2
 Changelog : 
-	# full width layout 
+	# hiding .lightTable on load, js fades in after loading is complete but images still delay before rendering
+	# changed zoom level on initial single image load (from -1 => 2)
+	# fixed .floater so bottom row of thumbs is not hidden behind sticky footer
+	# dicking around with categories.php
+	TODO # feature : loading countdown using  $the_query->found_posts and fade thumbs in when complete 
 	TODO # bug : info window, clear and update
-	TODO # about (2 col) layout
-	TODO # blog layout
+	TODO # feature : about (2 col) layout
+	TODO # bug : Fix image layout in blog (add mixed-media slider?)
+	TODO # bug : Tags link busted from info panel (when loaded through ajax on home)
+	TODO # bug : hole in TimThumb ? http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/
+	TODO # bug : Single Photo Posts loaded directly have broken tags and info
+	TODO # feature : turn on maps
+	TODO # feature : load exif data
+	TODO # feature : Galleries (Custom taxonomy) navigation and page layout
 	
-* New Versioning :
-* 3.0.0 (1d16f082b0) <- Build number, git sha
+* 3.0.0 (1d16f082b0) <- Build number
   ^ ^ ^
   | | |
   | | +--- Minor bugs, spelling mistakes, etc.
@@ -97,7 +106,7 @@ a:hover{color: #4D4639; text-decoration: underline}
 
 .lightTable {width:96%; margin: 0px auto 0 auto}
 
-.floater {float: left; margin-top: 40px}
+.floater {float: left; margin-top: 40px; padding: 0 0 80px;}
 .hidden {display: none}
 
 header {
@@ -689,7 +698,8 @@ border-radius: 10px;
 box-shadow:         0px 6px 6px rgba(50, 50, 50, 0.36);
 }
  */
-.alignleft {float: left; clear: left;}
+.entry-content img { background: #fff; margin: 30px; padding: 20px;}
+.alignleft {background: #fff; float: left; clear: left;  }
 .alignright {float: right;}
 
 #sidebar {
