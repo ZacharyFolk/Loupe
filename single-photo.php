@@ -72,8 +72,6 @@ if (!empty( $prev_post )): ?>
 	<img src="<?php echo get_post_meta($post->ID, 'single_photo', true); ?>" />
 </div>	
 <div id="viewer">
-
-<!-- load image for those with js disabled -- move to the footer? -->
 	<noscript>
     	<style type="text/css">
     	#controls{display:none}

@@ -9,8 +9,9 @@ Changelog :
 	# changed zoom level on initial single image load (from -1 => 2)
 	# fixed .floater so bottom row of thumbs is not hidden behind sticky footer
 	# dicking around with categories.php
+	TODO # bug : toggle for photo meta
 	TODO # feature : loading countdown using  $the_query->found_posts and fade thumbs in when complete 
-	TODO # bug : info window, clear and update
+	TODO # bug : info window, clear and update with new image
 	TODO # feature : about (2 col) layout
 	TODO # bug : Fix image layout in blog (add mixed-media slider?)
 	TODO # bug : Tags link busted from info panel (when loaded through ajax on home)
@@ -314,7 +315,7 @@ height: 20px; margin: 0 0 10px }
 
 
 
-#photoMeta{display:none}
+
 #catsAndTags ul, #photoMeta ul {width: 100%; float: left;}
 #catsAndTags ul li, #photoMeta ul li {float: left; margin: 0 5px 0 0;}
 #catsAndTags ul#tagThumbs li img { border: 2px solid #6d6a6a}
